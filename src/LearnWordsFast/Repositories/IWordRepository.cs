@@ -10,6 +10,7 @@ namespace LearnWordsFast.Repositories
     {
         void Add(Word word);
         Word Get(string word);
+        List<Word> GetAll();
         List<Word> GetLastTrainedBefore(DateTime date);
     }
 }

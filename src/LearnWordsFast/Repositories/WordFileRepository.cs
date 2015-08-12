@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
 using LearnWordsFast.Models;
 using Microsoft.Framework.Configuration;
 
@@ -10,26 +12,59 @@ namespace LearnWordsFast.Repositories
     {
         private readonly IConfiguration config;
         private readonly string fileLocation;
+        private readonly XmlSerializer serializer = new XmlSerializer(typeof(List<Word>));
+        private readonly List<Word> words; 
 
         public WordFileRepository(IConfiguration config)
         {
             this.config = config;
             fileLocation = config.Get("Data:WordFilePath");
+            words = LoadAll();
+        }
+
+        private List<Word> LoadAll()
+        {
+            if (!File.Exists(fileLocation))
+            {
+                return new List<Word>();
+            }
+
+            using (var file = File.Open(fileLocation, FileMode.Open))
+            {
+                return serializer.Deserialize(file) as List<Word>;
+            }
         }
 
         public void Add(Word word)
         {
-            throw new NotImplementedException();
+            words.Add(word);
+            SaveAll();
+        }
+
+        private void SaveAll()
+        {
+            using (var file = File.Open(fileLocation, FileMode.Create))
+            {
+                serializer.Serialize(file, words);
+            }
         }
 
         public Word Get(string word)
         {
-            throw new NotImplementedException();
+            return words
+                .FirstOrDefault(x => x.Original.Equals(word, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public List<Word> GetAll()
+        {
+            return words;
         }
 
         public List<Word> GetLastTrainedBefore(DateTime date)
         {
-            throw new NotImplementedException();
+            return words
+                .Where(x => x.LastTrainingTime == null || x.LastTrainingTime < date)
+                .ToList();
         }
     }
 }

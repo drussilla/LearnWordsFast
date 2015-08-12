@@ -1,14 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model LearnWordsFast.Models.WordList
 @{
-    // ViewBag.Title = "Home Page";
+// ViewBag.Title = "Home Page";
 }
 <html>
 <head>
     <title>Learn Words Fast</title>
 </head>
 <body>
+    <ul>
+        @{
+            foreach (var word in Model.Words)
+            {
+                <li>@word.Original -> @word.Translation</li>
+            }
+        }
+    </ul>
 <a href="@Url.Action("Add", "Word")">Add word</a>
 @Html.ActionLink("Practice words", "Practice", "Word")
 </body>
