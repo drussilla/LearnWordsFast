@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    // ViewBag.Title = "Home Page";
+}
+<html>
+<head>
+    <title>Learn Words Fast</title>
+</head>
+<body>
+<a href="@Url.Action("Add", "Word")">Add word</a>
+@Html.ActionLink("Practice words", "Practice", "Word")
+</body>
+</html>
