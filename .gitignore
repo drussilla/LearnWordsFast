@@ -1,4 +1,4 @@
 src/.vs/
-src/LearnWordsFast/project.lock.json
-src/LearnWordsFast/LearnWordsFast.xproj.user
 src/LearnWordsFast/wwwroot/bin/
+*.user
+*.lock.json
