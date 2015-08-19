@@ -63,8 +63,27 @@ namespace LearnWordsFast.Repositories
         public List<Word> GetLastTrainedBefore(DateTime date)
         {
             return words
-                .Where(x => x.LastTrainingTime == null || x.LastTrainingTime < date)
+                .Where(x => x.LastTrainingDateTime == null || x.LastTrainingDateTime < date)
                 .ToList();
+        }
+
+        public void Update(Word word)
+        {
+            var existingWord = words.FirstOrDefault(x => x.Id == word.Id);
+            if (existingWord == null)
+            {
+                Add(word);
+                return;
+            }
+
+            if (existingWord == word)
+            {
+                SaveAll();
+                return;
+            }
+
+            words.Remove(existingWord);
+            Add(word);
         }
     }
 }

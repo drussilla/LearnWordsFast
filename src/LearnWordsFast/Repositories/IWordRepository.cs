@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Security.Cryptography.X509Certificates;
 using LearnWordsFast.Models;
 
 namespace LearnWordsFast.Repositories
@@ -12,5 +10,6 @@ namespace LearnWordsFast.Repositories
         Word Get(string word);
         List<Word> GetAll();
         List<Word> GetLastTrainedBefore(DateTime date);
+        void Update(Word word);
     }
 }

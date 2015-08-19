@@ -2,3 +2,4 @@ src/.vs/
 src/LearnWordsFast/wwwroot/bin/
 *.user
 *.lock.json
+/.vs
