@@ -31,6 +31,11 @@ namespace LearnWordsFast.Controllers
             return RedirectToAction(nameof(Practice));
         }
 
+        public IActionResult Index()
+        {
+            return RedirectToAction(nameof(Add));
+        }
+
         public IActionResult Add()
         {
             return View();
