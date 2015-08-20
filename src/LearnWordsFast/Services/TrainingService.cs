@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using LearnWordsFast.Models;
 using LearnWordsFast.Repositories;
 
@@ -41,8 +40,13 @@ namespace LearnWordsFast.Services
                     return group.FirstOrDefault();
                 }
 
+                if (group.Key > 5)
+                {
+                    return group.OrderBy(x => x.LastTrainingDateTime).FirstOrDefault();
+                }
+
                 var trainingInvervalForGroup = TrainingIntervals[group.Key];
-                foreach (var word in group)
+                foreach (var word in group.OrderBy(x => x.LastTrainingDateTime))
                 {
                     if (dateTimeService.Now - word.LastTrainingDateTime > trainingInvervalForGroup)
                     {

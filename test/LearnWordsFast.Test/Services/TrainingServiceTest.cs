@@ -43,6 +43,7 @@ namespace LearnWordsFast.Test.Services
 
         public static IEnumerable GetWords()
         {
+            // no words for training
             yield return new object[]
             {
                 new List<Word>
@@ -56,6 +57,7 @@ namespace LearnWordsFast.Test.Services
 
             yield return new object[]
             {
+                // word without repetion always first
                 new List<Word>
                 {
                     ReadyForTrainingWord(0),
@@ -67,6 +69,7 @@ namespace LearnWordsFast.Test.Services
 
             yield return new object[]
             {
+                // then word with lower amount of repetition wins
                 new List<Word>
                 {
                     NotReadyForTrainingWord(1),
@@ -99,6 +102,27 @@ namespace LearnWordsFast.Test.Services
                     ReadyForTrainingWord(5)
                 },
                 0
+            };
+
+            // if words with the same trainging amount, then word which was trained earlier then othes
+            yield return new object[]
+            {
+                new List<Word>
+                {
+                    new Word { AddedDateTime = now, LastTrainingDateTime = now.AddYears(-1), TrainingAmout = 10},
+                    new Word { AddedDateTime = now, LastTrainingDateTime = now.AddYears(-2), TrainingAmout = 10}
+                },
+                1
+            };
+
+            yield return new object[]
+            {
+                new List<Word>
+                {
+                    new Word { AddedDateTime = now, LastTrainingDateTime = now.AddYears(-1), TrainingAmout = 1},
+                    new Word { AddedDateTime = now, LastTrainingDateTime = now.AddYears(-2), TrainingAmout = 1}
+                },
+                1
             };
         }
 
