@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LearnWordsFast.Repositories;
+using LearnWordsFast.Services;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
@@ -32,6 +33,8 @@ namespace LearnWordsFast
             services.AddSingleton(_ => configuration);
 
             services.AddSingleton<IWordRepository, WordFileRepository>();
+            services.AddTransient<ITrainingService, TrainingService>();
+            services.AddTransient<IDateTimeService, DateTimeService>();
         }
 
         public void Configure(IApplicationBuilder app)

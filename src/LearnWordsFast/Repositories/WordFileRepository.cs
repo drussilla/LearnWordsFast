@@ -10,15 +10,21 @@ namespace LearnWordsFast.Repositories
 {
     public class WordFileRepository : IWordRepository
     {
-        private readonly IConfiguration config;
         private readonly string fileLocation;
         private readonly XmlSerializer serializer = new XmlSerializer(typeof(List<Word>));
         private readonly List<Word> words; 
 
         public WordFileRepository(IConfiguration config)
         {
-            this.config = config;
-            fileLocation = config.Get("Data:WordFilePath");
+            var fileName = config.Get("Data:WordFilePath");
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var directory = Path.Combine(appData, "LearnWordsFast");
+            fileLocation =  Path.Combine(directory, fileName);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
             words = LoadAll();
         }
 
@@ -49,10 +55,10 @@ namespace LearnWordsFast.Repositories
             }
         }
 
-        public Word Get(string word)
+        public Word Get(Guid id)
         {
             return words
-                .FirstOrDefault(x => x.Original.Equals(word, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public List<Word> GetAll()

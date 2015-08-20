@@ -1,9 +1,24 @@
-﻿@{
-    // ViewBag.Title = "Home Page";
-}
+﻿@addTagHelper "*, Microsoft.AspNet.Mvc.TagHelpers"
+@model LearnWordsFast.Models.Word
 
 <html>
+<head>
+    <title>Prectice words</title>
+</head>
 <body>
-<h2>Practice word</h2>
+@if (Model == null)
+{
+    <h2>Nothing to learn yet</h2>
+    <h4>Add new words or wait until other are ready for training</h4>
+}
+else
+{
+    <h2>Practice word @Model.Original</h2>
+    <h3>Translation: @Model.Translation</h3>
+    <form asp-action="PracticeFinished" asp-controller="Word">
+        <input type="hidden" asp-for="Id"/>
+        <input type="submit" value="Next"/>
+    </form>
+}
 </body>
 </html>
