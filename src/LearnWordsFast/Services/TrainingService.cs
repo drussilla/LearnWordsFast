@@ -40,6 +40,7 @@ namespace LearnWordsFast.Services
                     return group.FirstOrDefault();
                 }
 
+                // all other words that were trained mothe than 5 times. Retrain them only if no other words left for training
                 if (group.Key > 5)
                 {
                     return group.OrderBy(x => x.LastTrainingDateTime).FirstOrDefault();
