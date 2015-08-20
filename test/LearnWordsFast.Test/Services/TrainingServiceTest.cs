@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using LearnWordsFast.Models;
 using LearnWordsFast.Repositories;
@@ -12,25 +13,143 @@ namespace LearnWordsFast.Test.Services
 {
     public class TrainingServiceTest
     {
-        [Theory, AutoMoqData]
-        public void GetNextWord_NoWordsWithTraining_ReturnOlder(
-            Word word1,
-            Word word2,
-            Word word3,
-            [Frozen] Mock<IWordRepository> wordRepository,
-            TrainingService target)
-        {
-            word1.AddedDateTime = new DateTime(2015, 01, 01);
-            word2.AddedDateTime = new DateTime(2015, 02, 01);
-            word3.AddedDateTime = new DateTime(2015, 03, 01);
+        private static DateTime now = DateTime.Now;
 
+        [Theory, MemberData("GetWords")]
+        public void GetNextWord_ReturnWordThatWasTrainedLongerThenSpecifiedForAmountOfTraining(List<Word> words, int expectedWordIndex)
+        {
+            var dateTimeService = new Mock<IDateTimeService>();
+            dateTimeService
+                .Setup(x => x.Now)
+                .Returns(now);
+
+            var wordRepository = new Mock<IWordRepository>();
             wordRepository
                 .Setup(x => x.GetAll())
-                .Returns(new List<Word> {word1, word2, word3});
+                .Returns(words);
 
-            var first = target.GetNextWord();
-            
-            Assert.Equal(word1, first);
+            var target = new TrainingService(wordRepository.Object, dateTimeService.Object);
+            var result = target.GetNextWord();
+
+            if (expectedWordIndex == -1)
+            {
+                Assert.Null(result);
+            }
+            else
+            {
+                Assert.Equal(words[expectedWordIndex], result);
+            }
+        }
+
+        public static IEnumerable GetWords()
+        {
+            yield return new object[]
+            {
+                new List<Word>
+                {
+                    NotReadyForTrainingWord(1),
+                    NotReadyForTrainingWord(1),
+                    NotReadyForTrainingWord(2)
+                },
+                -1
+            };
+
+            yield return new object[]
+            {
+                new List<Word>
+                {
+                    ReadyForTrainingWord(0),
+                    ReadyForTrainingWord(1),
+                    ReadyForTrainingWord(2)
+                },
+                0
+            };
+
+            yield return new object[]
+            {
+                new List<Word>
+                {
+                    NotReadyForTrainingWord(1),
+                    ReadyForTrainingWord(1),
+                    ReadyForTrainingWord(1),
+                    ReadyForTrainingWord(2)
+                },
+                1
+            };
+
+            yield return new object[]
+            {
+                new List<Word>
+                {
+                    NotReadyForTrainingWord(1),
+                    NotReadyForTrainingWord(1),
+                    NotReadyForTrainingWord(1),
+                    ReadyForTrainingWord(2),
+                    ReadyForTrainingWord(3)
+                },
+                3
+            };
+
+            yield return new object[]
+            {
+                new List<Word>
+                {
+                    ReadyForTrainingWord(5),
+                    NotReadyForTrainingWord(5),
+                    ReadyForTrainingWord(5)
+                },
+                0
+            };
+        }
+
+        private static Word ReadyForTrainingWord(int trainingAmount)
+        {
+            return new Word
+            {
+                AddedDateTime = now.AddYears(-100),
+                Original = Guid.NewGuid().ToString(),
+                TrainingAmout = trainingAmount,
+                Id = Guid.NewGuid(),
+                LastTrainingDateTime =
+                    trainingAmount == 0
+                        ? null
+                        : (DateTime?)
+                            (now - TrainingService.TrainingIntervals[trainingAmount] - TimeSpan.FromMinutes(10))
+            };
+        }
+
+        private static Word NotReadyForTrainingWord(int trainingAmount)
+        {
+            return new Word
+            {
+                AddedDateTime = now.AddYears(-100),
+                Original = Guid.NewGuid().ToString(),
+                TrainingAmout = trainingAmount,
+                Id = Guid.NewGuid(),
+                LastTrainingDateTime =
+                    trainingAmount == 0
+                        ? null
+                        : (DateTime?)
+                            (now - TrainingService.TrainingIntervals[trainingAmount] + TimeSpan.FromMinutes(10))
+            };
+        }
+
+        [Theory, AutoMoqData]
+        public void FinishTraining_AmountOfTrainingsIncreasedAndLastTrainingDateUpdated(
+            [Frozen] Mock<IWordRepository>wordRepository,
+            [Frozen] Mock<IDateTimeService> dateTimeService,
+            TrainingService target)
+        {
+            dateTimeService
+                .Setup(x => x.Now)
+                .Returns(now);
+
+            var word = ReadyForTrainingWord(1);
+            target.FinishTraining(word);
+
+            wordRepository.Verify(x => x.Update(word), Times.Once);
+            Assert.Equal(2, word.TrainingAmout);
+            Assert.Equal(now, word.LastTrainingDateTime);
         }
     }
 }

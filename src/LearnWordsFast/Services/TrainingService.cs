@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using LearnWordsFast.Models;
@@ -11,6 +12,18 @@ namespace LearnWordsFast.Services
         private readonly IWordRepository wordRepository;
         private readonly IDateTimeService dateTimeService;
 
+        // key - training amount
+        // value - time to repeat again
+        public static readonly Dictionary<int, TimeSpan> TrainingIntervals = new Dictionary<int, TimeSpan>
+        { 
+            { 0, TimeSpan.Zero }, // if word is never trained train it immediately
+            { 1, TimeSpan.FromMinutes(30) }, // if word was trained once, train it againt only after 30 minutes
+            { 2, TimeSpan.FromHours(8) }, // if word was trained 2 times, train it againt only after 8 hours
+            { 3, TimeSpan.FromDays(1) },
+            { 4, TimeSpan.FromDays(21) },
+            { 5, TimeSpan.FromDays(60) }
+        }; 
+
         public TrainingService(IWordRepository wordRepository, IDateTimeService dateTimeService)
         {
             this.wordRepository = wordRepository;
@@ -19,7 +32,26 @@ namespace LearnWordsFast.Services
 
         public Word GetNextWord()
         {
-            return wordRepository.GetAll().OrderBy(x => x.AddedDateTime).FirstOrDefault();
+            var wordGroup = wordRepository.GetAll().GroupBy(x => x.TrainingAmout).OrderBy(x => x.Key);
+            foreach (var group in wordGroup)
+            {
+                // group 0 contains just added words (no training performaed at all)
+                if (group.Key == 0)
+                {
+                    return group.FirstOrDefault();
+                }
+
+                var trainingInvervalForGroup = TrainingIntervals[group.Key];
+                foreach (var word in group)
+                {
+                    if (dateTimeService.Now - word.LastTrainingDateTime > trainingInvervalForGroup)
+                    {
+                        return word;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public void FinishTraining(Word word)
