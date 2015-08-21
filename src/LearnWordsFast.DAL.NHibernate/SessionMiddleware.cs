@@ -19,10 +19,15 @@ namespace LearnWordsFast.DAL.NHibernate
         {
             var session = new Lazy<ISession>(() =>
             {
-                //var s = SessionFactoryProvider.SessionFactory.OpenSession();
-                //s.BeginTransaction();
-                //return s;
-                return null;
+                var sessionFactory = context.ApplicationServices.GetService(typeof(ISessionFactory)) as ISessionFactory;
+                if (sessionFactory == null)
+                {
+                    throw new Exception("ISessionFactory is not registered. Please register it with AddNHibernateSession() method");
+                }
+
+                var currentSession = sessionFactory.OpenSession();
+                currentSession.BeginTransaction();
+                return currentSession;
             });
 
             var currentRequestSessionProvider = context.RequestServices.GetService(typeof (ISessionProvider)) as ISessionProvider;

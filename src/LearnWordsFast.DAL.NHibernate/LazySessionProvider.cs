@@ -7,11 +7,6 @@ namespace LearnWordsFast.DAL.NHibernate
     {
         private Lazy<ISession> currentSession;
 
-        public LazySessionProvider()
-        {
-            
-        }
-
         public void SetSession(Lazy<ISession> session)
         {
             currentSession = session;

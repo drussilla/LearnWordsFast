@@ -9,13 +9,6 @@ namespace LearnWordsFast.DAL.NHibernate
 {
     public class SessionFactoryProvider
     {
-        public static ISessionFactory SessionFactory;
-
-        static SessionFactoryProvider()
-        {
-            SessionFactory = GetSessionFactory();
-        }
-
         public static ISessionFactory GetSessionFactory()
         {
             return Fluently
