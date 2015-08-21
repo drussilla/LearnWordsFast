@@ -6,11 +6,11 @@ using NHibernate;
 
 namespace LearnWordsFast.DAL.NHibernate
 {
-    public class WordHibernateRepository : IWordRepository
+    public class WordNHibernateRepository : IWordRepository
     {
         private readonly ISessionProvider sessionProvider;
 
-        public WordHibernateRepository(ISessionProvider sessionProvider)
+        public WordNHibernateRepository(ISessionProvider sessionProvider)
         {
             this.sessionProvider = sessionProvider;
         }

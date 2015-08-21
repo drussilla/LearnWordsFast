@@ -31,15 +31,14 @@ namespace LearnWordsFast
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddNHibernateSession();
             services.AddMvc();
 
             services.AddSingleton(_ => configuration);
 
-            services.AddSingleton<IWordRepository, WordFileRepository>();
+            services.AddScoped<IWordRepository, WordNHibernateRepository>();
             services.AddTransient<ITrainingService, TrainingService>();
             services.AddTransient<IDateTimeService, DateTimeService>();
-
-            services.AddNHibernateSession();
         }
 
         public void Configure(IApplicationBuilder app)
