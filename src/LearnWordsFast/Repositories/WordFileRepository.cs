@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using LearnWordsFast.Models;
+using LearnWordsFast.DAL.Models;
+using LearnWordsFast.DAL.Repositories;
 using Microsoft.Framework.Configuration;
 
 namespace LearnWordsFast.Repositories

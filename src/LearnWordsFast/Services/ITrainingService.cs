@@ -1,4 +1,4 @@
-﻿using LearnWordsFast.Models;
+﻿using LearnWordsFast.DAL.Models;
 
 namespace LearnWordsFast.Services
 {

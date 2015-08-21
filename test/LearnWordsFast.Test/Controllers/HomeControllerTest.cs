@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using LearnWordsFast.Controllers;
+using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Repositories;
 using Moq;
 

@@ -1,0 +1,15 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "LearnWordsFast.Model Class Library",
+  "authors": [ "druss" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

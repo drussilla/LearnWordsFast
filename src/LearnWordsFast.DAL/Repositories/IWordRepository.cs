@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using LearnWordsFast.Models;
+using LearnWordsFast.DAL.Models;
 
-namespace LearnWordsFast.Repositories
+namespace LearnWordsFast.DAL.Repositories
 {
     public interface IWordRepository
     {

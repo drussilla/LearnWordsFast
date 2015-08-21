@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LearnWordsFast.Models
+namespace LearnWordsFast.DAL.Models
 {
     public class Word
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Repositories;
 using LearnWordsFast.Services;
 using Microsoft.AspNet.Builder;

@@ -1,4 +1,4 @@
-﻿using LearnWordsFast.Models;
+﻿using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Repositories;
 using Microsoft.AspNet.Mvc;
 
@@ -16,7 +16,7 @@ namespace LearnWordsFast.Controllers
         public IActionResult Index()
         {
             var all = wordRepository.GetAll();
-            return View(new WordList { Words = all });
+            return View(all);
         }
     }
 }

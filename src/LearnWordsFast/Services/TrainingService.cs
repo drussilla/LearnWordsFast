@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LearnWordsFast.Models;
+using LearnWordsFast.DAL.Models;
+using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Repositories;
 
 namespace LearnWordsFast.Services

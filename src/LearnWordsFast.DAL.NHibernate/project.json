@@ -1,0 +1,19 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "NHibernateDAL Class Library",
+  "authors": [ "druss" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "LearnWordsFast.DAL": "1.0.0-*",
+    "NHibernate": "4.0.4.4000",
+    "FluentNHibernate": "2.0.1",
+    "Npgsql": "3.0.1"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

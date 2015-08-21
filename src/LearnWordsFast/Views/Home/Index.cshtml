@@ -1,4 +1,6 @@
-﻿@model LearnWordsFast.Models.WordList
+﻿@using LearnWordsFast.DAL.Models
+
+@model List<Word>
 @{
 // ViewBag.Title = "Home Page";
 }
@@ -9,7 +11,7 @@
 <body>
     <ul>
         @{
-            foreach (var word in Model.Words)
+            foreach (var word in Model)
             {
                 <li>@word.Original -> @word.Translation</li>
             }

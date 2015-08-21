@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using LearnWordsFast.Models;
-using LearnWordsFast.Repositories;
+using LearnWordsFast.DAL.Models;
+using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Services;
 using Moq;
 using Ploeh.AutoFixture.Xunit2;

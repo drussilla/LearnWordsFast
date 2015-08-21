@@ -1,6 +1,6 @@
 ﻿using System;
-using LearnWordsFast.Models;
-using LearnWordsFast.Repositories;
+using LearnWordsFast.DAL.Models;
+using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Services;
 using Microsoft.AspNet.Mvc;
 
