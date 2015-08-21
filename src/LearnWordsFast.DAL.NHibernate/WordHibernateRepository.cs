@@ -2,34 +2,42 @@
 using System.Collections.Generic;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
+using NHibernate;
 
 namespace LearnWordsFast.DAL.NHibernate
 {
     public class WordHibernateRepository : IWordRepository
     {
+        private readonly ISessionProvider sessionProvider;
+
+        public WordHibernateRepository(ISessionProvider sessionProvider)
+        {
+            this.sessionProvider = sessionProvider;
+        }
+
         public void Add(Word word)
         {
-            throw new NotImplementedException();
+            sessionProvider.GetSession().SaveOrUpdate(word);
         }
 
         public Word Get(Guid id)
         {
-            throw new NotImplementedException();
+            return sessionProvider.GetSession().Get<Word>(id);
         }
 
-        public List<Word> GetAll()
+        public IList<Word> GetAll()
         {
-            throw new NotImplementedException();
+            return sessionProvider.GetSession().CreateCriteria<Word>().List<Word>();
         }
 
-        public List<Word> GetLastTrainedBefore(DateTime date)
+        public IList<Word> GetLastTrainedBefore(DateTime date)
         {
-            throw new NotImplementedException();
+            return sessionProvider.GetSession().CreateCriteria<Word>().List<Word>();
         }
 
         public void Update(Word word)
         {
-            throw new NotImplementedException();
+            sessionProvider.GetSession().SaveOrUpdate(word);
         }
     }
 }

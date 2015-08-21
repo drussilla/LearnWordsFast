@@ -8,8 +8,8 @@ namespace LearnWordsFast.DAL.Repositories
     {
         void Add(Word word);
         Word Get(Guid id);
-        List<Word> GetAll();
-        List<Word> GetLastTrainedBefore(DateTime date);
+        IList<Word> GetAll();
+        IList<Word> GetLastTrainedBefore(DateTime date);
         void Update(Word word);
     }
 }

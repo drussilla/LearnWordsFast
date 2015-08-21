@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LearnWordsFast.DAL.NHibernate;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Repositories;
 using LearnWordsFast.Services;
@@ -11,6 +12,7 @@ using Microsoft.AspNet.Http;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Runtime;
+using NHibernate;
 
 namespace LearnWordsFast
 {
@@ -36,10 +38,14 @@ namespace LearnWordsFast
             services.AddSingleton<IWordRepository, WordFileRepository>();
             services.AddTransient<ITrainingService, TrainingService>();
             services.AddTransient<IDateTimeService, DateTimeService>();
+
+            services.AddNHibernateSession();
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseNHibernateSession();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

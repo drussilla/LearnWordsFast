@@ -13,7 +13,7 @@ namespace LearnWordsFast.Repositories
     {
         private readonly string fileLocation;
         private readonly XmlSerializer serializer = new XmlSerializer(typeof(List<Word>));
-        private readonly List<Word> words; 
+        private readonly IList<Word> words; 
 
         public WordFileRepository(IConfiguration config)
         {
@@ -29,7 +29,7 @@ namespace LearnWordsFast.Repositories
             words = LoadAll();
         }
 
-        private List<Word> LoadAll()
+        private IList<Word> LoadAll()
         {
             if (!File.Exists(fileLocation))
             {
@@ -38,7 +38,7 @@ namespace LearnWordsFast.Repositories
 
             using (var file = File.Open(fileLocation, FileMode.Open))
             {
-                return serializer.Deserialize(file) as List<Word>;
+                return serializer.Deserialize(file) as IList<Word>;
             }
         }
 
@@ -62,12 +62,12 @@ namespace LearnWordsFast.Repositories
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public List<Word> GetAll()
+        public IList<Word> GetAll()
         {
             return words;
         }
 
-        public List<Word> GetLastTrainedBefore(DateTime date)
+        public IList<Word> GetLastTrainedBefore(DateTime date)
         {
             return words
                 .Where(x => x.LastTrainingDateTime == null || x.LastTrainingDateTime < date)
