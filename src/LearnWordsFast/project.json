@@ -1,9 +1,11 @@
 ﻿{
   "webroot": "wwwroot",
   "version": "1.0.0-*",
-  "userSecretsId":  "LearnWordsFast-94bffe89-99d8-401b-8c8e-c4f9271098fe",
+  "userSecretsId": "LearnWordsFast-94bffe89-99d8-401b-8c8e-c4f9271098fe",
 
   "dependencies": {
+    "Kestrel": "1.0.0-beta6",
+
     "Microsoft.AspNet.Server.IIS": "1.0.0-beta6",
     "Microsoft.AspNet.Server.WebListener": "1.0.0-beta6",
     "Microsoft.AspNet.Mvc": "6.0.0-beta6",
@@ -17,7 +19,8 @@
   },
 
   "commands": {
-    "web": "Microsoft.AspNet.Hosting --config hosting.ini"
+    "web": "Microsoft.AspNet.Hosting --config hosting.ini",
+    "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://127.0.0.1:8001"
   },
 
   "frameworks": {
