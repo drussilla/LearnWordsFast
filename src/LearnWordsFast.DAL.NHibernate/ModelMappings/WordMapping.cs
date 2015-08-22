@@ -7,8 +7,11 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
     {
         public WordMapping()
         {
-            Id(x => x.Id);
-            Map(x => x.LastTrainingDateTime);
+            Id(x => x.Id)
+                .GeneratedBy
+                .Assigned();
+            Map(x => x.LastTrainingDateTime)
+                .Nullable();
             Map(x => x.AddedDateTime);
             Map(x => x.Original);
             Map(x => x.TrainingAmout);

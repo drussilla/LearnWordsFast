@@ -10,11 +10,13 @@ namespace LearnWordsFast.Controllers
     {
         private readonly IWordRepository wordRepository;
         private readonly ITrainingService trainingService;
+        private readonly IDateTimeService dateTimeService;
 
-        public WordController(IWordRepository wordRepository, ITrainingService trainingService)
+        public WordController(IWordRepository wordRepository, ITrainingService trainingService, IDateTimeService dateTimeService)
         {
             this.wordRepository = wordRepository;
             this.trainingService = trainingService;
+            this.dateTimeService = dateTimeService;
         }
 
         public IActionResult Practice()
@@ -47,7 +49,8 @@ namespace LearnWordsFast.Controllers
             var newWord = new Word
             {
                 Original = word,
-                Translation = translation
+                Translation = translation,
+                AddedDateTime = dateTimeService.Now
             };
 
             wordRepository.Add(newWord);
