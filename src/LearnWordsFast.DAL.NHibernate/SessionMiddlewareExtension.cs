@@ -18,5 +18,13 @@ namespace LearnWordsFast.DAL.NHibernate
             services.AddSingleton(sessionFactoryProvider);
             return services;
         }
+
+        public static IServiceCollection AddNHibernateSession(this IServiceCollection services)
+        {
+            services.AddScoped<ISessionProvider, LazySessionProvider>();
+            services.AddSingleton<ISessionFactoryProvider, SessionFactoryProvider>();
+            services.AddSingleton<ISessionFactory>(x => ((ISessionFactoryProvider)x.GetService(typeof(ISessionFactoryProvider))).Get());
+            return services;
+        }
     }
 }

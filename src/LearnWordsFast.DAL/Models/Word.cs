@@ -9,11 +9,11 @@ namespace LearnWordsFast.DAL.Models
             Id = Guid.NewGuid();
         }
 
-        public Guid Id { get; set; }
-        public string Original { get; set; }
-        public string Translation { get; set; }
-        public int TrainingAmout { get; set; }
-        public DateTime? LastTrainingDateTime { get; set; }
-        public DateTime AddedDateTime { get; set; }
+        public virtual Guid Id { get; set; }
+        public virtual string Original { get; set; }
+        public virtual string Translation { get; set; }
+        public virtual int TrainingAmout { get; set; }
+        public virtual DateTime? LastTrainingDateTime { get; set; }
+        public virtual DateTime AddedDateTime { get; set; }
     }
 }

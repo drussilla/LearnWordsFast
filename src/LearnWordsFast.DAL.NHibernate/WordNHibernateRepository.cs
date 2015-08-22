@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
-using NHibernate;
 
 namespace LearnWordsFast.DAL.NHibernate
 {
