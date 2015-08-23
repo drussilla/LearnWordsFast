@@ -5,6 +5,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.Logging;
 using Microsoft.Framework.Runtime;
 
 namespace LearnWordsFast
@@ -49,8 +50,11 @@ namespace LearnWordsFast
             services.AddSingleton<IDateTimeService, DateTimeService>();
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnv, ILoggerFactory loggerFactory)
         {
+            loggerFactory.MinimumLevel = LogLevel.Debug;
+            loggerFactory.AddConsole();
+
             app.UseNHibernateSession();
 
             app.UseMvc(routes =>
@@ -59,6 +63,12 @@ namespace LearnWordsFast
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var logger = loggerFactory.CreateLogger("Startup");
+            logger.LogDebug("Application initialized");
+            logger.LogDebug($"Environment: {hostingEnv.EnvironmentName}");
+
+            logger.LogDebug("Database name: " + configuration["Data:DefaultConnection:Database"]);
         }
     }
 }

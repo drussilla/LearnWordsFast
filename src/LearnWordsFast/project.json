@@ -14,6 +14,9 @@
     "Microsoft.Framework.Configuration.Json": "1.0.0-beta6",
     "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta6",
 
+    "Microsoft.Framework.Logging": "1.0.0-beta6",
+    "Microsoft.Framework.Logging.Console": "1.0.0-beta6",
+    
     "LearnWordsFast.DAL": "1.0.0-*",
     "LearnWordsFast.DAL.NHibernate": "1.0.0-*"
   },
