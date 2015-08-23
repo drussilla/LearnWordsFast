@@ -48,6 +48,8 @@ namespace LearnWordsFast
             services.AddScoped<IWordRepository, WordNHibernateRepository>();
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
+
+            services.AddSingleton(x => ((ILoggerFactory)x.GetService(typeof(ILoggerFactory))).CreateLogger("Application"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnv, ILoggerFactory loggerFactory)

@@ -1,22 +1,36 @@
-﻿using LearnWordsFast.DAL.Repositories;
+﻿using System;
+using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Repositories;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Framework.Logging;
 
 namespace LearnWordsFast.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IWordRepository wordRepository;
+        private readonly ILogger log;
 
-        public HomeController(IWordRepository wordRepository)
+        public HomeController(IWordRepository wordRepository, ILogger log)
         {
             this.wordRepository = wordRepository;
+            this.log = log;
         }
 
         public IActionResult Index()
         {
-            var all = wordRepository.GetAll();
-            return View(all);
+            log.LogInformation("Request to index");
+            try
+            {
+                var all = wordRepository.GetAll();
+                return View(all);
+            }
+            catch (Exception ex)
+            {
+                log.LogError(1, $"DB error. Message: {ex.Message}", ex);
+                return null;
+            }
+            
         }
     }
 }
