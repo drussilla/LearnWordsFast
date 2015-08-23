@@ -36,7 +36,7 @@ namespace LearnWordsFast
                 option.Password = configuration["Data:DefaultConnection:Password"];
             });
 
-            services.AddNHibernateSession();
+            services.AddNHibernateSession<SessionFactoryProvider>();
             services.AddMvc();
 
             services.AddSingleton(_ => configuration);
