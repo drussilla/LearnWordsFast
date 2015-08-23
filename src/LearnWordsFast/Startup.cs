@@ -18,12 +18,8 @@ namespace LearnWordsFast
         {
             var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
                 .AddJsonFile("config.json")
-                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets();
-            }
+                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
+                .AddUserSecrets();
 
             configuration = builder.Build();
         }
