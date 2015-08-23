@@ -52,7 +52,6 @@ namespace LearnWordsFast
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnv, ILoggerFactory loggerFactory)
         {
-            loggerFactory.MinimumLevel = LogLevel.Debug;
             loggerFactory.AddConsole();
 
             app.UseNHibernateSession();
@@ -65,10 +64,10 @@ namespace LearnWordsFast
             });
 
             var logger = loggerFactory.CreateLogger("Startup");
-            logger.LogDebug("Application initialized");
-            logger.LogDebug($"Environment: {hostingEnv.EnvironmentName}");
+            logger.LogInformation("Application initialized");
+            logger.LogInformation($"Environment: {hostingEnv.EnvironmentName}");
 
-            logger.LogDebug("Database name: " + configuration["Data:DefaultConnection:Database"]);
+            logger.LogInformation("Database name: " + configuration["Data:DefaultConnection:Database"]);
         }
     }
 }
