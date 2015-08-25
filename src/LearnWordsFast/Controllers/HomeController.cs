@@ -11,7 +11,7 @@ namespace LearnWordsFast.Controllers
         private readonly IWordRepository wordRepository;
         private readonly ILogger log;
 
-        public HomeController(IWordRepository wordRepository, ILogger log)
+        public HomeController(IWordRepository wordRepository, ILogger<HomeController> log)
         {
             this.wordRepository = wordRepository;
             this.log = log;
