@@ -1,5 +1,6 @@
 src/.vs/
 src/LearnWordsFast/wwwroot/bin/
+src/LearnWordsFast/logs/
 *.user
 *.lock.json
 /.vs
