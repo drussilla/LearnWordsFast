@@ -1,6 +1,5 @@
 ﻿using System;
 using LearnWordsFast.DAL.Repositories;
-using LearnWordsFast.Repositories;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
 
@@ -11,7 +10,7 @@ namespace LearnWordsFast.Controllers
         private readonly IWordRepository wordRepository;
         private readonly ILogger log;
 
-        public HomeController(IWordRepository wordRepository, ILogger log)
+        public HomeController(IWordRepository wordRepository, ILogger<HomeController> log)
         {
             this.wordRepository = wordRepository;
             this.log = log;
@@ -27,7 +26,7 @@ namespace LearnWordsFast.Controllers
             }
             catch (Exception ex)
             {
-                log.LogError(1, $"DB error. Message: {ex.Message}", ex);
+                log.LogError($"DB error. Message: {ex.Message}", ex);
                 return null;
             }
             
