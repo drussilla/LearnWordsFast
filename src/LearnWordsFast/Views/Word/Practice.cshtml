@@ -1,11 +1,10 @@
 ﻿@addTagHelper "*, Microsoft.AspNet.Mvc.TagHelpers"
 @model LearnWordsFast.DAL.Models.Word
 
-<html>
-<head>
-    <title>Prectice words</title>
-</head>
-<body>
+@{
+    ViewBag.Title = "Practice Words";
+}
+
 @if (Model == null)
 {
     <h2>Nothing to learn yet</h2>
@@ -13,12 +12,12 @@
 }
 else
 {
-    <h2>Practice word @Model.Original</h2>
+    <p>Practice word.</p><h2> @Model.Original</h2>
     <h3>Translation: @Model.Translation</h3>
     <form asp-action="PracticeFinished" asp-controller="Word">
         <input type="hidden" asp-for="Id"/>
+        <input type="text"/>
+        <br/>
         <input type="submit" value="Next"/>
     </form>
 }
-</body>
-</html>

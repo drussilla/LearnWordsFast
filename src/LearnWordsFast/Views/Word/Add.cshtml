@@ -1,13 +1,10 @@
 ﻿@{
-    // ViewBag.Title = "Home Page";
+    ViewBag.Title = "Add Word";
 }
-<html>
-<body>
+
 @using (Html.BeginForm("AddWord", "Word", FormMethod.Post))
 {
     @Html.TextBox("Word");
     @Html.TextBox("Translation");
     <input type="submit" value="Add word">
 }
-</body>
-</html>

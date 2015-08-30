@@ -1,14 +1,10 @@
 ﻿@using LearnWordsFast.DAL.Models
-
 @model List<Word>
+
 @{
-// ViewBag.Title = "Home Page";
+    ViewBag.Title = "Lear Words Fast";
 }
-<html>
-<head>
-    <title>Learn Words Fast</title>
-</head>
-<body>
+
     <ul>
         @{
             foreach (var word in Model)
@@ -19,5 +15,3 @@
     </ul>
 <a href="@Url.Action("Add", "Word")">Add word</a>
 @Html.ActionLink("Practice words", "Practice", "Word")
-</body>
-</html>

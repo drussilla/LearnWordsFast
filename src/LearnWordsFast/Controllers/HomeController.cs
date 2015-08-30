@@ -29,7 +29,6 @@ namespace LearnWordsFast.Controllers
                 log.LogError($"DB error. Message: {ex.Message}", ex);
                 return null;
             }
-            
         }
     }
 }
