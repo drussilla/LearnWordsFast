@@ -27,9 +27,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-controller="Word" asp-action="Add">Add word</a></li>
-                    <li><a asp-controller="Word" asp-action="Practice">Practice</a></li>
+                    <menuitem asp-controller="Home" asp-action="Index" asp-title="Home"></menuitem>
+                    <menuitem asp-controller="Word" asp-action="Add" asp-title="Add word"></menuitem>
+                    <menuitem asp-controller="Word" asp-action="Practice" asp-title="Practice"></menuitem>
                 </ul>
                 @*<ul class="nav navbar-nav navbar-right">
                     <li><a href="../navbar/">Default</a></li>
