@@ -4,19 +4,33 @@
     ViewBag.Title = "Practice Words";
 }
 
-@if (Model == null)
-{
-    <h2>Nothing to learn yet</h2>
-    <h4><a asp-action="Add">Add new words</a> or wait until other are ready for training</h4>
-}
-else
-{
-    <p>Practice word.</p><h2> @Model.Original</h2>
-    <h3>Translation: @Model.Translation</h3>
-    <form asp-action="PracticeFinished" asp-controller="Word">
-        <input type="hidden" asp-for="Id"/>
-        <input type="text"/>
+<div class="text-center">
+    @if (Model == null)
+    {
+        <h2>Nothing to learn yet</h2>
+        <h4><a asp-action="Add">Add new words</a> or wait until other are ready for training</h4>
+    }
+    else
+    {
+        <h1>@Model.Original</h1>
+        <hr />
+        <h4>English: @Model.Translation</h4>
         <br/>
-        <input type="submit" value="Next"/>
-    </form>
-}
+        <form class="form-horizontal" asp-action="PracticeFinished" asp-controller="Word">
+            <input type="hidden" asp-for="Id"/>
+            @for (int i = 0; i < 5; i++)
+            {
+                <div class="form-group form-group-lg has-success has-feedback">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" id="formGroupInputLarge" placeholder="@Model.Original">
+                        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            }
+            <button type="submit" class="btn btn-success btn-lg">Next >></button>
+        </form>
+    }
+</div>
