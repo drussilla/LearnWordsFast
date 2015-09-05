@@ -4,4 +4,3 @@ src/LearnWordsFast/logs/
 *.user
 *.lock.json
 /.vs
-src/LearnWordsFast/wwwroot/
