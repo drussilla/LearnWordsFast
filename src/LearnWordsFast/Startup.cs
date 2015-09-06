@@ -57,6 +57,8 @@ namespace LearnWordsFast
 
             app.UseNHibernateSession();
 
+            app.UseStaticFiles();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
