@@ -18,7 +18,7 @@
     "Microsoft.Framework.Logging.Console": "1.0.0-beta6",
 
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta6",
-           
+
     "LearnWordsFast.DAL": "1.0.0-*",
     "LearnWordsFast.DAL.NHibernate": "1.0.0-*"
   },
@@ -43,5 +43,9 @@
     "wwwroot",
     "node_modules",
     "bower_components"
-  ]
+  ],
+
+  "scripts": {
+    "prepublish": [ "npm install", "bower install", "gulp clean", "gulp default" ]
+  }
 }

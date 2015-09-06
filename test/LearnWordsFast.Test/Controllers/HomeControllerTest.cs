@@ -2,6 +2,7 @@
 using LearnWordsFast.Controllers;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Repositories;
+using Microsoft.Framework.Logging;
 using Moq;
 
 namespace LearnWordsFast.Test.Controllers
@@ -12,7 +13,8 @@ namespace LearnWordsFast.Test.Controllers
         public void Index_AllWordsReturned()
         {
             var repository = new Mock<IWordRepository>();
-            var target = new HomeController(repository.Object);
+            var log = new Mock<ILogger<HomeController>>();
+            var target = new HomeController(repository.Object, log.Object);
 
             target.Index();
             
