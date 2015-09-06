@@ -12,10 +12,9 @@
     }
     else
     {
-        <h1>@Model.Original</h1>
-        <hr/>
-        <h4>English: @Model.Translation</h4>
-        <br/>
+        <div class="page-header">
+            <h1><small>@Model.Translation</small> @Model.Original <small>@Model.Translation</small></h1>
+        </div>
         <form id="main-form"
               class="form-horizontal"
               asp-action="PracticeFinished" 

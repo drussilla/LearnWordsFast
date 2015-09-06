@@ -1,4 +1,6 @@
-﻿@using LearnWordsFast.DAL.Models
+﻿@using System.Collections.Generic
+@using LearnWordsFast.DAL.Models
+
 @model List<Word>
 
 @{
@@ -12,4 +14,4 @@
                 <li>@word.Original -> @word.Translation</li>
             }
         }
-    </ul>
+    </ul> 
