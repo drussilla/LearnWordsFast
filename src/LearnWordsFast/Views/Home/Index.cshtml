@@ -6,12 +6,9 @@
 @{
     ViewBag.Title = "Home";
 }
-
-    <ul>
-        @{
-            foreach (var word in Model)
-            {
-                <li>@word.Original -> @word.Translation</li>
-            }
-        }
-    </ul> 
+<div class="text-center">
+    @foreach (var word in Model)
+    {
+        <h3>@word.Original <small> @word.Translation</small></h3>
+    }
+</div>
