@@ -5,6 +5,7 @@
   "devDependencies": {
     "gulp": "3.9.0",
     "gulp-concat": "2.6.0",
-    "rimraf" : "2.4.3"
+    "gulp-bg": "0.0.7",
+    "browser-sync": "2.9.1"
   }
 }

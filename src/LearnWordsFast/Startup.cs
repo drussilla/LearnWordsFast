@@ -50,11 +50,6 @@ namespace LearnWordsFast
         {
             loggerFactory.AddConsole();
 
-            if (hostingEnv.IsDevelopment())
-            {
-                app.UseBrowserLink();
-            }
-
             app.UseNHibernateSession();
 
             app.UseStaticFiles();

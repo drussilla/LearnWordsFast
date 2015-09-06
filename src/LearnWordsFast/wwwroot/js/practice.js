@@ -22,7 +22,7 @@
         this.input4.keyup(PracticeWidget.checkInput);
         this.input5.keyup(PracticeWidget.checkInput);
     },
-
+    
     checkInput: function() {
         if (this.value.toUpperCase() === PracticeWidget.originalWord.val().toUpperCase()) {
             this.disabled = true;
@@ -41,7 +41,7 @@
         PracticeWidget.allInputs.eq(PracticeWidget.allInputs.index(currentInput) + 1).focus();
     },
 
-    isAllInputsDisabled : function() {
+    isAllInputsDisabled: function () {
         return PracticeWidget.input1.prop("disabled") 
             && PracticeWidget.input2.prop("disabled")
             && PracticeWidget.input3.prop("disabled")
