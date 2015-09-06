@@ -21,9 +21,7 @@ gulp.task('clean', function(cb) {
 
 gulp.task('default', function () {
     // place code for your default task here
-    gulp.src([paths.js], { base: "." })
+    gulp.src([paths.js, "!" + paths.concatJsDest], { base: "." })
         .pipe(concat(paths.concatJsDest))
         .pipe(gulp.dest("."));
 });
-
-gulp.task("all", ["clean", "default"]);

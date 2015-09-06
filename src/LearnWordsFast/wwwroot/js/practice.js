@@ -20,7 +20,7 @@
     },
 
     checkInput: function() {
-        if (this.value === PracticeWidget.originalWord.val()) {
+        if (this.value.toUpperCase() === PracticeWidget.originalWord.val().toUpperCase()) {
             this.disabled = true;
             $(this).closest('.form-group').addClass('has-success has-feedback');
             $(this).after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span><span id="inputSuccess2Status" class="sr-only">(success)</span>');
