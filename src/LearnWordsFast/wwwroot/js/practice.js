@@ -5,10 +5,14 @@
     input3: $("#input3"),
     input4: $("#input4"),
     input5: $("#input5"),
+    form: $("#main-form"),
     nextButton: $("#next-button"),
+    allInputs: {},
 
     init: function() {
         this.bindUIActions();
+        PracticeWidget.allInputs = PracticeWidget.form.find(':input');
+        PracticeWidget.input1.focus();
     },
 
     bindUIActions: function() {
@@ -24,14 +28,17 @@
             this.disabled = true;
             $(this).closest('.form-group').addClass('has-success has-feedback');
             $(this).after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span><span id="inputSuccess2Status" class="sr-only">(success)</span>');
-            var inputs = $(this).closest('form').find(':input');
-            inputs.eq(inputs.index(this) + 1).focus();
+            PracticeWidget.moveFocusToNextInput(this);
         }
 
         if (PracticeWidget.isAllInputsDisabled()) {
             PracticeWidget.nextButton.prop("disabled", false);
             PracticeWidget.nextButton.focus();
         }
+    },
+
+    moveFocusToNextInput : function(currentInput) {
+        PracticeWidget.allInputs.eq(PracticeWidget.allInputs.index(currentInput) + 1).focus();
     },
 
     isAllInputsDisabled : function() {

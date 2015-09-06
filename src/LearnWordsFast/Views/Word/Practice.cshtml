@@ -16,9 +16,15 @@
         <hr/>
         <h4>English: @Model.Translation</h4>
         <br/>
-        <form class="form-horizontal" asp-action="PracticeFinished" asp-controller="Word">
-            <input type="hidden" asp-for="Id"/>
-            <input type="hidden" id="original-word" value="@Model.Original" />
+        <form id="main-form"
+              class="form-horizontal"
+              asp-action="PracticeFinished" 
+              asp-controller="Word">
+            <input type="hidden" 
+                   asp-for="Id"/>
+            <input id="original-word"
+                   type="hidden"
+                   value="@Model.Original" />
             @for (int i = 1; i <= 5; i++)
             {
                 <div class="form-group form-group-lg">
