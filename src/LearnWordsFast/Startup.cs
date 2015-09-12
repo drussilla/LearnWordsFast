@@ -59,6 +59,7 @@ namespace LearnWordsFast
             services
                 .AddIdentity<User, string>()
                 .AddUserStore<UserRepository>()
+                .AddRoleStore<RoleRepository>()
                 .AddDefaultTokenProviders();
             services.AddMvc();
             
