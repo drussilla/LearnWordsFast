@@ -8,7 +8,6 @@ namespace LearnWordsFast.DAL.NHibernate.Repositories
     {
         public void Dispose()
         {
-            throw new System.NotImplementedException();
         }
 
         public Task<IdentityResult> CreateAsync(string role, CancellationToken cancellationToken)
