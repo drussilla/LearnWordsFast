@@ -11,6 +11,7 @@
     "Microsoft.AspNet.Mvc": "6.0.0-beta6",
     "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta6",
     "Microsoft.AspNet.StaticFiles": "1.0.0-beta6",
+    "Microsoft.AspNet.Identity": "3.0.0-beta6",
 
     "Microsoft.Framework.Configuration.Json": "1.0.0-beta6",
     "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta6",

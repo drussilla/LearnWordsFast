@@ -1,4 +1,6 @@
-﻿using LearnWordsFast.DAL.NHibernate;
+﻿using LearnWordsFast.DAL.Models;
+using LearnWordsFast.DAL.NHibernate;
+using LearnWordsFast.DAL.NHibernate.Repositories;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Services;
 using Microsoft.AspNet.Builder;
@@ -53,6 +55,11 @@ namespace LearnWordsFast
             });
 
             services.AddNHibernateSession<SessionFactoryProvider>();
+
+            services
+                .AddIdentity<User, string>()
+                .AddUserStore<UserRepository>()
+                .AddDefaultTokenProviders();
             services.AddMvc();
             
             services.AddSingleton(_ => _configuration);
@@ -69,6 +76,7 @@ namespace LearnWordsFast
             app.UseNHibernateSession();
 
             app.UseStaticFiles();
+            app.UseIdentity();
             
             app.UseMvc(routes =>
             {
