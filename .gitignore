@@ -1,5 +1,4 @@
 src/.vs/
-src/LearnWordsFast/wwwroot/bin/
 src/LearnWordsFast/logs/
 *.user
 *.lock.json
@@ -7,4 +6,6 @@ src/LearnWordsFast/logs/
 src/LearnWordsFast/node_modules/
 src/artifacts/bin/LearnWordsFast/Release/PublishOutput/wwwroot/lib/bootstrap/less/carousel.less
 src/artifacts/
-src/LearnWordsFast/wwwroot/js/site.all.js
+src/LearnWordsFast/wwwroot/
+.idea
+

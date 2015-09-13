@@ -54,7 +54,7 @@ namespace LearnWordsFast
 
             services.AddNHibernateSession<SessionFactoryProvider>();
             services.AddMvc();
-            
+
             services.AddSingleton(_ => _configuration);
 
             services.AddScoped<IWordRepository, WordNHibernateRepository>();
@@ -69,16 +69,21 @@ namespace LearnWordsFast
             app.UseNHibernateSession();
 
             app.UseStaticFiles();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
+                //routes.MapRoute(
+                //    name: "api",
+                //    template: "api/{controller}/{action=GetAll}/{id?}");
+
                 routes.MapRoute(
-                    name: "api",
-                    template: "api/{controller}/{action=GetAll}/{id?}");
+                    name: "catchAll",
+                    template: "{*any}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
 
             var logger = loggerFactory.CreateLogger("Startup");
