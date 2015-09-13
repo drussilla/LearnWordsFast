@@ -78,7 +78,7 @@ namespace LearnWordsFast
 
             app.UseStaticFiles();
             app.UseIdentity();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -88,10 +88,11 @@ namespace LearnWordsFast
                 routes.MapRoute(
                     name: "api",
                     template: "api/{controller}/{action=GetAll}/{id?}");
-                 routes.MapRoute(
-                                    name: "catchAll",
-                                    template: "{*any}",
-                                    defaults: new { controller = "Home", action = "Index" });    
+
+                routes.MapRoute(
+                    name: "catchAll",
+                    template: "{*any}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
 
             var logger = loggerFactory.CreateLogger("Startup");
