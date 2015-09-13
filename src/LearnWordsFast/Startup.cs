@@ -1,4 +1,6 @@
-﻿using LearnWordsFast.DAL.NHibernate;
+﻿using LearnWordsFast.DAL.Models;
+using LearnWordsFast.DAL.NHibernate;
+using LearnWordsFast.DAL.NHibernate.Repositories;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Services;
 using Microsoft.AspNet.Builder;
@@ -53,6 +55,12 @@ namespace LearnWordsFast
             });
 
             services.AddNHibernateSession<SessionFactoryProvider>();
+
+            services
+                .AddIdentity<User, string>()
+                .AddUserStore<UserRepository>()
+                .AddRoleStore<RoleRepository>()
+                .AddDefaultTokenProviders();
             services.AddMvc();
 
             services.AddSingleton(_ => _configuration);
@@ -69,21 +77,21 @@ namespace LearnWordsFast
             app.UseNHibernateSession();
 
             app.UseStaticFiles();
-
+            app.UseIdentity();
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                //routes.MapRoute(
-                //    name: "api",
-                //    template: "api/{controller}/{action=GetAll}/{id?}");
-
                 routes.MapRoute(
-                    name: "catchAll",
-                    template: "{*any}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    name: "api",
+                    template: "api/{controller}/{action=GetAll}/{id?}");
+                 routes.MapRoute(
+                                    name: "catchAll",
+                                    template: "{*any}",
+                                    defaults: new { controller = "Home", action = "Index" });    
             });
 
             var logger = loggerFactory.CreateLogger("Startup");
