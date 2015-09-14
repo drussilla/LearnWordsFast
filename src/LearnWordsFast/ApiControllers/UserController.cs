@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Authorization;
@@ -20,22 +21,29 @@ namespace LearnWordsFast.ApiControllers
         }
 
         [HttpPost("login")]
-        public async Task<string> Login([FromBody]LoginViewModel loginViewModel)
+        public async Task<Result> Login([FromBody]LoginViewModel loginViewModel)
         {
             var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, true, false);
+            if (result.Succeeded)
+            {
+                return Result.Ok();
+            }
 
-            return "test";
+            return Result.Error(result.ToString());
         }
 
         [HttpPost("create")]
-        public async void Create([FromBody]RegisterViewModel registerViewModel)
+        public async Task<Result> Create([FromBody]RegisterViewModel registerViewModel)
         {
             var user = new User {Email = registerViewModel.Email};
             var result = await _userManager.CreateAsync(user, registerViewModel.Password);
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
+                return Result.Ok();
             }
+
+            return Result.Error(result.ToString());
         }
 
         [HttpGet("test")]
