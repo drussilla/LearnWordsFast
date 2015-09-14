@@ -3,6 +3,7 @@ using LearnWordsFast.DAL.NHibernate;
 using LearnWordsFast.DAL.NHibernate.Repositories;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Services;
+using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
@@ -61,6 +62,12 @@ namespace LearnWordsFast
                 .AddUserStore<UserRepository>()
                 .AddRoleStore<RoleRepository>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<CookieAuthenticationOptions>(options =>
+            {
+                options.LoginPath = null;
+            });
+
             services.AddMvc();
 
             services.AddSingleton(_ => _configuration);
