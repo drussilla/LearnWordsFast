@@ -25,17 +25,18 @@ namespace LearnWordsFast.ApiControllers
         }
 
         [HttpGet]
-        public Word Get()
+        public Result<Word> Get()
         {
             _log.LogInformation("Get word for next training");
-            return _trainingService.GetNextWord();
+            return Result<Word>.Ok(_trainingService.GetNextWord());
         }
 
         [HttpPost("{id}")]
-        public void Finish(Guid id)
+        public Result Finish(Guid id)
         {
             var word = _wordRepository.Get(id);
             _trainingService.FinishTraining(word);
+            return Result.Ok();
         }
     }
 }

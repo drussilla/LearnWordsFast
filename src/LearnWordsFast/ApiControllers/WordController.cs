@@ -19,24 +19,25 @@ namespace LearnWordsFast.ApiControllers
             _log = log;
         }
 
-        public IList<Word> GetAll()
+        public Result<IList<Word>> GetAll()
         {
             _log.LogInformation("Get all words");
-            return _wordRepository.GetAll();
+            return Result<IList<Word>>.Ok(_wordRepository.GetAll());
         }
 
         [HttpGet("{id}")]
-        public Word Get(Guid id)
+        public Result<Word> Get(Guid id)
         {
             _log.LogInformation($"Get word with id {id}");
-            return _wordRepository.Get(id);
+            return Result<Word>.Ok(_wordRepository.Get(id));
         }
 
         [HttpPost]
-        public void Create([FromBody]Word word)
+        public Result Create([FromBody]Word word)
         {
             _log.LogInformation($"Add word with id {word.Id}");
             _wordRepository.Add(word);
+            return Result.Ok();
         }
     }
 }
