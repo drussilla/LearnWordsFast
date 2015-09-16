@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
 
 namespace LearnWordsFast.ApiControllers
 {
     [Route("api/word")]
+    [Authorize]
     public class WordController : ApiController
     {
         private readonly IWordRepository _wordRepository;
@@ -18,7 +20,7 @@ namespace LearnWordsFast.ApiControllers
             _wordRepository = wordRepository;
             _log = log;
         }
-
+        
         public IActionResult GetAll()
         {
             _log.LogInformation("Get all words");
