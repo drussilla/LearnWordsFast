@@ -1,10 +1,11 @@
 ﻿var pkg = require("./package.json"),
     project = require("./project.json"),
-    webpack = require('webpack');
+    webpack = require('webpack'),
+    path = require('path');
 
 module.exports = {
     entry: {
-        app: ['./Client/js/main.jsx'],
+        app: ['./Client/js/app.jsx'],
         vendor: Object.keys(pkg.dependencies)
     },
     output: {
@@ -21,11 +22,10 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
+                test: /.js.?$/,
+                exclude: /(node_modules|bower_components|wwwroot)/,
                 loader: 'babel?cacheDirectory&optional=es7.objectRestSpread'
             }
         ]
     }
 };
-
