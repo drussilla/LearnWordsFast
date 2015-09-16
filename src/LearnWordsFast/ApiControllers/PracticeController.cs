@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Services;
@@ -8,7 +9,7 @@ using Microsoft.Framework.Logging;
 namespace LearnWordsFast.ApiControllers
 {
     [Route("api/Practice")]
-    public class PracticeController : Controller
+    public class PracticeController : ApiController
     {
         private readonly IWordRepository _wordRepository;
         private readonly ITrainingService _trainingService;
@@ -25,18 +26,30 @@ namespace LearnWordsFast.ApiControllers
         }
 
         [HttpGet]
-        public Result<Word> Get()
+        public IActionResult Get()
         {
             _log.LogInformation("Get word for next training");
-            return Result<Word>.Ok(_trainingService.GetNextWord());
+            var next = _trainingService.GetNextWord();
+            if (next == null)
+            {
+                return NotFound();
+
+            }
+
+            return Ok(next);
         }
 
         [HttpPost("{id}")]
-        public Result Finish(Guid id)
+        public IActionResult Finish(Guid id)
         {
             var word = _wordRepository.Get(id);
+            if (word == null)
+            {
+                return NotFound();
+            }
+
             _trainingService.FinishTraining(word);
-            return Result.Ok();
+            return Ok();
         }
     }
 }
