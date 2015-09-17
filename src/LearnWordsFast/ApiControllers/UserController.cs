@@ -51,13 +51,5 @@ namespace LearnWordsFast.ApiControllers
 
             return Error(result.ToString());
         }
-
-        [HttpGet("test")]
-        [Authorize]
-        public string Test()
-        {
-            return Context.User.Identity.Name;
-
-        }
     }
 }
