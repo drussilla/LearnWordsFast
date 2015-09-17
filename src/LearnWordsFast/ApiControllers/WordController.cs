@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
 
 namespace LearnWordsFast.ApiControllers
 {
-    [Route("api/Word")]
-    public class WordController : Controller
+    [Route("api/word")]
+    [Authorize]
+    public class WordController : ApiController
     {
         private readonly IWordRepository _wordRepository;
         private readonly ILogger<WordController> _log;
@@ -18,26 +20,26 @@ namespace LearnWordsFast.ApiControllers
             _wordRepository = wordRepository;
             _log = log;
         }
-
-        public Result<IList<Word>> GetAll()
+        
+        public IActionResult GetAll()
         {
             _log.LogInformation("Get all words");
-            return Result<IList<Word>>.Ok(_wordRepository.GetAll());
+            return Ok(_wordRepository.GetAll());
         }
 
         [HttpGet("{id}")]
-        public Result<Word> Get(Guid id)
+        public IActionResult Get(Guid id)
         {
             _log.LogInformation($"Get word with id {id}");
-            return Result<Word>.Ok(_wordRepository.Get(id));
+            return Ok(_wordRepository.Get(id));
         }
 
         [HttpPost]
-        public Result Create([FromBody]Word word)
+        public IActionResult Create([FromBody]Word word)
         {
             _log.LogInformation($"Add word with id {word.Id}");
             _wordRepository.Add(word);
-            return Result.Ok();
+            return Created("/api/word/" + word.Id);
         }
     }
 }
