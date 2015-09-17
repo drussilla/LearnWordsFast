@@ -46,6 +46,6 @@
   ],
 
   "scripts": {
-    "prepublish": [ "npm install", "bower install", "npm run build" ]
+    "prepublish": [ "npm install", "bower install", "npm run build-js", "npm run build-sass" ]
   }
 }

@@ -30,8 +30,8 @@ class Api {
     static userCreate(email, password) {
         return makeRequest({url: joinUrl('user', 'create'), data: {email, password}, method: 'POST'});
     }
-    static userTest() {
-        return makeRequest({url: joinUrl('user', 'test'), data: {}, method: 'POST'});
+    static userLogout() {
+        return makeRequest({url: joinUrl('user', 'logout'), data: {}, method: 'POST'});
     }
 };
 
