@@ -29,6 +29,10 @@ export default class App extends React.Component {
                         </Col>
                     </Row>
                 </Grid>
+                <div className="footer">
+                    <a href="https://github.com/drussilla/LearnWordsFast">GitHub</a>
+                    <a href="http://druss.co">Druss</a>
+                </div>
             </div>
         );
     }
