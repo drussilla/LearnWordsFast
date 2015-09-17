@@ -31,6 +31,13 @@ namespace LearnWordsFast.ApiControllers
             return Ok();
         }
 
+        [Authorize]
+        [HttpPost("logout")]
+        public async void Logout()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody]RegisterViewModel registerViewModel)
         {
