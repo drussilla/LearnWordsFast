@@ -4,13 +4,13 @@ import App from './components/App';
 import RouterContainer from './services/RouterContainer';
 import readCookie from './helpers/readCookie';
 import Login from './components/Login';
-import Create from './components/Create';
+import CreateUser from './components/CreateUser';
 import Home from './components/Home';
 
 var routes = (
     <Route name="app" path="/" handler={App}>
         <Route name="login" handler={Login}/>
-        <Route name="create" handler={Create}/>
+        <Route name="create" handler={CreateUser}/>
         <Route name="home" handler={Home}/>
         <NotFoundRoute handler={Home}/>
     </Route>

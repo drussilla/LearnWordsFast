@@ -49,7 +49,7 @@ namespace LearnWordsFast.ApiControllers
                 return Created("/api/user/" + user.Id);
             }
 
-            return Error(result.ToString());
+            return new ObjectResult(result);
         }
     }
 }

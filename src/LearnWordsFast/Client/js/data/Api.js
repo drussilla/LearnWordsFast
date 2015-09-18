@@ -10,29 +10,33 @@ let makeRequest = (data) => {
         data: data.data
     };
     return qajax(request)
-        .then(qajax.toJSON);
+        .then(qajax.toJSON)
+        .then(data => {
+            if (data.suceeded) {
+                return q.resolve(data);
+            } else {
+                return q.reject(data);
+            }
+        });
 };
 
-let joinUrl = () => {
-    let result = '';
-    for (var i in arguments) {
-        if(arguments.hasOwnProperty(i)) {
-            result += arguments[i] + '/';
-        }
-    }
-    return result;
+let joinUrl = (...args) => {
+    return args.join('/');
 };
 
 class Api {
     static userLogin(email, password) {
-        return makeRequest({url: joinUrl('user', 'login'), data: {email, password}, method: 'POST'});
+        return makeRequest({url: joinUrl('user', 'login'), data: {email: email, password: password}, method: 'POST'});
     }
+
     static userCreate(email, password) {
-        return makeRequest({url: joinUrl('user', 'create'), data: {email, password}, method: 'POST'});
+        return makeRequest({url: joinUrl('user', 'create'), data: {email: email, password: password}, method: 'POST'});
     }
+
     static userLogout() {
         return makeRequest({url: joinUrl('user', 'logout'), data: {}, method: 'POST'});
     }
-};
+}
+;
 
-export default Api();
+export default Api;
