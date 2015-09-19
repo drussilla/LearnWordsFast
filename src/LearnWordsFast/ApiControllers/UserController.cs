@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
+using NHibernate.Util;
 
 namespace LearnWordsFast.ApiControllers
 {
@@ -25,7 +27,7 @@ namespace LearnWordsFast.ApiControllers
             var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, true, false);
             if (!result.Succeeded)
             {
-                return Error(result.ToString());
+                return Error();
             }
 
             return Ok();
@@ -49,7 +51,7 @@ namespace LearnWordsFast.ApiControllers
                 return Created("/api/user/" + user.Id);
             }
 
-            return Error(result.ToString());
+            return Error(result.Errors.Select(x => x.Description));
         }
     }
 }

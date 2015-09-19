@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Mvc;
 
@@ -25,12 +26,9 @@ namespace LearnWordsFast.ApiControllers
             return new BadRequestResult();
         }
 
-        protected IActionResult Error(string errorMessage)
+        protected IActionResult Error(IEnumerable<string> errorMessages)
         {
-            return new BadRequestObjectResult(new ErrorViewModel
-            {
-                Error = errorMessage
-            });
+            return new BadRequestObjectResult(new ErrorViewModel(errorMessages));
         }
 
         protected IActionResult NotFound()
