@@ -46,7 +46,7 @@ class CreateUser extends React.Component {
     render() {
         let {isSamePasswords} = this.state;
         let errors = this.state.errors && this.state.errors.map((error, i) => <div bsStyle='error'
-                key={'error-' + i}>{error.description}</div>);
+                key={'error-' + i}>{error}</div>);
         return (
             <div onSubmit={this.create}>
 

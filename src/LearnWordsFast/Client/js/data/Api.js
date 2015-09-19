@@ -10,14 +10,15 @@ let makeRequest = (data) => {
         data: data.data
     };
     return qajax(request)
-        .then(qajax.toJSON)
         .then(data => {
-            if (data.suceeded) {
-                return q.resolve(data);
+            var response = JSON.parse(data.response);
+            if(data.status === 200 || data.status === 201) {
+                return q.resolve(response);
             } else {
-                return q.reject(data);
+                return q.reject(response);
             }
-        });
+        })
+        .then(qajax.toJSON);
 };
 
 let joinUrl = (...args) => {
@@ -36,7 +37,6 @@ class Api {
     static userLogout() {
         return makeRequest({url: joinUrl('user', 'logout'), data: {}, method: 'POST'});
     }
-}
-;
+};
 
 export default Api;
