@@ -19,7 +19,7 @@ class CreateUser extends React.Component {
         this.onUserDataLoad = this.onUserDataLoad.bind(this);
     }
 
-    create(e) {
+    create() {
         if (this.state.password && this.state.password === this.state.passwordRepeat) {
             UserActions.create(this.state.email, this.state.password);
         } else {
@@ -37,7 +37,6 @@ class CreateUser extends React.Component {
     }
 
     onUserDataLoad(data) {
-        console.log("Is logged in ", data.isLoggedIn);
         this.setState({
             errors: data.errors
         })
@@ -49,7 +48,6 @@ class CreateUser extends React.Component {
                 key={'error-' + i}>{error}</div>);
         return (
             <div onSubmit={this.create}>
-
                 <Input onChange={this.changeField.bind(null, 'email')}
                        type="email" label="Email Address"
                        placeholder="Enter email"/>
@@ -63,7 +61,7 @@ class CreateUser extends React.Component {
                        label="Repeat Password"/>
                 <Button onClick={this.create}>Create User</Button>
                 {errors ?
-                    <Panel header="Errors" bsStyle="danger">
+                    <Panel header="Errors" className="create-user-errors" bsStyle="danger">
                        {errors}
                     </Panel> : null}
             </div>
@@ -71,6 +69,6 @@ class CreateUser extends React.Component {
     }
 }
 
-reactMixin(CreateUser.prototype, Reflux.listenTo(UserStore, 'onUserDataLoad'))
+reactMixin(CreateUser.prototype, Reflux.listenTo(UserStore, 'onUserDataLoad'));
 
 export default CreateUser;

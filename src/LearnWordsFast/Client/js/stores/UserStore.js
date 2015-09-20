@@ -1,38 +1,45 @@
 import Reflux from 'reflux';
-import readCookie from '../helpers/readCookie';
+import AuthCookie from '../helpers/AuthCookie';
 import Api from '../data/Api';
 
 const Actions = Reflux.createActions([
     'login',
-    'create'
+    'create',
+    'logout'
 ]);
 
 let UserStore = Reflux.createStore({
     init() {
         this.listenToMany(Actions);
-        this.isLoggedIn = !!readCookie();
+        this.isLoggedIn = AuthCookie.readCookie() !== null;
         this.errors = null;
         this._trigger();
     },
     login(email, password) {
+        this.errors = null;
         Api.userLogin(email, password).then(() => {
             this.isLoggedIn = true;
             this._trigger();
-        }, respose => {
-            console.log(respose);
-            this.isLoggedIn = false;
+        }, response => {
+            this.errors = response.errors;
             this._trigger();
         });
     },
     create(email, password) {
         this.errors = null;
-        Api.userCreate(email, password).then((response) => {
+        Api.userCreate(email, password).then(() => {
             this.isLoggedIn = true;
             this._trigger();
-            console.log(response);
         }, response => {
             this.errors = response.errors;
             this._trigger();
+        })
+    },
+    logout() {
+        this.errors = null;
+        Api.userLogout().then(() => {
+            AuthCookie.deleteCookie();
+        }, response => {
             console.log(response);
         })
     },

@@ -22,7 +22,7 @@
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.1",
     "react-mixin": "^2.0.2",
-    "react-router": "^0.13.3",
+    "react-router": "^1.0.0-rc1",
     "reflux": "^0.2.12"
   },
   "scripts": {
@@ -30,6 +30,5 @@
     "watch-sass": "gulp watch-sass",
     "build-js": "webpack",
     "build-sass": "gulp build-sass"
-
   }
 }
