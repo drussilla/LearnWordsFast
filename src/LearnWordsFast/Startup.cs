@@ -65,6 +65,7 @@ namespace LearnWordsFast
 
             services.Configure<CookieAuthenticationOptions>(options =>
             {
+                options.CookieHttpOnly = false;
                 options.LoginPath = null;
             });
 
