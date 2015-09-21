@@ -13,6 +13,8 @@ using Microsoft.Framework.Logging;
 using Microsoft.Framework.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NHibernate;
+using ILoggerFactory = Microsoft.Framework.Logging.ILoggerFactory;
 
 namespace LearnWordsFast
 {
@@ -73,9 +75,12 @@ namespace LearnWordsFast
 
             services.AddSingleton(_ => _configuration);
 
+            // todo: move registration to DAL or HNibernateDAL
             services.AddScoped<IWordRepository, WordNHibernateRepository>();
+            services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
+            services.AddScoped(x => x.GetService<ISessionProvider>().GetSession());
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)

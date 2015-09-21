@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
@@ -50,6 +51,12 @@ namespace LearnWordsFast.ApiControllers
 
             _trainingService.FinishTraining(word);
             return Ok();
+        }
+
+        [HttpGet("test")]
+        public List<string> Test()
+        {
+            return new List<string> { "test", "test2" };
         }
     }
 }

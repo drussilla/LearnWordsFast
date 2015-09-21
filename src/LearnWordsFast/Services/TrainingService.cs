@@ -17,11 +17,11 @@ namespace LearnWordsFast.Services
         public static readonly Dictionary<int, TimeSpan> TrainingIntervals = new Dictionary<int, TimeSpan>
         { 
             { 0, TimeSpan.Zero }, // if word is never trained train it immediately
-            { 1, TimeSpan.FromMinutes(30) }, // if word was trained once, train it againt only after 30 minutes
-            { 2, TimeSpan.FromHours(8) }, // if word was trained 2 times, train it againt only after 8 hours
-            { 3, TimeSpan.FromDays(1) },
-            { 4, TimeSpan.FromDays(21) },
-            { 5, TimeSpan.FromDays(60) }
+            { 1, TimeSpan.FromHours(8) }, // if word was trained once, train it againt only after 30 minutes
+            { 2, TimeSpan.FromDays(1) }, // if word was trained 2 times, train it againt only after 8 hours
+            { 3, TimeSpan.FromDays(2) },
+            { 4, TimeSpan.FromDays(4) },
+            { 5, TimeSpan.FromDays(10) }
         }; 
 
         public TrainingService(IWordRepository wordRepository, IDateTimeService dateTimeService)
