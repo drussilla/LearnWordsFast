@@ -30,5 +30,15 @@ namespace LearnWordsFast.DAL.NHibernate.Repositories
         {
             _sessionProvider.GetSession().Save(language);
         }
+
+        public void Update(Language language)
+        {
+            _sessionProvider.GetSession().Update(language);
+        }
+
+        public void AddOrUpdate(Language language)
+        {
+            _sessionProvider.GetSession().SaveOrUpdate(language);
+        }
     }
 }
