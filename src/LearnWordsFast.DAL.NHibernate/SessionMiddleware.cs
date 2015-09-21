@@ -8,47 +8,29 @@ namespace LearnWordsFast.DAL.NHibernate
 {
     public class SessionMiddleware
     {
-        private readonly RequestDelegate request;
+        private readonly RequestDelegate _request;
         
         public SessionMiddleware(RequestDelegate request)
         {
-            this.request = request;
+            this._request = request;
         }
 
         public async Task Invoke(HttpContext context)
         {
-            var session = new Lazy<ISession>(() =>
-            {
-                var sessionFactory = context.ApplicationServices.GetService(typeof(ISessionFactory)) as ISessionFactory;
-                if (sessionFactory == null)
-                {
-                    throw new Exception("ISessionFactory is not registered. Please register it with AddNHibernateSession() method");
-                }
+            var sessionManager = context.ApplicationServices.GetService(typeof(ISessionManager)) as ISessionManager;
 
-                var currentSession = sessionFactory.OpenSession();
-                currentSession.BeginTransaction();
-                return currentSession;
-            });
-
-            var currentRequestSessionProvider = context.RequestServices.GetService(typeof (ISessionProvider)) as ISessionProvider;
-            if (currentRequestSessionProvider == null)
+            if (sessionManager == null)
             {
-                throw new Exception("ISessionProvider is not registered. Please register it with AddNHibernateSession() method");
+                throw new Exception("ISessionManager is not registered. Please register it with AddNHibernateSession() method");
             }
 
-            currentRequestSessionProvider.SetSession(session);
+            var sessionFactory = context.ApplicationServices.GetService(typeof(ISessionFactory)) as ISessionFactory;
+            var sessionProvider = context.RequestServices.GetService(typeof(ISessionProvider)) as ISessionProvider;
+            var session = sessionManager.OpenSession(sessionFactory, sessionProvider);
 
-            await request(context);
+            await _request(context);
 
-            if (session.IsValueCreated && session.Value != null)
-            {
-                if (session.Value.Transaction != null && session.Value.Transaction.IsActive)
-                {
-                    session.Value.Transaction.Commit();
-                }
-
-                session.Value.Dispose();
-            }
+            sessionManager.CloseSession(session);
         }
     }
 }

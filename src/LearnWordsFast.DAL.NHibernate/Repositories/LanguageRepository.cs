@@ -3,33 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
-using NHibernate;
 using NHibernate.Linq;
 
 namespace LearnWordsFast.DAL.NHibernate.Repositories
 {
     public class LanguageRepository : ILanguageRepository
     {
-        private readonly ISession _session;
+        private readonly ISessionProvider _sessionProvider;
 
-        public LanguageRepository(ISession session)
+        public LanguageRepository(ISessionProvider sessionProvider)
         {
-            _session = session;
+            _sessionProvider = sessionProvider;
         }
 
         public IList<Language> GetAll()
         {
-            return _session.CreateCriteria<Language>().List<Language>();
+            return _sessionProvider.GetSession().CreateCriteria<Language>().List<Language>();
         }
 
         public Language Get(Guid id)
         {
-            return _session.Query<Language>().FirstOrDefault(x => x.Id == id);
+            return _sessionProvider.GetSession().Query<Language>().FirstOrDefault(x => x.Id == id);
         }
 
         public void Add(Language language)
         {
-            _session.Save(language);
+            _sessionProvider.GetSession().Save(language);
         }
     }
 }

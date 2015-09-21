@@ -9,7 +9,7 @@ namespace LearnWordsFast.DAL.Models
             Id = Guid.NewGuid();
         }
 
-        public virtual Guid Id { get; protected set; }  
+        public virtual Guid Id { get; set; }  
 
         public virtual string Name { get; set; }
     }

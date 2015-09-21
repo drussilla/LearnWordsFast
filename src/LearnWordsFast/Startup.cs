@@ -1,4 +1,5 @@
-﻿using LearnWordsFast.DAL.Models;
+﻿using LearnWordsFast.DAL.InitialData;
+using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.NHibernate;
 using LearnWordsFast.DAL.NHibernate.Repositories;
 using LearnWordsFast.DAL.Repositories;
@@ -78,9 +79,10 @@ namespace LearnWordsFast
             // todo: move registration to DAL or HNibernateDAL
             services.AddScoped<IWordRepository, WordNHibernateRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
+            services.AddSingleton<IInitializeDataManager, InitialDataManager>();
+
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
-            services.AddScoped(x => x.GetService<ISessionProvider>().GetSession());
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
@@ -113,6 +115,8 @@ namespace LearnWordsFast
             logger.LogInformation($"Environment: {_hostingEnv.EnvironmentName}");
 
             logger.LogInformation("Database name: " + _configuration["Data:DefaultConnection:Database"]);
+
+            app.ApplicationServices.GetService<IInitializeDataManager>().Initialize();
         }
     }
 }
