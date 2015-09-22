@@ -30,6 +30,13 @@ namespace LearnWordsFast.ApiControllers
         {
             return new BadRequestObjectResult(new ErrorViewModel(errorMessages));
         }
+        protected IActionResult Error(string error)
+        {
+            return new BadRequestObjectResult(new ErrorViewModel(new List<string>
+            {
+                error
+            }));
+        }
 
         protected IActionResult NotFound()
         {

@@ -7,7 +7,6 @@ using LearnWordsFast.Services;
 using Moq;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
-using ZohoPeopleTimeLogger.UnitTests;
 
 namespace LearnWordsFast.Test.Services
 {

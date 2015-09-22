@@ -65,6 +65,11 @@ namespace LearnWordsFast
                 .AddRoleStore<RoleRepository>()
                 .AddDefaultTokenProviders();
 
+            services
+                .AddScoped<ISignInManager, AspNetMvcSignInManager>();
+            services
+                .AddScoped<IUserManager, AspNetMvcUserManager>();
+
             services.Configure<CookieAuthenticationOptions>(options =>
             {
                 options.CookieHttpOnly = false;

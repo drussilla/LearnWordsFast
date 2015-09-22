@@ -14,9 +14,10 @@
         "Moq": "4.2.1507.118",
         "AutoFixture": "3.31.3",
         "AutoFixture.Xunit2": "3.31.0",
-      "AutoFixture.AutoMoq": "3.31.1",
+        "AutoFixture.AutoMoq": "3.31.1",
 
-      "LearnWordsFast.DAL": ""
+        "LearnWordsFast.DAL": "",
+        "FluentAssertions": "4.0.0"
     },
 
     "commands": {
