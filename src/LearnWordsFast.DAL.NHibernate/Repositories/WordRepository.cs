@@ -5,11 +5,11 @@ using LearnWordsFast.DAL.Repositories;
 
 namespace LearnWordsFast.DAL.NHibernate.Repositories
 {
-    public class WordNHibernateRepository : IWordRepository
+    public class WordRepository : IWordRepository
     {
         private readonly ISessionProvider _sessionProvider;
 
-        public WordNHibernateRepository(ISessionProvider sessionProvider)
+        public WordRepository(ISessionProvider sessionProvider)
         {
             _sessionProvider = sessionProvider;
         }
