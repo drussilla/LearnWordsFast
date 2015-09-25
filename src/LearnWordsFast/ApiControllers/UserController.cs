@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
+using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
 using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Authorization;
@@ -15,7 +18,7 @@ namespace LearnWordsFast.ApiControllers
         private readonly ISignInManager _signInManager;
         private readonly IUserManager _userManager;
         private readonly ILanguageRepository _languageRepository;
-
+        
         public UserController(ISignInManager signInManager, IUserManager userManager, ILanguageRepository languageRepository)
         {
             _signInManager = signInManager;
@@ -40,6 +43,24 @@ namespace LearnWordsFast.ApiControllers
         public async void Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            if (Context.User.GetId() != id)
+            {
+                return Unauthorized();
+            }
+
+            var user = await _userManager.FIndById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new UserViewModel(user));
         }
 
         [HttpPost]
