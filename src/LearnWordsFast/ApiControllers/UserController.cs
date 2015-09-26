@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
-using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
 using LearnWordsFast.ViewModels;
@@ -19,13 +16,11 @@ namespace LearnWordsFast.ApiControllers
     {
         private readonly ISignInManager _signInManager;
         private readonly IUserManager _userManager;
-        private readonly ILanguageRepository _languageRepository;
         
-        public UserController(ISignInManager signInManager, IUserManager userManager, ILanguageRepository languageRepository)
+        public UserController(ISignInManager signInManager, IUserManager userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _languageRepository = languageRepository;
         }
 
         [HttpPost("login")]
@@ -75,17 +70,17 @@ namespace LearnWordsFast.ApiControllers
                     _userManager.ChangePasswordAsync(user, updatePasswordViewModel.OldPassword,
                         updatePasswordViewModel.NewPassword);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return Ok();
+                return Error(result.Errors.Select(x => x.Description));
             }
 
-            return Error(result.Errors.Select(x => x.Description));
+            return Ok();
         }
 
         [Authorize]
         [HttpPut("languages")]
-        public async Task<IActionResult> UpadateLanguages([FromBody]UpdateLanguagesViewModel viewModel)
+        public async Task<IActionResult> UpadateLanguages([FromBody]UpdateLanguagesViewModel requestModel)
         {
             var user = await _userManager.FindById(Context.User.GetId());
             if (user == null)
@@ -93,7 +88,27 @@ namespace LearnWordsFast.ApiControllers
                 return NotFound();
             }
 
-            var result = await _userManager.UpdateAsync(user);
+            user.MainLanguage = new Language(requestModel.MainLanguage);
+            user.TrainingLanguage = new Language(requestModel.TrainingLanguage);
+            user.AdditionalLanguages.Clear();
+            if (requestModel.AdditionalLanguages != null && requestModel.AdditionalLanguages.Count != 0)
+            {
+                foreach (var additionalLanguage in requestModel.AdditionalLanguages)
+                {
+                    user.AdditionalLanguages.Add(new Language(additionalLanguage));
+                }
+            }
+
+            IdentityResult result;
+            try
+            {
+                result = await _userManager.UpdateAsync(user);
+            }
+            catch (GenericADOException ex) when (ex.InnerException != null && (string)ex.InnerException.Data["Code"] == "23503")
+            {
+                return Error("Language not found");
+            }
+            
             if (!result.Succeeded)
             {
                 return Error(result.Errors.Select(x => x.Description));
@@ -142,14 +157,14 @@ namespace LearnWordsFast.ApiControllers
             {
                 return Error("Language not found");
             }
-            
-            if (result.Succeeded)
+
+            if (!result.Succeeded)
             {
-                await _signInManager.SignInAsync(user);
-                return Created("/api/user/" + user.Id);
+                return Error(result.Errors.Select(x => x.Description));
             }
 
-            return Error(result.Errors.Select(x => x.Description));
+            await _signInManager.SignInAsync(user);
+            return Created("/api/user/" + user.Id);
         }
     }
 }
