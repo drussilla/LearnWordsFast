@@ -9,6 +9,7 @@ using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Moq;
+using NHibernate.Exceptions;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
@@ -39,7 +40,6 @@ namespace LearnWordsFast.Test.ApiControllers
         public async void Create_MainLangNotSpecified_Error(
             [Frozen] Mock<ISignInManager> signInManager,
             [Frozen] Mock<IUserManager> userManager,
-            [Frozen] Mock<ILanguageRepository> languageRepository,
             [NoAutoProperties] UserController target)
         {
             var request = new CreateUserViewModel
@@ -48,71 +48,13 @@ namespace LearnWordsFast.Test.ApiControllers
                 TrainingLanguage = Guid.NewGuid()
             };
 
-            languageRepository.Setup(x => x.Get(request.MainLanguage)).Returns((Language)null);
-            languageRepository.Setup(x => x.Get(request.TrainingLanguage)).Returns(new Language());
+            userManager
+                .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .Throws(new GenericADOException("Test", new Exception { Data = { { "Code", "23503" } }}));
 
             var actual = await target.Create(request);
             actual.Should().BeOfType<BadRequestObjectResult>();
 
-            languageRepository.Verify(x => x.Get(request.MainLanguage), Times.Once);
-            userManager.Verify(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
-            signInManager.Verify(x => x.SignInAsync(It.IsAny<User>()), Times.Never);
-        }
-
-        [Theory, AutoMoqData]
-        public async void Create_TraininigLangNotSpecified_Error(
-            [Frozen] Mock<ISignInManager> signInManager,
-            [Frozen] Mock<IUserManager> userManager,
-            [Frozen] Mock<ILanguageRepository> languageRepository,
-            [NoAutoProperties] UserController target)
-        {
-            var request = new CreateUserViewModel
-            {
-                MainLanguage = Guid.NewGuid(),
-                TrainingLanguage = Guid.Empty
-            };
-
-            languageRepository.Setup(x => x.Get(request.MainLanguage)).Returns(new Language());
-            languageRepository.Setup(x => x.Get(request.TrainingLanguage)).Returns((Language)null);
-            var actual = await target.Create(request);
-
-            actual.Should().BeOfType<BadRequestObjectResult>();
-
-            languageRepository.Verify(x => x.Get(request.MainLanguage), Times.Once);
-            languageRepository.Verify(x => x.Get(request.TrainingLanguage), Times.Once);
-            userManager.Verify(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
-            signInManager.Verify(x => x.SignInAsync(It.IsAny<User>()), Times.Never);
-        }
-
-        [Theory, AutoMoqData]
-        public async void Create_AdditionalLanguageNotFound_Error(
-            [Frozen] Mock<ISignInManager> signInManager,
-            [Frozen] Mock<IUserManager> userManager,
-            [Frozen] Mock<ILanguageRepository> languageRepository,
-            [NoAutoProperties] UserController target)
-        {
-            var request = new CreateUserViewModel
-            {
-                MainLanguage = Guid.NewGuid(),
-                TrainingLanguage = Guid.NewGuid(),
-                AdditionalLanguages = new List<Guid>
-                {
-                    Guid.Empty
-                }
-            };
-
-            languageRepository.Setup(x => x.Get(request.MainLanguage)).Returns(new Language());
-            languageRepository.Setup(x => x.Get(request.TrainingLanguage)).Returns(new Language());
-            languageRepository.Setup(x => x.Get(Guid.Empty)).Returns((Language)null);
-
-            var actual = await target.Create(request);
-
-            actual.Should().BeOfType<BadRequestObjectResult>();
-
-            languageRepository.Verify(x => x.Get(request.MainLanguage), Times.Once);
-            languageRepository.Verify(x => x.Get(request.TrainingLanguage), Times.Once);
-            languageRepository.Verify(x => x.Get(Guid.Empty), Times.Once);
-            userManager.Verify(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
             signInManager.Verify(x => x.SignInAsync(It.IsAny<User>()), Times.Never);
         }
 
@@ -120,7 +62,6 @@ namespace LearnWordsFast.Test.ApiControllers
         public async void Create_AdditionalLanguageSameAsMain_Error(
             [Frozen] Mock<ISignInManager> signInManager,
             [Frozen] Mock<IUserManager> userManager,
-            [Frozen] Mock<ILanguageRepository> languageRepository,
             [NoAutoProperties] UserController target)
         {
             var mainLang = Guid.NewGuid();
@@ -135,17 +76,10 @@ namespace LearnWordsFast.Test.ApiControllers
                 }
             };
 
-            languageRepository.Setup(x => x.Get(request.MainLanguage)).Returns(new Language());
-            languageRepository.Setup(x => x.Get(request.TrainingLanguage)).Returns(new Language());
-            languageRepository.Setup(x => x.Get(Guid.Empty)).Returns((Language)null);
-
             var actual = await target.Create(request);
 
             actual.Should().BeOfType<BadRequestObjectResult>();
 
-            languageRepository.Verify(x => x.Get(request.MainLanguage), Times.Once);
-            languageRepository.Verify(x => x.Get(request.TrainingLanguage), Times.Once);
-            languageRepository.Verify(x => x.Get(Guid.Empty), Times.Never);
             userManager.Verify(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
             signInManager.Verify(x => x.SignInAsync(It.IsAny<User>()), Times.Never);
         }
@@ -154,7 +88,6 @@ namespace LearnWordsFast.Test.ApiControllers
         public async void Create_AdditionalLanguageNotUnique_Error(
             [Frozen] Mock<ISignInManager> signInManager,
             [Frozen] Mock<IUserManager> userManager,
-            [Frozen] Mock<ILanguageRepository> languageRepository,
             [NoAutoProperties] UserController target)
         {
             var additional = Guid.NewGuid();
@@ -169,17 +102,10 @@ namespace LearnWordsFast.Test.ApiControllers
                 }
             };
 
-            languageRepository.Setup(x => x.Get(request.MainLanguage)).Returns(new Language());
-            languageRepository.Setup(x => x.Get(request.TrainingLanguage)).Returns(new Language());
-            languageRepository.Setup(x => x.Get(Guid.Empty)).Returns((Language)null);
-
             var actual = await target.Create(request);
 
             actual.Should().BeOfType<BadRequestObjectResult>();
 
-            languageRepository.Verify(x => x.Get(request.MainLanguage), Times.Once);
-            languageRepository.Verify(x => x.Get(request.TrainingLanguage), Times.Once);
-            languageRepository.Verify(x => x.Get(additional), Times.Never);
             userManager.Verify(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
             signInManager.Verify(x => x.SignInAsync(It.IsAny<User>()), Times.Never);
         }

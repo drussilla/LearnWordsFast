@@ -10,6 +10,7 @@ using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
+using NHibernate.Exceptions;
 
 namespace LearnWordsFast.ApiControllers
 {
@@ -109,23 +110,11 @@ namespace LearnWordsFast.ApiControllers
                 return Error("You should select unique languages");
             }
 
-            var mainLanguage = _languageRepository.Get(requestModel.MainLanguage);
-            if (mainLanguage == null)
-            {
-                return Error("Main language is not found");
-            }
-
-            var trainingLanguage = _languageRepository.Get(requestModel.TrainingLanguage);
-            if (trainingLanguage == null)
-            {
-                return Error("Training languages is not found");
-            }
-
             var user = new User
             {
                 Email = requestModel.Email,
-                MainLanguage = mainLanguage,
-                TrainingLanguage = trainingLanguage
+                MainLanguage = new Language(requestModel.MainLanguage),
+                TrainingLanguage = new Language(requestModel.TrainingLanguage)
             };
 
             if (requestModel.AdditionalLanguages != null)
@@ -139,17 +128,21 @@ namespace LearnWordsFast.ApiControllers
 
                 foreach (var additionalLanguageId in requestModel.AdditionalLanguages)
                 {
-                    var additionalLanguage = _languageRepository.Get(additionalLanguageId);
-                    if (additionalLanguage == null)
-                    {
-                        return Error("Additional language is not found");
-                    }
-
-                    user.AdditionalLanguages.Add(additionalLanguage);
+                    user.AdditionalLanguages.Add(new Language(additionalLanguageId));
                 }
             }
 
-            var result = await _userManager.CreateAsync(user, requestModel.Password);
+            IdentityResult result;
+            try
+            {
+                result = await _userManager.CreateAsync(user, requestModel.Password);
+            }
+            catch (GenericADOException ex)
+                when (ex.InnerException != null && (string) ex.InnerException.Data["Code"] == "23503")
+            {
+                return Error("Language not found");
+            }
+            
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user);

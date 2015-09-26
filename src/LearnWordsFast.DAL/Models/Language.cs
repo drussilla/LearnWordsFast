@@ -4,6 +4,11 @@ namespace LearnWordsFast.DAL.Models
 {
     public class Language
     {
+        public Language(Guid id)
+        {
+            Id = id;
+        }
+
         public Language()
         {
             Id = Guid.NewGuid();
