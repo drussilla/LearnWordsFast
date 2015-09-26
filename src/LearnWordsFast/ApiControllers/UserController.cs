@@ -8,6 +8,7 @@ using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
 using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 
 namespace LearnWordsFast.ApiControllers
@@ -46,21 +47,58 @@ namespace LearnWordsFast.ApiControllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet("info")]
+        public async Task<IActionResult> GetInfo()
         {
-            if (Context.User.GetId() != id)
-            {
-                return Unauthorized();
-            }
-
-            var user = await _userManager.FIndById(id);
+            var user = await _userManager.FindById(Context.User.GetId());
             if (user == null)
             {
                 return NotFound();
             }
 
             return Ok(new UserViewModel(user));
+        }
+
+        [Authorize]
+        [HttpPut("password")]
+        public async Task<IActionResult> UpdatePassword([FromBody]UpdatePasswordViewModel updatePasswordViewModel)
+        {
+            var user = await _userManager.FindById(Context.User.GetId());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            IdentityResult result =
+                await
+                    _userManager.ChangePasswordAsync(user, updatePasswordViewModel.OldPassword,
+                        updatePasswordViewModel.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return Error(result.Errors.Select(x => x.Description));
+        }
+
+        [Authorize]
+        [HttpPut("languages")]
+        public async Task<IActionResult> UpadateLanguages([FromBody]UpdateLanguagesViewModel viewModel)
+        {
+            var user = await _userManager.FindById(Context.User.GetId());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return Error(result.Errors.Select(x => x.Description));
+            }
+
+            return Ok();
         }
 
         [HttpPost]

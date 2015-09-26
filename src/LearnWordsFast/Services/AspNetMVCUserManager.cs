@@ -19,9 +19,19 @@ namespace LearnWordsFast.Services
             return _userManager.CreateAsync(user, password);
         }
 
-        public Task<User> FIndById(Guid id)
+        public Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword)
+        {
+            return _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        }
+
+        public Task<User> FindById(Guid id)
         {
             return _userManager.FindByIdAsync(id.ToString());
+        }
+
+        public Task<IdentityResult> UpdateAsync(User user)
+        {
+            return _userManager.UpdateAsync(user);
         }
     }
 }

@@ -9,6 +9,10 @@ namespace LearnWordsFast.Services
     {
         Task<IdentityResult> CreateAsync(User user, string password);
 
-        Task<User> FIndById(Guid id);
+        Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);
+
+        Task<User> FindById(Guid id);
+
+        Task<IdentityResult> UpdateAsync(User user);
     }
 }
