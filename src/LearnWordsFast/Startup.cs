@@ -8,6 +8,7 @@ using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.StaticFiles;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
@@ -101,10 +102,6 @@ namespace LearnWordsFast
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
                     name: "api",
                     template: "api/{controller}/{action=GetAll}/{id?}");
 
@@ -112,6 +109,7 @@ namespace LearnWordsFast
                     name: "catchAll",
                     template: "{*any}",
                     defaults: new { controller = "Home", action = "Index" });
+
             });
 
             var logger = loggerFactory.CreateLogger("Startup");
