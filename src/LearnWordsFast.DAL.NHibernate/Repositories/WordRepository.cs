@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
+using NHibernate.Linq;
 
 namespace LearnWordsFast.DAL.NHibernate.Repositories
 {
@@ -19,19 +21,27 @@ namespace LearnWordsFast.DAL.NHibernate.Repositories
             _sessionProvider.GetSession().SaveOrUpdate(word);
         }
 
-        public Word Get(Guid id)
+        public Word Get(Guid id, Guid userId)
         {
-            return _sessionProvider.GetSession().Get<Word>(id);
+            return _sessionProvider.GetSession()
+                .Query<Word>()
+                .FirstOrDefault(x => x.Id == id && x.UserId == userId);
         }
 
-        public IList<Word> GetAll()
+        public IList<Word> GetAll(Guid userId)
         {
-            return _sessionProvider.GetSession().CreateCriteria<Word>().List<Word>();
+            return _sessionProvider.GetSession()
+                .Query<Word>()
+                .Where(x => x.UserId == userId)
+                .ToList();
         }
 
-        public IList<Word> GetLastTrainedBefore(DateTime date)
+        public IList<Word> GetLastTrainedBefore(DateTime date, Guid userId)
         {
-            return _sessionProvider.GetSession().CreateCriteria<Word>().List<Word>();
+            return _sessionProvider.GetSession()
+                .Query<Word>()
+                .Where(x => x.UserId == userId)
+                .ToList();
         }
 
         public void Update(Word word)

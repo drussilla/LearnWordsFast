@@ -19,6 +19,8 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
             HasManyToMany(x => x.AdditionalLanguages)
                 .Table("UsersAdditionalLanguages");
 
+            HasMany(x => x.Words);
+
             Table("Users");
         }
     }

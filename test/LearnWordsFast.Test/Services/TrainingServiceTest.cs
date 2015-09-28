@@ -24,11 +24,11 @@ namespace LearnWordsFast.Test.Services
 
             var wordRepository = new Mock<IWordRepository>();
             wordRepository
-                .Setup(x => x.GetAll())
+                .Setup(x => x.GetAll(It.IsAny<Guid>()))
                 .Returns(words);
 
             var target = new TrainingService(wordRepository.Object, dateTimeService.Object);
-            var result = target.GetNextWord();
+            var result = target.GetNextWord(Guid.Empty);
 
             if (expectedWordIndex == -1)
             {

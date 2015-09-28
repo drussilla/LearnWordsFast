@@ -16,6 +16,7 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
             Map(x => x.Original);
             Map(x => x.TrainingAmout);
             Map(x => x.Translation);
+            Map(x => x.UserId).Column("user_id");
             Table("Words");
         }
     }

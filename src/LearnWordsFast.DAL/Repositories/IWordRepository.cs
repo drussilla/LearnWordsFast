@@ -7,9 +7,9 @@ namespace LearnWordsFast.DAL.Repositories
     public interface IWordRepository
     {
         void Add(Word word);
-        Word Get(Guid id);
-        IList<Word> GetAll();
-        IList<Word> GetLastTrainedBefore(DateTime date);
+        Word Get(Guid id, Guid userId);
+        IList<Word> GetAll(Guid userId);
+        IList<Word> GetLastTrainedBefore(DateTime date, Guid userId);
         void Update(Word word);
     }
 }

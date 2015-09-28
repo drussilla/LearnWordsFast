@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
+using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
 
 namespace LearnWordsFast.ApiControllers
 {
     [Route("api/Practice")]
+    [Authorize]
     public class PracticeController : ApiController
     {
         private readonly IWordRepository _wordRepository;
@@ -30,7 +31,7 @@ namespace LearnWordsFast.ApiControllers
         public IActionResult Get()
         {
             _log.LogInformation("Get word for next training");
-            var next = _trainingService.GetNextWord();
+            var next = _trainingService.GetNextWord(User.GetId());
             if (next == null)
             {
                 return NotFound();
@@ -43,7 +44,7 @@ namespace LearnWordsFast.ApiControllers
         [HttpPost("{id}")]
         public IActionResult Finish(Guid id)
         {
-            var word = _wordRepository.Get(id);
+            var word = _wordRepository.Get(id, Context.User.GetId());
             if (word == null)
             {
                 return NotFound();

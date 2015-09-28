@@ -29,9 +29,9 @@ namespace LearnWordsFast.Services
             this.dateTimeService = dateTimeService;
         }
 
-        public Word GetNextWord()
+        public Word GetNextWord(Guid userId)
         {
-            var wordGroup = wordRepository.GetAll().GroupBy(x => x.TrainingAmout).OrderBy(x => x.Key);
+            var wordGroup = wordRepository.GetAll(userId).GroupBy(x => x.TrainingAmout).OrderBy(x => x.Key);
             foreach (var group in wordGroup)
             {
                 // group 0 contains just added words (no training performaed at all)

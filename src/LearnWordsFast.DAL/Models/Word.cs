@@ -15,5 +15,7 @@ namespace LearnWordsFast.DAL.Models
         public virtual int TrainingAmout { get; set; }
         public virtual DateTime? LastTrainingDateTime { get; set; }
         public virtual DateTime AddedDateTime { get; set; }
+
+        public virtual Guid UserId { get; set; }
     }
 }
