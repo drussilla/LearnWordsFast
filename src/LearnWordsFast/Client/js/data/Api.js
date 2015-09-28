@@ -12,7 +12,7 @@ let makeRequest = (data) => {
     return qajax(request)
         .then(data => {
             var response = data.response ? JSON.parse(data.response) : null;
-            if(data.status === 200 || data.status === 201) {
+            if (data.status === 200 || data.status === 201) {
                 return q.resolve(response);
             } else {
                 return q.reject(response);
@@ -24,18 +24,58 @@ let joinUrl = (...args) => {
     return args.join('/');
 };
 
-class Api {
-    static userLogin(email, password) {
+class User {
+    static login(email, password) {
         return makeRequest({url: joinUrl('user', 'login'), data: {email: email, password: password}, method: 'POST'});
     }
 
-    static userCreate(email, password) {
-        return makeRequest({url: joinUrl('user', 'create'), data: {email: email, password: password}, method: 'POST'});
+    static create(email, password, trainingLanguage, mainLanguage, additionalLanguages) {
+        return makeRequest({
+            url: joinUrl('user'),
+            data: {
+                email: email,
+                password: password,
+                trainingLanguage: trainingLanguage,
+                mainLanguage: mainLanguage,
+                additionalLanguages: additionalLanguages
+            },
+            method: 'POST'
+        });
     }
 
-    static userLogout() {
+    static logout() {
         return makeRequest({url: joinUrl('user', 'logout'), data: {}, method: 'POST'});
+    }
+
+    static info() {
+        return makeRequest({url: joinUrl('user', 'info')});
+    }
+
+    static changePassword(oldPassword, newPassword) {
+        return makeRequest({
+            url: joinUrl('user', 'password'),
+            data: {oldPassword: oldPassword, newPassword: newPassword},
+            method: 'PUT'
+        });
+    }
+
+    static changeLanguages(trainingLanguage, mainLanguage, additionalLanguages) {
+        return makeRequest({
+            url: joinUrl('user'),
+            data: {
+                trainingLanguage: trainingLanguage,
+                mainLanguage: mainLanguage,
+                additionalLanguages: additionalLanguages
+            },
+            method: 'PUT'
+        })
     }
 }
 
-export default Api;
+class Language {
+    static getAll() {
+        return makeRequest({url: joinUrl('language')});
+    }
+}
+
+export default {User, Language};

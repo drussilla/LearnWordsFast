@@ -1,6 +1,6 @@
 import Reflux from 'reflux';
 import AuthCookie from '../helpers/AuthCookie';
-import Api from '../data/Api';
+import {User} from '../data/Api';
 
 const Actions = Reflux.createActions([
     'login',
@@ -17,7 +17,7 @@ let UserStore = Reflux.createStore({
     },
     login(email, password) {
         this.errors = null;
-        Api.userLogin(email, password).then(() => {
+        User.login(email, password).then(() => {
             this.isLoggedIn = true;
             this._trigger();
         }, response => {
@@ -27,7 +27,7 @@ let UserStore = Reflux.createStore({
     },
     create(email, password) {
         this.errors = null;
-        Api.userCreate(email, password).then(() => {
+        User.create(email, password).then(() => {
             this.isLoggedIn = true;
             this._trigger();
         }, response => {
@@ -37,7 +37,7 @@ let UserStore = Reflux.createStore({
     },
     logout() {
         this.errors = null;
-        Api.userLogout().then(() => {
+        User.logout().then(() => {
             AuthCookie.deleteCookie();
         }, response => {
             console.log(response);

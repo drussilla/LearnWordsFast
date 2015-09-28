@@ -45,3 +45,9 @@ footer {
 .create-user-errors {
   margin-top: 15px;
 }
+
+select[multiple] {
+  &.additional-languages {
+    height: 185px;
+  }
+}
