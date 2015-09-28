@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Infrastructure;
+using LearnWordsFast.ViewModels.WordController;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
@@ -25,23 +26,35 @@ namespace LearnWordsFast.ApiControllers
         public IActionResult GetAll()
         {
             _log.LogInformation("Get all words");
-            return Ok(_wordRepository.GetAll(User.GetId()));
+            return Ok(_wordRepository.GetAll(User.GetId()).Select(x => new WordViewModel(x)));
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
             _log.LogInformation($"Get word with id {id}");
-            return Ok(_wordRepository.Get(id, User.GetId()));
+            var word = _wordRepository.Get(id, UserId);
+            if (word == null)
+            {
+                _log.LogWarning($"Word with id {id} not found. User: {UserId}");
+                return NotFound();
+            }
+
+            return Ok(new WordViewModel(word));
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]Word word)
+        public IActionResult Create([FromBody]CreateWordViewModel word)
         {
-            _log.LogInformation($"Add word with id {word.Id}");
-            word.UserId = User.GetId();
-            _wordRepository.Add(word);
-            return Created("/api/word/" + word.Id);
+            _log.LogInformation($"Add word {word.Original} translated to {word.Translation}");
+            var wordModel = new Word();
+            wordModel.UserId = UserId;
+            wordModel.Original = word.Original;
+            wordModel.Translation = word.Translation;
+            wordModel.AddedDateTime = DateTime.Now;
+
+            _wordRepository.Add(wordModel);
+            return Created("/api/word/" + wordModel.Id);
         }
     }
 }

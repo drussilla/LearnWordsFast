@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LearnWordsFast.ViewModels
+namespace LearnWordsFast.ViewModels.UserController
 {
     public class CreateUserViewModel
     {

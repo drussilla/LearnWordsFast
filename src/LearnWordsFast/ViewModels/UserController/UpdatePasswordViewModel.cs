@@ -1,4 +1,4 @@
-﻿namespace LearnWordsFast.ViewModels
+﻿namespace LearnWordsFast.ViewModels.UserController
 {
     public class UpdatePasswordViewModel
     {

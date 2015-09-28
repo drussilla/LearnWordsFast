@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using LearnWordsFast.Infrastructure;
 using LearnWordsFast.ViewModels;
 using Microsoft.AspNet.Mvc;
 
@@ -6,6 +8,8 @@ namespace LearnWordsFast.ApiControllers
 {
     public class ApiController : Controller
     {
+        protected Guid UserId => User.GetId();
+
         protected IActionResult Ok()
         {
             return new ContentResult();

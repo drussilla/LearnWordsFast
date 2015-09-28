@@ -4,6 +4,7 @@ using LearnWordsFast.DAL.Models;
 using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
 using LearnWordsFast.ViewModels;
+using LearnWordsFast.ViewModels.UserController;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
