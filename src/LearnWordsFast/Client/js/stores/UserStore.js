@@ -11,7 +11,7 @@ const Actions = Reflux.createActions([
 let UserStore = Reflux.createStore({
     init() {
         this.listenToMany(Actions);
-        this.isLoggedIn = AuthCookie.readCookie() !== null;
+        this.isLoggedIn = AuthCookie.readCookie();
         this.errors = null;
         this._trigger();
     },
@@ -38,7 +38,8 @@ let UserStore = Reflux.createStore({
     logout() {
         this.errors = null;
         User.logout().then(() => {
-            AuthCookie.deleteCookie();
+            this.isLoggedIn = false;
+            this._trigger();
         }, response => {
             console.log(response);
         })

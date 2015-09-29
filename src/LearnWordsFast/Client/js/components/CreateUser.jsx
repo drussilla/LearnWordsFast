@@ -53,9 +53,11 @@ const CreateUser = React.createClass({
     },
 
     onUserDataLoad(data) {
-        this.setState({
-            errors: data.errors
-        })
+        if (!data.isLoggedIn) {
+            this.setState({
+                errors: data.errors
+            })
+        }
     },
 
     onLanguagesLoad(languages) {
@@ -137,17 +139,19 @@ const CreateUser = React.createClass({
                 {error}
             </div>);
         return (
-            <form onSubmit={this.create}>
+            <div>
                 <Input onChange={this.changeField.bind(null, 'email')}
                        type="email" label="Email Address"
                        placeholder="Enter email"/>
                 <Input bsStyle={!isSamePasswords ? 'error' : null}
                        onChange={this.changeField.bind(null, 'password')}
                        type="password"
+                       placeholder="Enter password"
                        label="Password"/>
                 <Input bsStyle={!isSamePasswords ? 'error' : null}
                        onChange={this.changeField.bind(null, 'passwordRepeat')}
                        type="password"
+                       placeholder="Repeat password"
                        label="Repeat Password"/>
                 <Input type="select"
                        label="Training language"
@@ -166,12 +170,13 @@ const CreateUser = React.createClass({
                 <label>Additional Languages</label>
                 {this.createCheckboxesForAdditionalLanguages()}
 
-                <Button onClick={this.create}>Create User</Button>
+                <Button bsStyle="primary" disabled={!this.state.password || !this.state.email || !this.state.passwordRepeat}
+                        onClick={this.create}>Create User</Button>
                 {errors ?
                     <Panel header="Errors" className="create-user-errors" bsStyle="danger">
                         {errors}
                     </Panel> : null}
-            </form>
+            </div>
         );
     }
 });
