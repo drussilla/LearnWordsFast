@@ -27,10 +27,14 @@ namespace LearnWordsFast.ApiControllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
+            if (loginViewModel.Email == null || loginViewModel.Password == null)
+            {
+                return Error("Email and password should be filled");
+            }
             var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password);
             if (!result.Succeeded)
             {
-                return Error();
+                return Error("Wrong password or email");
             }
 
             return Ok();

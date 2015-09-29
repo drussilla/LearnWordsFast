@@ -6,33 +6,34 @@ import Reflux from 'reflux';
 
 import {UserStore} from '../stores/UserStore';
 
-class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
+const App = React.createClass({
+    mixins: [
+        Reflux.listenTo(UserStore, 'onUserDataLoad')
+    ],
+
+    getInitialState() {
+        return {
             isLoggedIn: UserStore.isLoggedIn
-        };
-        this.onUserDataLoad = this.onUserDataLoad.bind(this);
-        this.logout = this.logout.bind(this);
-    }
+        }
+    },
 
     onUserDataLoad(data) {
         const {history} = this.props;
         if (data.isLoggedIn) {
-            history.pushState('home', '/home');
+            history.pushState(null, '/home');
         } else {
-            if(!history.isActive('login') && !history.isActive('create')) {
-                history.pushState('home', '/home');
+            if (!history.isActive('/create')) {
+                history.pushState(null, '/login');
             }
         }
         this.setState({
-            isLoggedIn: data.isLoggedIn || this.state.isLoggedIn
+            isLoggedIn: data.isLoggedIn
         });
-    }
+    },
 
     logout() {
         UserStore.logout();
-    }
+    },
 
     render() {
         var {isLoggedIn} = this.state;
@@ -67,8 +68,6 @@ class App extends React.Component {
             </div>
         );
     }
-}
-
-reactMixin(App.prototype, Reflux.listenTo(UserStore, 'onUserDataLoad'));
+});
 
 export default App;
