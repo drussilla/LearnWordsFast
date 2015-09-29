@@ -29,15 +29,15 @@ class User {
         return makeRequest({url: joinUrl('user', 'login'), data: {email: email, password: password}, method: 'POST'});
     }
 
-    static create(email, password, trainingLanguage, mainLanguage, additionalLanguages) {
+    static create(userData) {
         return makeRequest({
             url: joinUrl('user'),
             data: {
-                email: email,
-                password: password,
-                trainingLanguage: trainingLanguage,
-                mainLanguage: mainLanguage,
-                additionalLanguages: additionalLanguages
+                email: userData.email,
+                password: userData.password,
+                trainingLanguage: userData.trainingLanguage,
+                mainLanguage: userData.mainLanguage,
+                additionalLanguages: userData.additionalLanguages
             },
             method: 'POST'
         });

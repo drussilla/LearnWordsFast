@@ -25,9 +25,9 @@ let UserStore = Reflux.createStore({
             this._trigger();
         });
     },
-    create(email, password) {
+    create(userData) {
         this.errors = null;
-        User.create(email, password).then(() => {
+        User.create(userData).then(() => {
             this.isLoggedIn = true;
             this._trigger();
         }, response => {

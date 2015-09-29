@@ -21,7 +21,7 @@ const CreateUser = React.createClass({
             languages: LanguagesStore.languages,
             mainLanguage: null,
             trainingLanguage: null,
-            additionalLanguages: null
+            additionalLanguages: []
         }
     },
 
@@ -31,7 +31,13 @@ const CreateUser = React.createClass({
 
     create() {
         if (this.state.password && this.state.password === this.state.passwordRepeat) {
-            UserActions.create(this.state.email, this.state.password);
+            UserActions.create({
+                email: this.state.email,
+                password: this.state.password,
+                trainingLanguage: this.state.trainingLanguage,
+                mainLanguage: this.state.mainLanguage,
+                additionalLanguages: this.state.additionalLanguages
+            });
         } else {
             this.setState({
                 isSamePasswords: false
@@ -66,12 +72,9 @@ const CreateUser = React.createClass({
                 if (type === 'main') {
                     return !_.contains(this.state.additionalLanguages, language.id)
                         && language.id !== this.state.trainingLanguage;
-                } else if (type === 'training') {
+                } else {
                     return !_.contains(this.state.additionalLanguages, language.id)
                         && language.id !== this.state.mainLanguage;
-                } else {
-                    return language.id !== this.state.mainLanguage
-                        && language.id !== this.state.trainingLanguage;
                 }
             }).map(language => {
                 return <option value={language.id} key={language.id}>{language.name}</option>;
@@ -82,6 +85,7 @@ const CreateUser = React.createClass({
     selectTrainingLanguage(e) {
         var value = e.target.value;
         this.setState({
+            errors: null,
             trainingLanguage: value
         });
     },
@@ -89,30 +93,51 @@ const CreateUser = React.createClass({
     selectMainLanguage(e) {
         var value = e.target.value;
         this.setState({
+            errors: null,
             mainLanguage: value
         })
     },
 
-    selectAdditionalLanguages(e) {
-        var selectedLanguages = _.map(e.target.selectedOptions, option => option.value);
-        if (selectedLanguages.length < 6) {
-            this.setState({
-                errors: null,
-                additionalLanguages: selectedLanguages
-            })
+    selectAdditionalLanguage(id, e) {
+        var additionalLanguages = _.clone(this.state.additionalLanguages);
+        var errors = null;
+        if (e.target.checked) {
+            if (additionalLanguages.length < 5) {
+                additionalLanguages.push(id);
+            } else {
+                errors = ["Don't select more than 5 languages as additional"]
+            }
         } else {
-            this.setState({
-                errors: ["Don't select more than 5 languages as additional"]
-            })
+            additionalLanguages = additionalLanguages.filter(language => language !== id);
+        }
+        this.setState({
+            errors: errors,
+            additionalLanguages: additionalLanguages
+        });
+    },
+
+    createCheckboxesForAdditionalLanguages() {
+        if (this.state.languages) {
+            return this.state.languages.filter(language => {
+                return language.id !== this.state.mainLanguage
+                    && language.id !== this.state.trainingLanguage;
+            }).map(language => {
+                return <Input type='checkbox' label={language.name}
+                              key={language.id}
+                              checked={_.contains(this.state.additionalLanguages, language.id)}
+                              onChange={this.selectAdditionalLanguage.bind(null, language.id)}/>
+            });
         }
     },
 
     render() {
         let {isSamePasswords} = this.state;
-        let errors = this.state.errors && this.state.errors.map((error, i) => <div bsStyle='error'
-                                                                                   key={'error-' + i}>{error}</div>);
+        let errors = this.state.errors
+            && this.state.errors.map((error, i) => <div bsStyle='error' key={'error-' + i}>
+                {error}
+            </div>);
         return (
-            <div onSubmit={this.create}>
+            <form onSubmit={this.create}>
                 <Input onChange={this.changeField.bind(null, 'email')}
                        type="email" label="Email Address"
                        placeholder="Enter email"/>
@@ -138,19 +163,15 @@ const CreateUser = React.createClass({
                        onChange={this.selectMainLanguage}>
                     {this.createLanguagesOptions.call(null, 'main')}
                 </Input>
-                <Input type="select"
-                       className="additional-languages"
-                       label="Additional languages"
-                       onChange={this.selectAdditionalLanguages}
-                       multiple>
-                    {this.createLanguagesOptions.call(null, 'additional')}
-                </Input>
+                <label>Additional Languages</label>
+                {this.createCheckboxesForAdditionalLanguages()}
+
                 <Button onClick={this.create}>Create User</Button>
                 {errors ?
                     <Panel header="Errors" className="create-user-errors" bsStyle="danger">
                         {errors}
                     </Panel> : null}
-            </div>
+            </form>
         );
     }
 });
