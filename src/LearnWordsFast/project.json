@@ -1,51 +1,51 @@
-﻿{
-  "webroot": "wwwroot",
-  "version": "1.0.0-*",
-  "userSecretsId": "LearnWordsFast-94bffe89-99d8-401b-8c8e-c4f9271098fe",
+{
+    "webroot": "wwwroot",
+    "version": "1.0.0-*",
+    "userSecretsId": "LearnWordsFast-94bffe89-99d8-401b-8c8e-c4f9271098fe",
 
-  "dependencies": {
-    "Kestrel": "1.0.0-beta6",
+    "dependencies": {
+        "Kestrel": "1.0.0-beta6",
 
-    "Microsoft.AspNet.Server.IIS": "1.0.0-beta6",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta6",
-    "Microsoft.AspNet.Mvc": "6.0.0-beta6",
-    "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-beta6",
-    "Microsoft.AspNet.StaticFiles": "1.0.0-beta6",
-    "Microsoft.AspNet.Identity": "3.0.0-beta6",
+        "Microsoft.AspNet.Server.IIS": "1.0.0-beta6",
+        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta6",
+        "Microsoft.AspNet.Mvc": "6.0.0-beta6",
+        "Microsoft.AspNet.StaticFiles": "1.0.0-beta6",
+        "Microsoft.AspNet.Identity": "3.0.0-beta6",
 
-    "Microsoft.Framework.Configuration.Json": "1.0.0-beta6",
-    "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta6",
+        "Microsoft.Framework.Configuration.Json": "1.0.0-beta6",
+        "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta6",
 
-    "Microsoft.Framework.Logging": "1.0.0-beta6",
-    "Microsoft.Framework.Logging.Console": "1.0.0-beta6",
+        "Microsoft.Framework.Logging": "1.0.0-beta6",
+        "Microsoft.Framework.Logging.Console": "1.0.0-beta6",
 
-    "LearnWordsFast.DAL": "1.0.0-*",
-    "LearnWordsFast.DAL.NHibernate": "1.0.0-*"
-  },
+        "LearnWordsFast.DAL": "1.0.0-*",
+        "LearnWordsFast.DAL.NHibernate": "1.0.0-*",
+        "FluentNHibernate": "2.0.1"
+    },
 
-  "commands": {
-    "web": "Microsoft.AspNet.Hosting --config hosting.ini",
-    "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://127.0.0.1:8001"
-  },
+    "commands": {
+        "web": "Microsoft.AspNet.Hosting --config hosting.ini",
+        "kestrel": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://127.0.0.1:8001"
+    },
 
-  "frameworks": {
-    "dnx451": { }
-  },
+    "frameworks": {
+        "dnx451": { }
+    },
 
-  "publishExclude": [
-    "node_modules",
-    "bower_components",
-    "**.xproj",
-    "**.user",
-    "**.vspscc"
-  ],
-  "exclude": [
-    "wwwroot",
-    "node_modules",
-    "bower_components"
-  ],
+    "publishExclude": [
+        "node_modules",
+        "bower_components",
+        "**.xproj",
+        "**.user",
+        "**.vspscc"
+    ],
+    "exclude": [
+        "wwwroot",
+        "node_modules",
+        "bower_components"
+    ],
 
-  "scripts": {
-    "prepublish": [ "npm install", "bower install", "npm run build-js", "npm run build-sass" ]
-  }
+    "scripts": {
+        "prepublish": [ "npm install", "bower install", "npm run build-js", "npm run build-sass" ]
+    }
 }
