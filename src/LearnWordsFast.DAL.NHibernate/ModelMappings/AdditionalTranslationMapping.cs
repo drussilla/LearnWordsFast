@@ -13,8 +13,8 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
 
             Map(x => x.Translation);
 
-            References(x => x.Word);
-            References(x => x.Language);
+            References(x => x.Word).ForeignKey("word");
+            References(x => x.Language).ForeignKey("language");
 
             Table("AdditionalTranslations");
         }

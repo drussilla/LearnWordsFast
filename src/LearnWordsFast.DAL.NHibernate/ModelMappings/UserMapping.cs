@@ -13,13 +13,17 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
             Map(x => x.Email).Unique();
             Map(x => x.Password);
 
-            References(x => x.TrainingLanguage);
-            References(x => x.MainLanguage);
+            References(x => x.TrainingLanguage)
+                .ForeignKey("training_language");
+            References(x => x.MainLanguage)
+                .ForeignKey("main_language");
 
             HasManyToMany(x => x.AdditionalLanguages)
-                .Table("UsersAdditionalLanguages");
+                .Table("UsersAdditionalLanguages")
+                .ForeignKeyConstraintNames("user_ref", "language");
 
-            HasMany(x => x.Words);
+            HasMany(x => x.Words)
+                .ForeignKeyConstraintName("word");
 
             Table("Users");
         }

@@ -19,7 +19,7 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
             Map(x => x.Context);
             Map(x => x.UserId).Column("user_id");
 
-            HasMany(x => x.AdditionalTranslations);
+            HasMany(x => x.AdditionalTranslations).ForeignKeyConstraintName("word");
 
             Table("Words");
         }
