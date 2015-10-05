@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
@@ -55,6 +56,16 @@ namespace LearnWordsFast.ApiControllers
                 AddedDateTime = DateTime.Now,
                 Context = word.Context
             };
+
+            if (word.AdditionalTranslations != null && word.AdditionalTranslations.Count > 0)
+            {
+                wordModel.AdditionalTranslations = word.AdditionalTranslations
+                    .Select(x => new AdditionalTranslation
+                    {
+                        Language = new Language(x.Language),
+                        Translation = x.Translation
+                    }).ToList();
+            }
 
             _wordRepository.Add(wordModel);
             return Created("/api/word/" + wordModel.Id);

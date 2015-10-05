@@ -2,7 +2,7 @@
 
 namespace LearnWordsFast.DAL.Models
 {
-    public class Language
+    public class Language : IdModel
     {
         public Language(Guid id)
         {
@@ -11,11 +11,8 @@ namespace LearnWordsFast.DAL.Models
 
         public Language()
         {
-            Id = Guid.NewGuid();
         }
-
-        public virtual Guid Id { get; set; }  
-
+        
         public virtual string Name { get; set; }
     }
 }
