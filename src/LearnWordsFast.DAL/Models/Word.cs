@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LearnWordsFast.DAL.Models
 {
@@ -16,6 +17,7 @@ namespace LearnWordsFast.DAL.Models
         public virtual DateTime? LastTrainingDateTime { get; set; }
         public virtual DateTime AddedDateTime { get; set; }
         public virtual string Context { get; set; }
+        public virtual List<AdditionalTranslation> AdditionalTranslations { get; set; } 
 
         public virtual Guid UserId { get; set; }
     }
