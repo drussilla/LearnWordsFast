@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Grid, Row, Col, Navbar, Nav, NavItem} from 'react-bootstrap';
+import {Grid, Row, Col, Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import reactMixin from 'react-mixin';
 import Reflux from 'reflux';
 
@@ -44,6 +44,10 @@ const App = React.createClass({
                         <Nav>
                             <NavItem href="#/home">Home</NavItem>
                             <NavItem onClick={this.logout} href="#/login">Logout</NavItem>
+                            <NavDropdown title="Settings" id="settings-dropdown" className="settings">
+                                <MenuItem href="#/settings/password">Change Password</MenuItem>
+                                <MenuItem href="#/settings/languages">Change Languages</MenuItem>
+                            </NavDropdown>
                         </Nav>
                         :
                         <Nav>
