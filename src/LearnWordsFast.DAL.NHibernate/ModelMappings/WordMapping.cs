@@ -13,6 +13,7 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
             Map(x => x.LastTrainingDateTime)
                 .Nullable();
             Map(x => x.AddedDateTime);
+            References(x => x.Language).ForeignKey("language");
             Map(x => x.Original);
             Map(x => x.TrainingAmout);
             References(x => x.Translation).ForeignKey("mainTranslation");
