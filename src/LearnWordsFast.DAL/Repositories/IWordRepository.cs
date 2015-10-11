@@ -11,5 +11,6 @@ namespace LearnWordsFast.DAL.Repositories
         IList<Word> GetAll(Guid userId);
         IList<Word> GetLastTrainedBefore(DateTime date, Guid userId);
         void Update(Word word);
+        void Delete(Word word);
     }
 }

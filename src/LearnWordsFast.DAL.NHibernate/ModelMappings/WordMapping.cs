@@ -13,16 +13,21 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
             Map(x => x.LastTrainingDateTime)
                 .Nullable();
             Map(x => x.AddedDateTime);
-            References(x => x.Language).ForeignKey("language");
+            References(x => x.Language)
+                .ForeignKey("language");
             Map(x => x.Original);
             Map(x => x.TrainingAmout);
-            References(x => x.Translation).ForeignKey("mainTranslation");
+            References(x => x.Translation)
+                .Cascade.All()
+                .ForeignKey("mainTranslation");
             Map(x => x.Context);
             Map(x => x.UserId).Column("user_id");
 
             HasManyToMany(x => x.AdditionalTranslations)
+                .Cascade.All()
                 .ForeignKeyConstraintNames("word", "translation")
-                .Table("wordAdditionalTranslations");
+                .Table("wordAdditionalTranslations")
+                .Cascade.All();
 
             Table("Words");
         }

@@ -66,5 +66,22 @@ namespace LearnWordsFast.ApiControllers
             _wordRepository.Add(wordModel);
             return Created("/api/word/" + wordModel.Id);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            _log.LogInformation($"Delete word {id}");
+
+            var word = _wordRepository.Get(id, UserId);
+            if (word == null)
+            {
+                _log.LogWarning($"Word with id {id} not found. User: {UserId}");
+                return NotFound();
+            }
+
+            _wordRepository.Delete(word);
+
+            return Ok();
+        }
     }
 }

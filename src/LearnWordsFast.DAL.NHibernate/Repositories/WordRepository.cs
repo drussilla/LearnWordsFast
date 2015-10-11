@@ -58,5 +58,11 @@ namespace LearnWordsFast.DAL.NHibernate.Repositories
         {
             _sessionProvider.GetSession().SaveOrUpdate(word);
         }
+
+        public void Delete(Word word)
+        {
+            var session = _sessionProvider.GetSession();
+            session.Delete(word);
+        }
     }
 }
