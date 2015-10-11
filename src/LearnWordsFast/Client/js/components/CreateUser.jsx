@@ -173,7 +173,7 @@ const CreateUser = React.createClass({
                 <Button bsStyle="primary" disabled={!this.state.password || !this.state.email || !this.state.passwordRepeat}
                         onClick={this.create}>Create User</Button>
                 {errors ?
-                    <Panel header="Errors" className="create-user-errors" bsStyle="danger">
+                    <Panel header="Errors" className="validation-errors" bsStyle="danger">
                         {errors}
                     </Panel> : null}
             </div>

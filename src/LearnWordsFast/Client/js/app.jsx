@@ -4,6 +4,7 @@ import App from './components/App';
 import Login from './components/Login';
 import CreateUser from './components/CreateUser';
 import Home from './components/Home';
+import ChangePassword from './components/ChangePassword';
 import {UserStore} from './stores/UserStore';
 
 const requireAuth = (nextState, replaceState) => {
@@ -24,6 +25,9 @@ React.render(<Router>
         <Route path="home" component={Home} onEnter={requireAuth}/>
         <Route path="login" component={Login} onEnter={redirectHome}/>
         <Route path="create" component={CreateUser} onEnter={redirectHome}/>
+        <Route path="settings">
+            <Route path="password" component={ChangePassword} onEnter={requireAuth}/>
+        </Route>
         <Redirect from="*" to='/home'/>
     </Route>
 </Router>, document.getElementById('app'));

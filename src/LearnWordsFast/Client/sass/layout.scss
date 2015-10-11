@@ -42,12 +42,19 @@ footer {
   }
 }
 
-.create-user-errors, .login-user-errors {
+.validation-errors, .success-message {
   margin-top: 15px;
 }
 
 select[multiple] {
   &.additional-languages {
     height: 185px;
+  }
+}
+
+.nav {
+  width: calc(100% - 160px);
+  .settings {
+    float: right;
   }
 }

@@ -11,7 +11,8 @@ const Login = React.createClass({
     getInitialState() {
         return {
             email: null,
-            password: null
+            password: null,
+            errors: null
         }
     },
 
@@ -30,6 +31,12 @@ const Login = React.createClass({
         });
     },
 
+    onKeyPress(e) {
+        if(e.which === 13 && this.state.password && this.state.email) {
+            this.login();
+        }
+    },
+
     changeField(type, e) {
         var value = e.target.value;
         var newState = {};
@@ -45,15 +52,17 @@ const Login = React.createClass({
         return (
             <div>
                 <Input onChange={this.changeField.bind(null, 'email')}
+                       onKeyPress={this.onKeyPress}
                        type='email' label='Email Address'
                        placeholder='Enter email'/>
                 <Input onChange={this.changeField.bind(null, 'password')}
+                       onKeyPress={this.onKeyPress}
                        type='password'
                        label='Password'
                        placeholder='Enter password'/>
                 <Button bsStyle="primary" disabled={!this.state.password || !this.state.email} onClick={this.login}>Login</Button>
                 {errors ?
-                    <Panel header='Errors' className='login-user-errors' bsStyle='danger'>
+                    <Panel header='Errors' className='validation-errors' bsStyle='danger'>
                         {errors}
                     </Panel> : null}
             </div>
