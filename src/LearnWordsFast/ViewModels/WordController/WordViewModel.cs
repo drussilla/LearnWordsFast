@@ -7,6 +7,10 @@ namespace LearnWordsFast.ViewModels.WordController
 {
     public class WordViewModel
     {
+        public WordViewModel()
+        {
+        }
+
         public WordViewModel(Word word)
         {
             Original = word.Original;
