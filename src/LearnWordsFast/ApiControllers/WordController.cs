@@ -44,13 +44,14 @@ namespace LearnWordsFast.ApiControllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]CreateWordViewModel word)
+        public IActionResult Create([FromBody]WordViewModel word)
         {
             _log.LogInformation($"Add word {word.Original} translated to {word.Translation}");
             var wordModel = new Word
             {
                 UserId = UserId,
                 Original = word.Original,
+                Language = new Language(word.Language),
                 Translation = word.Translation.ToModel(),
                 AddedDateTime = DateTime.Now,
                 Context = word.Context
