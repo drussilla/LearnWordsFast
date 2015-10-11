@@ -19,7 +19,6 @@ namespace LearnWordsFast.DAL.NHibernate.Repositories
         public void Add(Word word)
         {
             var session = _sessionProvider.GetSession();
-            session.SaveOrUpdate(word);
             if (word.AdditionalTranslations != null && word.AdditionalTranslations.Count > 0)
             {
                 foreach (var additionalTranslation in word.AdditionalTranslations)
@@ -27,6 +26,9 @@ namespace LearnWordsFast.DAL.NHibernate.Repositories
                     session.Save(additionalTranslation);
                 }
             }
+
+            session.Save(word.Translation);
+            session.SaveOrUpdate(word);
         }
 
         public Word Get(Guid id, Guid userId)

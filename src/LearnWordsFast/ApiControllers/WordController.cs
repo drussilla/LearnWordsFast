@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
@@ -52,7 +51,7 @@ namespace LearnWordsFast.ApiControllers
             {
                 UserId = UserId,
                 Original = word.Original,
-                Translation = word.Translation,
+                Translation = word.Translation.ToModel(),
                 AddedDateTime = DateTime.Now,
                 Context = word.Context
             };
@@ -60,11 +59,7 @@ namespace LearnWordsFast.ApiControllers
             if (word.AdditionalTranslations != null && word.AdditionalTranslations.Count > 0)
             {
                 wordModel.AdditionalTranslations = word.AdditionalTranslations
-                    .Select(x => new AdditionalTranslation
-                    {
-                        Language = new Language(x.Language),
-                        Translation = x.Translation
-                    }).ToList();
+                    .Select(x => x.ToModel()).ToList();
             }
 
             _wordRepository.Add(wordModel);

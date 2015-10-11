@@ -3,20 +3,19 @@ using LearnWordsFast.DAL.Models;
 
 namespace LearnWordsFast.DAL.NHibernate.ModelMappings
 {
-    public class AdditionalTranslationMapping : ClassMap<AdditionalTranslation>
+    public class TranslationMapping : ClassMap<Translation>
     {
-        public AdditionalTranslationMapping()
+        public TranslationMapping()
         {
             Id(x => x.Id)
                .GeneratedBy
                .Assigned();
 
-            Map(x => x.Translation);
+            Map(x => x.TranslationText);
 
-            References(x => x.Word).ForeignKey("word");
             References(x => x.Language).ForeignKey("language");
 
-            Table("AdditionalTranslations");
+            Table("Translations");
         }
     }
 }

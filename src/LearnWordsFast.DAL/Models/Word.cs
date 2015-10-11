@@ -7,16 +7,16 @@ namespace LearnWordsFast.DAL.Models
     {
         public Word()
         {
-            AdditionalTranslations = new List<AdditionalTranslation>();
+            AdditionalTranslations = new List<Translation>();
         }
         
         public virtual string Original { get; set; }
-        public virtual string Translation { get; set; }
+        public virtual Translation Translation { get; set; }
         public virtual int TrainingAmout { get; set; }
         public virtual DateTime? LastTrainingDateTime { get; set; }
         public virtual DateTime AddedDateTime { get; set; }
         public virtual string Context { get; set; }
-        public virtual IList<AdditionalTranslation> AdditionalTranslations { get; set; } 
+        public virtual IList<Translation> AdditionalTranslations { get; set; } 
 
         public virtual Guid UserId { get; set; }
     }
