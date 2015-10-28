@@ -46,23 +46,23 @@ const Login = React.createClass({
 
     render() {
         let errors = this.state.errors
-            && this.state.errors.map((error, i) => <div bsStyle='error' key={'error-' + i}>
+            && this.state.errors.map((error, i) => <div bsStyle="error" key={"error-" + i}>
                 {error}
             </div>);
         return (
             <div>
-                <Input onChange={this.changeField.bind(null, 'email')}
+                <Input onChange={this.changeField.bind(null, "email")}
                        onKeyPress={this.onKeyPress}
-                       type='email' label='Email Address'
-                       placeholder='Enter email'/>
-                <Input onChange={this.changeField.bind(null, 'password')}
+                       type="email" label="Email Address"
+                       placeholder="Enter email"/>
+                <Input onChange={this.changeField.bind(null, "password")}
                        onKeyPress={this.onKeyPress}
-                       type='password'
-                       label='Password'
-                       placeholder='Enter password'/>
+                       type="password"
+                       label="Password"
+                       placeholder="Enter password"/>
                 <Button bsStyle="primary" disabled={!this.state.password || !this.state.email} onClick={this.login}>Login</Button>
                 {errors ?
-                    <Panel header='Errors' className='validation-errors' bsStyle='danger'>
+                    <Panel header="Errors" className="validation-errors" bsStyle="danger">
                         {errors}
                     </Panel> : null}
             </div>

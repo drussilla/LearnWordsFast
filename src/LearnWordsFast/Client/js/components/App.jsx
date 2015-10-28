@@ -7,6 +7,11 @@ import Reflux from 'reflux';
 import {UserStore} from '../stores/UserStore';
 
 const App = React.createClass({
+    propTypes: {
+        history: React.PropTypes.object,
+        children: React.PropTypes.object
+    },
+
     mixins: [
         Reflux.listenTo(UserStore, 'onUserDataLoad')
     ],
@@ -43,7 +48,7 @@ const App = React.createClass({
                     {isLoggedIn ?
                         <Nav>
                             <NavItem href="#/home">Home</NavItem>
-                            <NavItem onClick={this.logout} href="#/login">Logout</NavItem>
+                            <NavItem onClick={this.logout} href="#/login" className="logout">Logout</NavItem>
                             <NavDropdown title="Settings" id="settings-dropdown" className="settings">
                                 <MenuItem href="#/settings/password">Change Password</MenuItem>
                                 <MenuItem href="#/settings/languages">Change Languages</MenuItem>

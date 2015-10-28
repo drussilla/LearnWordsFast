@@ -47,7 +47,7 @@ class User {
         return makeRequest({url: joinUrl('user', 'logout'), data: {}, method: 'POST'});
     }
 
-    static info() {
+    static getInfo() {
         return makeRequest({url: joinUrl('user', 'info')});
     }
 
@@ -61,7 +61,7 @@ class User {
 
     static changeLanguages(trainingLanguage, mainLanguage, additionalLanguages) {
         return makeRequest({
-            url: joinUrl('user'),
+            url: joinUrl('user', 'languages'),
             data: {
                 trainingLanguage: trainingLanguage,
                 mainLanguage: mainLanguage,

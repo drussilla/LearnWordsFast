@@ -18,7 +18,8 @@
     "spread": 1,
     "objectLiteralShorthandMethods": 1,
     "classes": 1,
-    "templateStrings": 1
+    "templateStrings": 1,
+    "restParams": 1
   },
   "rules": {
     "quotes": 0,
@@ -28,7 +29,7 @@
     "camelcase": [2, {"properties": "never"}],
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
     "react/display-name": 0,
-    "react/jsx-quotes": 1,
+    "jsx-quotes": 1,
     "react/jsx-no-undef": 1,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,

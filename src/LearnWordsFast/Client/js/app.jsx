@@ -6,6 +6,8 @@ import CreateUser from './components/CreateUser';
 import Home from './components/Home';
 import ChangePassword from './components/ChangePassword';
 import {UserStore} from './stores/UserStore';
+import ChangeLanguages from './components/ChangeLanguages';
+
 
 const requireAuth = (nextState, replaceState) => {
     if (!UserStore.isLoggedIn) {
@@ -27,7 +29,8 @@ React.render(<Router>
         <Route path="create" component={CreateUser} onEnter={redirectHome}/>
         <Route path="settings">
             <Route path="password" component={ChangePassword} onEnter={requireAuth}/>
+            <Route path="languages" component={ChangeLanguages} onEnter={requireAuth}/>
         </Route>
-        <Redirect from="*" to='/home'/>
+        <Redirect from="*" to="/home"/>
     </Route>
 </Router>, document.getElementById('app'));

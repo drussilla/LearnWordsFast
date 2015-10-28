@@ -2,69 +2,47 @@ import React from 'react';
 import Reflux from 'reflux';
 import _ from 'lodash';
 import {Input, Button, Panel} from 'react-bootstrap';
-import {UserActions, UserStore} from '../stores/UserStore';
+import {UserSettingsStore, UserSettingsActions} from '../stores/UserSettingsStore';
 import {LanguagesStore, LanguagesActions} from '../stores/LanguagesStore';
 
-const CreateUser = React.createClass({
+const ChangeLanguages = React.createClass({
     mixins: [
-        Reflux.listenTo(UserStore, 'onUserDataLoad'),
+        Reflux.listenTo(UserSettingsStore, 'onUserSettingsLoad'),
         Reflux.listenTo(LanguagesStore, 'onLanguagesLoad')
     ],
 
     getInitialState() {
+        let {userInfo} = UserSettingsStore;
+        let {mainLanguage, trainingLanguage, additionalLanguages} = userInfo || {};
+        let {languages} = LanguagesStore;
         return {
-            password: null,
-            email: null,
-            passwordRepeat: null,
-            isSamePasswords: true,
-            errors: null,
-            languages: LanguagesStore.languages,
-            mainLanguage: null,
-            trainingLanguage: null,
-            additionalLanguages: []
+            userInfo,
+            languages,
+            mainLanguage,
+            trainingLanguage,
+            additionalLanguages
         }
     },
 
     componentDidMount() {
+        UserSettingsActions.getInfo();
         LanguagesActions.getAll();
     },
 
-    create() {
-        if (this.state.password && this.state.password === this.state.passwordRepeat) {
-            UserActions.create({
-                email: this.state.email,
-                password: this.state.password,
-                trainingLanguage: this.state.trainingLanguage,
-                mainLanguage: this.state.mainLanguage,
-                additionalLanguages: this.state.additionalLanguages
-            });
-        } else {
-            this.setState({
-                isSamePasswords: false
-            })
-        }
-    },
-
-    changeField(type, e) {
-        var value = e.target.value;
-        var newState = {isSamePasswords: true};
-        newState[type] = value;
-        this.setState(newState);
-    },
-
-    onUserDataLoad(data) {
-        if (!data.isLoggedIn) {
-            this.setState({
-                errors: data.errors
-            })
-        }
+    onUserSettingsLoad(data) {
+        let {userInfo} = data;
+        let {mainLanguage, trainingLanguage, additionalLanguages} = userInfo || {};
+        this.setState({
+            userInfo,
+            mainLanguage,
+            trainingLanguage,
+            additionalLanguages
+        });
     },
 
     onLanguagesLoad(languages) {
         this.setState({
-            languages: languages,
-            trainingLanguage: languages[0].id,
-            mainLanguage: languages[1].id
+            languages
         });
     },
 
@@ -132,27 +110,18 @@ const CreateUser = React.createClass({
         }
     },
 
+    changeLanguages() {
+        let {trainingLanguage, mainLanguage, additionalLanguages} = this.state;
+        UserSettingsActions.changeLanguages({trainingLanguage, mainLanguage, additionalLanguages})
+    },
+
     render() {
-        let {isSamePasswords} = this.state;
         let errors = this.state.errors
-            && this.state.errors.map((error, i) => <div bsStyle="error" key={'error-' + i}>
+            && this.state.errors.map((error, i) => <div bsStySle="error" key={'error-' + i}>
                 {error}
             </div>);
         return (
             <div>
-                <Input onChange={this.changeField.bind(null, 'email')}
-                       type="email" label="Email Address"
-                       placeholder="Enter email"/>
-                <Input bsStyle={!isSamePasswords ? 'error' : null}
-                       onChange={this.changeField.bind(null, 'password')}
-                       type="password"
-                       placeholder="Enter password"
-                       label="Password"/>
-                <Input bsStyle={!isSamePasswords ? 'error' : null}
-                       onChange={this.changeField.bind(null, 'passwordRepeat')}
-                       type="password"
-                       placeholder="Repeat password"
-                       label="Repeat Password"/>
                 <Input type="select"
                        label="Training language"
                        placeholder="select"
@@ -170,8 +139,8 @@ const CreateUser = React.createClass({
                 <label>Additional Languages</label>
                 {this.createCheckboxesForAdditionalLanguages()}
 
-                <Button bsStyle="primary" disabled={!this.state.password || !this.state.email || !this.state.passwordRepeat}
-                        onClick={this.create}>Create User</Button>
+                <Button bsStyle="primary"
+                        onClick={this.changeLanguages}>Change Languages</Button>
                 {errors ?
                     <Panel header="Errors" className="validation-errors" bsStyle="danger">
                         {errors}
@@ -181,4 +150,4 @@ const CreateUser = React.createClass({
     }
 });
 
-export default CreateUser;
+export default ChangeLanguages;

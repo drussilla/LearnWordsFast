@@ -1,1 +1,1 @@
-export default 'http://localhost:6276/api/';
+export default `${window.location.origin}/api/`;

@@ -58,6 +58,15 @@ namespace LearnWordsFast
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            services.Configure<MvcOptions>(options =>
+            {
+                options.CacheProfiles.Add("IndexPage",
+                    new CacheProfile
+                    {
+                        Duration = 60 * 60 * 24
+                    });
+            });
+
             services.AddNHibernateSession<SessionFactoryProvider>();
 
             services

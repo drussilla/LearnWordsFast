@@ -1,7 +1,6 @@
 ﻿var pkg = require("./package.json"),
     project = require("./project.json"),
-    webpack = require('webpack'),
-    path = require('path');
+    webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -20,6 +19,13 @@ module.exports = {
         extensions: ['.js', '.jsx', '']
     },
     module: {
+        preLoaders: [
+            {
+                test: /.js.?$/,
+                exclude: /(node_modules|bower_components|wwwroot)/,
+                loader: 'eslint-loader'
+            }
+        ],
         loaders: [
             {
                 test: /.js.?$/,

@@ -58,7 +58,7 @@ const ChangePassword = React.createClass({
 
     render() {
         let errors = this.state.errors
-            && this.state.errors.map((error, i) => <div bsStyle='error' key={'error-' + i}>
+            && this.state.errors.map((error, i) => <div bsStyle="error" key={'error-' + i}>
                 {error}
             </div>);
         let {message} = this.state;
@@ -67,23 +67,23 @@ const ChangePassword = React.createClass({
                 <Input onChange={this.changeField.bind(null, 'oldPassword')}
                        onKeyPress={this.onKeyPress}
                        value={this.state.oldPassword}
-                       type='password'
-                       label='Old Password'
-                       placeholder='Enter old password'/>
+                       type="password"
+                       label="Old Password"
+                       placeholder="Enter old password"/>
                 <Input onChange={this.changeField.bind(null, 'newPassword')}
                        onKeyPress={this.onKeyPress}
                        value={this.state.newPassword}
-                       type='password'
-                       label='New Password'
-                       placeholder='Enter new password'/>
+                       type="password"
+                       label="New Password"
+                       placeholder="Enter new password"/>
                 <Button bsStyle="primary" disabled={!this.state.oldPassword || !this.state.newPassword}
                         onClick={this.changePassword}>Change password</Button>
                 {errors ?
-                    <Panel header='Errors' className='validation-errors' bsStyle='danger'>
+                    <Panel header="Errors" className="validation-errors" bsStyle="danger">
                         {errors}
                     </Panel> : null}
                 {message ?
-                    <Panel header='Message' className='success-message' bsStyle='success'>
+                    <Panel header="Message" className="success-message" bsStyle="success">
                         {message}
                     </Panel> : null}
             </div>

@@ -11,14 +11,13 @@ const Actions = Reflux.createActions([
 let UserSettingsStore = Reflux.createStore({
     init() {
         this.listenToMany(Actions);
-        this.info = null;
+        this.userInfo = null;
         this.errors = null;
     },
     getInfo() {
-        User.info().done(response => {
-            debugger;
-            //TODO get info
-            this.info = response.info;
+        User.getInfo().done(response => {
+            this.userInfo = response;
+            this._trigger();
         }, response => {
             this.errors = response.errors;
             this._trigger();
@@ -33,13 +32,12 @@ let UserSettingsStore = Reflux.createStore({
         });
     },
     changeLanguages(languagesData) {
-        User.
-            changeLanguages(languagesData.trainingLanguage, languagesData.mainLanguage, languagesData.additionalLanguages)
+        User.changeLanguages(languagesData.trainingLanguage, languagesData.mainLanguage, languagesData.additionalLanguages)
             .done();
     }
     ,
     _trigger() {
-        this.trigger({info: _.cloneDeep(this.info), errors: this.errors});
+        this.trigger({userInfo: this.userInfo, errors: this.errors});
     }
 });
 
