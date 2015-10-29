@@ -116,6 +116,9 @@ const ChangeLanguages = React.createClass({
     },
 
     render() {
+        if(!this.state.languages) {
+            return (<div>Loading...</div>);
+        }
         let errors = this.state.errors
             && this.state.errors.map((error, i) => <div bsStySle="error" key={'error-' + i}>
                 {error}

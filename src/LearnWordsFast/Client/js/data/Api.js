@@ -1,7 +1,7 @@
 import qajax from 'qajax';
 import q from 'q';
 
-import baseUrl from '../constants/baseUrl';
+import baseUrl from '../constants/apiUrl';
 
 let makeRequest = (data) => {
     let request = {
@@ -78,4 +78,10 @@ class Language {
     }
 }
 
-export default {User, Language};
+class Word {
+    static getAll() {
+        return makeRequest({url: joinUrl('word')});
+    }
+}
+
+export default {User, Language, Word};
