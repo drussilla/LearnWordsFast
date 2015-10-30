@@ -85,7 +85,7 @@ namespace LearnWordsFast.ApiControllers
 
         [Authorize]
         [HttpPut("languages")]
-        public async Task<IActionResult> UpadateLanguages([FromBody]UpdateLanguagesViewModel requestModel)
+        public async Task<IActionResult> UpdateLanguages([FromBody]UpdateLanguagesViewModel requestModel)
         {
             var user = await _userManager.FindById(Context.User.GetId());
             if (user == null)

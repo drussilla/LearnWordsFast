@@ -13,6 +13,7 @@ namespace LearnWordsFast.ViewModels.WordController
 
         public WordViewModel(Word word)
         {
+            Id = word.Id;
             Original = word.Original;
             Language = word.Language.Id;
             Translation = new TranslationViewModel(word.Translation);
@@ -23,6 +24,7 @@ namespace LearnWordsFast.ViewModels.WordController
             }
         }
 
+        public Guid Id { get; set; }
         public string Original { get; set; }
         public Guid Language { get; set; }
         public TranslationViewModel Translation { get; set; }
