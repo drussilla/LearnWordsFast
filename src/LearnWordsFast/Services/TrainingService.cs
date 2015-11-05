@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
+using LearnWordsFast.ViewModels.PracticeController;
+using LearnWordsFast.ViewModels.WordController;
 
 namespace LearnWordsFast.Services
 {
@@ -57,6 +59,24 @@ namespace LearnWordsFast.Services
             }
 
             return null;
+        }
+
+        public TrainingViewModel CreateTraining(Word word)
+        {
+            if (word.TrainingAmout == 0)
+            {
+                return new TrainingViewModel
+                {
+                    Type = TrainingType.TranslateFromLearnToOriginal,
+                    Words = new List<WordViewModel> {new WordViewModel(word)}
+                };
+            }
+
+            return new TrainingViewModel
+            {
+                Type = TrainingType.TranslateFromOriginalToLearn,
+                Words = new List<WordViewModel> {new WordViewModel(word)}
+            };
         }
 
         public void FinishTraining(Word word)
