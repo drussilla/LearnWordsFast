@@ -18,6 +18,7 @@ namespace LearnWordsFast.DAL.Models
         public virtual DateTime AddedDateTime { get; set; }
         public virtual string Context { get; set; }
         public virtual IList<Translation> AdditionalTranslations { get; set; } 
+        public virtual IList<TrainingHistory> TrainingHistories { get; set; } 
 
         public virtual Guid UserId { get; set; }
     }
