@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
@@ -52,6 +55,23 @@ namespace LearnWordsFast.ApiControllers
             }
 
             _trainingService.FinishTraining(word);
+            return Ok();
+        }
+
+        [HttpGet("Test")]
+        public IActionResult Test()
+        {
+            var allWords = _wordRepository.GetAll(UserId);
+
+            var word = allWords.First();
+            word.TrainingHistories.Add(new TrainingHistory()
+            {
+                IsCorrect = true,
+                Score = 10.5f
+            });
+
+            _wordRepository.Update(word);
+
             return Ok();
         }
     }

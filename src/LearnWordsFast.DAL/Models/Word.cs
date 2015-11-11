@@ -8,6 +8,7 @@ namespace LearnWordsFast.DAL.Models
         public Word()
         {
             AdditionalTranslations = new List<Translation>();
+            TrainingHistories = new List<TrainingHistory>();
         }
         
         public virtual string Original { get; set; }

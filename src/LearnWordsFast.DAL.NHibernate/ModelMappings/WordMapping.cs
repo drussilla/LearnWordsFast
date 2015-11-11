@@ -30,7 +30,7 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
                 .Cascade.All();
 
             HasMany(x => x.TrainingHistories)
-                .Cascade.All();
+                .Cascade.AllDeleteOrphan();
 
             Table("Words");
         }

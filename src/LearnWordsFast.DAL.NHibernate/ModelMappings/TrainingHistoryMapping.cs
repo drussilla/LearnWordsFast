@@ -13,11 +13,7 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
 
             Map(x => x.IsCorrect);
             Map(x => x.Score);
-            Map(x => x.WordId, "word_id");
-
-            References(x => x.Word, "word_id")
-                .ForeignKey("word_to_history");
-
+            
             Table("TrainingHistory");
         }
     }
