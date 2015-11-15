@@ -57,23 +57,5 @@ namespace LearnWordsFast.ApiControllers
             _trainingService.FinishTraining(word, true, 10.0f);
             return Ok();
         }
-
-        [HttpGet("Test")]
-        public IActionResult Test()
-        {
-            var allWords = _wordRepository.GetAll(UserId);
-
-            var word = allWords.First();
-            word.TrainingHistories.Add(new TrainingHistory()
-            {
-                IsCorrect = true,
-                Score = 10.5f,
-                Type = TrainingType.TypeOriginal
-            });
-
-            _wordRepository.Update(word);
-
-            return Ok();
-        }
     }
 }

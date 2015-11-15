@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using LearnWordsFast.DAL.Models;
-using LearnWordsFast.ViewModels.WordController;
+﻿using LearnWordsFast.DAL.Models;
+using LearnWordsFast.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace LearnWordsFast.ViewModels.PracticeController
 {
-    public class TrainingViewModel
+    public abstract class TrainingViewModel
     {
-        public TrainingViewModel()
+        protected TrainingViewModel(TrainingTypeModel type)
         {
-            Id = Guid.NewGuid();
+            Type = type;
         }
 
-        public Guid Id { get; private set; }
-        public TrainingType Type { get; set; } 
-        public List<WordViewModel> Words { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TrainingType Type { get; private set; }
     }
 }

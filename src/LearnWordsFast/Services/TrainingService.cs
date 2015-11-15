@@ -65,18 +65,10 @@ namespace LearnWordsFast.Services
         {
             if (word.TrainingAmout == 0)
             {
-                return new TrainingViewModel
-                {
-                    Type = TrainingType.RepeatTranslation,
-                    Words = new List<WordViewModel> {new WordViewModel(word)}
-                };
+                return new OneRightTrainingViewModel(OneRight.ComposeOriginal, new WordViewModel(word));
             }
 
-            return new TrainingViewModel
-            {
-                Type = TrainingType.ChooseOriginal,
-                Words = new List<WordViewModel> {new WordViewModel(word)}
-            };
+            return new OneRightManyWrongViewModel(OneRightManyWrong.ChooseOriginal, new WordViewModel(word), new []{ new WordViewModel(word), new WordViewModel(word) });
         }
 
         public void FinishTraining(Word word, bool isCorrect, float score = 100f)
