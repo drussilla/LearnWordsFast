@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Diagnostics;
 using NHibernate;
+using NHibernate.Intercept;
 using NHibernate.SqlCommand;
 
 namespace LearnWordsFast.DAL.NHibernate
@@ -8,7 +10,7 @@ namespace LearnWordsFast.DAL.NHibernate
     {
         public override SqlString OnPrepareStatement(SqlString sql)
         {
-            Trace.WriteLine($"[pgSQL] {sql.ToString()}");
+            Trace.WriteLine($"[pgSQL] {sql}");
             return base.OnPrepareStatement(sql);
         }
     }

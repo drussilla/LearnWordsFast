@@ -67,7 +67,8 @@ namespace LearnWordsFast.ApiControllers
             word.TrainingHistories.Add(new TrainingHistory()
             {
                 IsCorrect = true,
-                Score = 10.5f
+                Score = 10.5f,
+                Type = TrainingType.TypeOriginal
             });
 
             _wordRepository.Update(word);

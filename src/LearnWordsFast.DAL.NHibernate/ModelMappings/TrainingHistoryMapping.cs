@@ -14,6 +14,7 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
             Map(x => x.IsCorrect);
             Map(x => x.Score);
             Map(x => x.Date);
+            Map(x => x.Type).CustomType<TrainingType>();
             
             Table("TrainingHistory");
         }

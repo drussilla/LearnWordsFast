@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LearnWordsFast.DAL.Models;
 using LearnWordsFast.ViewModels.WordController;
 
 namespace LearnWordsFast.ViewModels.PracticeController

@@ -67,14 +67,14 @@ namespace LearnWordsFast.Services
             {
                 return new TrainingViewModel
                 {
-                    Type = TrainingType.TranslateFromLearnToOriginal,
+                    Type = TrainingType.RepeatTranslation,
                     Words = new List<WordViewModel> {new WordViewModel(word)}
                 };
             }
 
             return new TrainingViewModel
             {
-                Type = TrainingType.TranslateFromOriginalToLearn,
+                Type = TrainingType.ChooseOriginal,
                 Words = new List<WordViewModel> {new WordViewModel(word)}
             };
         }
@@ -85,7 +85,8 @@ namespace LearnWordsFast.Services
             {
                 Score = score,
                 IsCorrect = isCorrect,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                Type = TrainingType.MatchWords
             });
 
             wordRepository.Update(word);
