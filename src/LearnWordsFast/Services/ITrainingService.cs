@@ -6,9 +6,7 @@ namespace LearnWordsFast.Services
 {
     public interface ITrainingService
     { 
-        Word GetNextWord(Guid userId);
-
-        TrainingViewModel CreateTraining(Word word);
+        TrainingViewModel CreateTraining(Guid userId);
 
         void FinishTraining(Word word, bool isCorrect, float score);
     }

@@ -31,7 +31,32 @@ namespace LearnWordsFast.Services
             this.dateTimeService = dateTimeService;
         }
 
-        public Word GetNextWord(Guid userId)
+        public TrainingViewModel CreateTraining(Guid userId)
+        {
+            var word = GetNextWord(userId);
+
+            if (word.TrainingAmout == 0)
+            {
+                return new OneRightTrainingViewModel(OneRight.ComposeOriginal, new WordViewModel(word));
+            }
+
+            return new OneRightManyWrongViewModel(OneRightManyWrong.ChooseOriginal, new WordViewModel(word), new []{ new WordViewModel(word), new WordViewModel(word) });
+        }
+
+        public void FinishTraining(Word word, bool isCorrect, float score = 100f)
+        {
+            word.TrainingHistories.Add(new TrainingHistory
+            {
+                Score = score,
+                IsCorrect = isCorrect,
+                Date = DateTime.Now,
+                Type = TrainingType.MatchWords
+            });
+
+            wordRepository.Update(word);
+        }
+
+        private Word GetNextWord(Guid userId)
         {
             var wordGroup = wordRepository.GetAll(userId).GroupBy(x => x.TrainingAmout).OrderBy(x => x.Key);
             foreach (var group in wordGroup)
@@ -59,29 +84,6 @@ namespace LearnWordsFast.Services
             }
 
             return null;
-        }
-
-        public TrainingViewModel CreateTraining(Word word)
-        {
-            if (word.TrainingAmout == 0)
-            {
-                return new OneRightTrainingViewModel(OneRight.ComposeOriginal, new WordViewModel(word));
-            }
-
-            return new OneRightManyWrongViewModel(OneRightManyWrong.ChooseOriginal, new WordViewModel(word), new []{ new WordViewModel(word), new WordViewModel(word) });
-        }
-
-        public void FinishTraining(Word word, bool isCorrect, float score = 100f)
-        {
-            word.TrainingHistories.Add(new TrainingHistory
-            {
-                Score = score,
-                IsCorrect = isCorrect,
-                Date = DateTime.Now,
-                Type = TrainingType.MatchWords
-            });
-
-            wordRepository.Update(word);
         }
     }
 }

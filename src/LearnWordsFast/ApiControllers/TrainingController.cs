@@ -30,15 +30,12 @@ namespace LearnWordsFast.ApiControllers
         public IActionResult Get()
         {
             _log.LogInformation("Get next training");
-            var nextWord = _trainingService.GetNextWord(User.GetId());
-            if (nextWord == null)
+            var training = _trainingService.CreateTraining(User.GetId());
+            if (training == null)
             {
-                _log.LogInformation("Word for next training not found");
                 return NotFound();
             }
 
-            _log.LogInformation("Word for next training found: " + nextWord.Id);
-            var training = _trainingService.CreateTraining(nextWord);
             return Ok(training);
         }
 
