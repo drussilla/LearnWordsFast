@@ -1,6 +1,5 @@
 ﻿using System;
-using LearnWordsFast.DAL.Models;
-using LearnWordsFast.ViewModels.PracticeController;
+using LearnWordsFast.ViewModels.TrainingController;
 
 namespace LearnWordsFast.Services
 {
@@ -8,6 +7,6 @@ namespace LearnWordsFast.Services
     { 
         TrainingViewModel CreateTraining(Guid userId);
 
-        void FinishTraining(Word word, bool isCorrect, float score);
+        void FinishTraining(Guid userId, TrainingResultViewModel result);
     }
 }

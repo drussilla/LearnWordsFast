@@ -1,7 +1,9 @@
 ﻿using System;
 using LearnWordsFast.DAL.Repositories;
+using LearnWordsFast.Exceptions;
 using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
+using LearnWordsFast.ViewModels.TrainingController;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Logging;
@@ -12,16 +14,13 @@ namespace LearnWordsFast.ApiControllers
     [Authorize]
     public class TrainingController : ApiController
     {
-        private readonly IWordRepository _wordRepository;
         private readonly ITrainingService _trainingService;
         private readonly ILogger<TrainingController> _log;
 
         public TrainingController(
-            IWordRepository wordRepository, 
             ITrainingService trainingService,
             ILogger<TrainingController> log)
         {
-            _wordRepository = wordRepository;
             _trainingService = trainingService;
             _log = log;
         }
@@ -30,7 +29,7 @@ namespace LearnWordsFast.ApiControllers
         public IActionResult Get()
         {
             _log.LogInformation("Get next training");
-            var training = _trainingService.CreateTraining(User.GetId());
+            var training = _trainingService.CreateTraining(UserId);
             if (training == null)
             {
                 return NotFound();
@@ -39,16 +38,22 @@ namespace LearnWordsFast.ApiControllers
             return Ok(training);
         }
 
-        [HttpPost("{id}")]
-        public IActionResult Finish(Guid id)
+        [HttpPost]
+        public IActionResult Finish([FromBody]TrainingResultViewModel[] results)
         {
-            var word = _wordRepository.Get(id, Context.User.GetId());
-            if (word == null)
+            _log.LogInformation("Finish training");
+            foreach (var result in results)
             {
-                return NotFound();
+                try
+                {
+                    _trainingService.FinishTraining(UserId, result);
+                }
+                catch (NotFoundException)
+                {
+                    return NotFound(result.WordId);
+                }
             }
-
-            _trainingService.FinishTraining(word, true, 10.0f);
+            
             return Ok();
         }
     }

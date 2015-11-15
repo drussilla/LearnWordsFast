@@ -1,7 +1,7 @@
 ﻿using LearnWordsFast.DAL.Models;
 using LearnWordsFast.ViewModels.WordController;
 
-namespace LearnWordsFast.ViewModels.PracticeController
+namespace LearnWordsFast.ViewModels.TrainingController
 {
     public class OneRightTrainingViewModel : TrainingViewModel
     {

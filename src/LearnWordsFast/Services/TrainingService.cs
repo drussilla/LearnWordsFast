@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
-using LearnWordsFast.ViewModels.PracticeController;
+using LearnWordsFast.Exceptions;
+using LearnWordsFast.ViewModels.TrainingController;
 using LearnWordsFast.ViewModels.WordController;
 
 namespace LearnWordsFast.Services
@@ -43,14 +44,20 @@ namespace LearnWordsFast.Services
             return new OneRightManyWrongViewModel(OneRightManyWrong.ChooseOriginal, new WordViewModel(word), new []{ new WordViewModel(word), new WordViewModel(word) });
         }
 
-        public void FinishTraining(Word word, bool isCorrect, float score = 100f)
+        public void FinishTraining(Guid userId, TrainingResultViewModel result)
         {
+            var word = wordRepository.Get(result.WordId, userId);
+            if (word == null)
+            {
+                throw new NotFoundException();
+            }
+
             word.TrainingHistories.Add(new TrainingHistory
             {
-                Score = score,
-                IsCorrect = isCorrect,
+                Score = 100f,
+                IsCorrect = result.IsCorrect,
                 Date = DateTime.Now,
-                Type = TrainingType.MatchWords
+                Type = result.TrainingType 
             });
 
             wordRepository.Update(word);

@@ -1,9 +1,8 @@
 ﻿using LearnWordsFast.DAL.Models;
-using LearnWordsFast.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace LearnWordsFast.ViewModels.PracticeController
+namespace LearnWordsFast.ViewModels.TrainingController
 {
     public abstract class TrainingViewModel
     {
