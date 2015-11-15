@@ -10,6 +10,6 @@ namespace LearnWordsFast.Services
 
         TrainingViewModel CreateTraining(Word word);
 
-        void FinishTraining(Word word);
+        void FinishTraining(Word word, bool isCorrect, float score);
     }
 }

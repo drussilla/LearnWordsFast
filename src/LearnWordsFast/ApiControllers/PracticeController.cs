@@ -54,7 +54,7 @@ namespace LearnWordsFast.ApiControllers
                 return NotFound();
             }
 
-            _trainingService.FinishTraining(word);
+            _trainingService.FinishTraining(word, true, 10.0f);
             return Ok();
         }
 

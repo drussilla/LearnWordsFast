@@ -79,10 +79,15 @@ namespace LearnWordsFast.Services
             };
         }
 
-        public void FinishTraining(Word word)
+        public void FinishTraining(Word word, bool isCorrect, float score = 100f)
         {
-            word.LastTrainingDateTime = dateTimeService.Now;
-            word.TrainingAmout++;
+            word.TrainingHistories.Add(new TrainingHistory
+            {
+                Score = score,
+                IsCorrect = isCorrect,
+                Date = DateTime.Now
+            });
+
             wordRepository.Update(word);
         }
     }

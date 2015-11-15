@@ -6,5 +6,6 @@ namespace LearnWordsFast.DAL.Models
     { 
         public virtual bool IsCorrect { get; set; }
         public virtual float Score { get; set; }
+        public virtual DateTime Date { get; set; }
     }
 }
