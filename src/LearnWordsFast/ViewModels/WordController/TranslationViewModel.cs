@@ -20,7 +20,7 @@ namespace LearnWordsFast.ViewModels.WordController
 
         public Translation ToModel()
         {
-            return new Translation()
+            return new Translation
             {
                 Language = new Language(Language),
                 TranslationText = Translation

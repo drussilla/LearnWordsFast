@@ -38,6 +38,8 @@ namespace LearnWordsFast.DAL.NHibernate
 
         private static void TreatConfiguration(Configuration configuration)
         {
+            configuration.SetInterceptor(new SqlInterceptor());
+
             // dump sql file for debug
             Action<string> updateExport = x =>
             {

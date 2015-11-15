@@ -29,6 +29,9 @@ namespace LearnWordsFast.DAL.NHibernate.ModelMappings
                 .Table("wordAdditionalTranslations")
                 .Cascade.All();
 
+            HasMany(x => x.TrainingHistories)
+                .Cascade.AllDeleteOrphan();
+
             Table("Words");
         }
     }
