@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
@@ -11,18 +8,18 @@ using Microsoft.Framework.Logging;
 
 namespace LearnWordsFast.ApiControllers
 {
-    [Route("api/Practice")]
+    [Route("api/Training")]
     [Authorize]
-    public class PracticeController : ApiController
+    public class TrainingController : ApiController
     {
         private readonly IWordRepository _wordRepository;
         private readonly ITrainingService _trainingService;
-        private readonly ILogger<PracticeController> _log;
+        private readonly ILogger<TrainingController> _log;
 
-        public PracticeController(
+        public TrainingController(
             IWordRepository wordRepository, 
             ITrainingService trainingService,
-            ILogger<PracticeController> log)
+            ILogger<TrainingController> log)
         {
             _wordRepository = wordRepository;
             _trainingService = trainingService;
