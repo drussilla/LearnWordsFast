@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using NHibernate;
-using NHibernate.Intercept;
 using NHibernate.SqlCommand;
 
 namespace LearnWordsFast.DAL.NHibernate
