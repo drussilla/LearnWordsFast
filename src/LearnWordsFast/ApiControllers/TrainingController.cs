@@ -1,7 +1,4 @@
-﻿using System;
-using LearnWordsFast.DAL.Repositories;
-using LearnWordsFast.Exceptions;
-using LearnWordsFast.Infrastructure;
+﻿using LearnWordsFast.Exceptions;
 using LearnWordsFast.Services;
 using LearnWordsFast.ViewModels.TrainingController;
 using Microsoft.AspNet.Authorization;

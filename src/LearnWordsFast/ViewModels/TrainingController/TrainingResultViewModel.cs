@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using LearnWordsFast.DAL.Models;
 
 namespace LearnWordsFast.ViewModels.TrainingController
