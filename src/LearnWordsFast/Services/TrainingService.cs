@@ -5,48 +5,34 @@ using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Exceptions;
 using LearnWordsFast.ViewModels.TrainingController;
-using LearnWordsFast.ViewModels.WordController;
 
 namespace LearnWordsFast.Services
 {
     public class TrainingService : ITrainingService
     {
-        private readonly IWordRepository wordRepository;
-        private readonly IDateTimeService dateTimeService;
+        private readonly IWordRepository _wordRepository;
+        private readonly ITrainingWordProvider _wordProvider;
+        private readonly ITrainingSessionFactory _trainingSessionFactory;
 
-        // key - training amount
-        // value - time to repeat again
-        public static readonly Dictionary<int, TimeSpan> TrainingIntervals = new Dictionary<int, TimeSpan>
-        { 
-            { 0, TimeSpan.Zero }, // if word is never trained train it immediately
-            { 1, TimeSpan.FromHours(8) }, // if word was trained once, train it againt only after 30 minutes
-            { 2, TimeSpan.FromDays(1) }, // if word was trained 2 times, train it againt only after 8 hours
-            { 3, TimeSpan.FromDays(2) },
-            { 4, TimeSpan.FromDays(4) },
-            { 5, TimeSpan.FromDays(10) }
-        }; 
-
-        public TrainingService(IWordRepository wordRepository, IDateTimeService dateTimeService)
+        public TrainingService(
+            IWordRepository wordRepository, 
+            ITrainingWordProvider wordProvider,
+            ITrainingSessionFactory trainingSessionFactory)
         {
-            this.wordRepository = wordRepository;
-            this.dateTimeService = dateTimeService;
+            _wordRepository = wordRepository;
+            _wordProvider = wordProvider;
+            _trainingSessionFactory = trainingSessionFactory;
         }
 
         public TrainingViewModel CreateTraining(Guid userId)
         {
-            var word = GetNextWord(userId);
-
-            if (word.TrainingAmout == 0)
-            {
-                return new OneRightTrainingViewModel(OneRight.ComposeOriginal, new WordViewModel(word));
-            }
-
-            return new OneRightManyWrongViewModel(OneRightManyWrong.ChooseOriginal, new WordViewModel(word), new []{ new WordViewModel(word), new WordViewModel(word) });
+            var word = _wordProvider.Next(userId);
+            return _trainingSessionFactory.Create(word);
         }
 
         public void FinishTraining(Guid userId, TrainingResultViewModel result)
         {
-            var word = wordRepository.Get(result.WordId, userId);
+            var word = _wordRepository.Get(result.WordId, userId);
             if (word == null)
             {
                 throw new NotFoundException();
@@ -60,37 +46,7 @@ namespace LearnWordsFast.Services
                 Type = result.TrainingType 
             });
 
-            wordRepository.Update(word);
-        }
-
-        private Word GetNextWord(Guid userId)
-        {
-            var wordGroup = wordRepository.GetAll(userId).GroupBy(x => x.TrainingAmout).OrderBy(x => x.Key);
-            foreach (var group in wordGroup)
-            {
-                // group 0 contains just added words (no training performaed at all)
-                if (group.Key == 0)
-                {
-                    return group.FirstOrDefault();
-                }
-
-                // all other words that were trained mothe than 5 times. Retrain them only if no other words left for training
-                if (group.Key > 5)
-                {
-                    return group.OrderBy(x => x.LastTrainingDateTime).FirstOrDefault();
-                }
-
-                var trainingInvervalForGroup = TrainingIntervals[group.Key];
-                foreach (var word in group.OrderBy(x => x.LastTrainingDateTime))
-                {
-                    if (dateTimeService.Now - word.LastTrainingDateTime > trainingInvervalForGroup)
-                    {
-                        return word;
-                    }
-                }
-            }
-
-            return null;
+            _wordRepository.Update(word);
         }
     }
 }

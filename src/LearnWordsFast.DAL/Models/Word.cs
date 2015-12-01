@@ -21,8 +21,31 @@ namespace LearnWordsFast.DAL.Models
         public virtual IList<TrainingHistory> TrainingHistories { get; set; } 
         public virtual Guid UserId { get; set; }
 
-        public virtual int TrainingAmout => TrainingHistories.Count;
+        public virtual DateTime? LastCorrectTraining
+        {
+            get
+            {
+                if (TrainingHistories.Count == 0)
+                {
+                    return null;
+                }
 
-        public virtual DateTime? LastTrainingDateTime => TrainingHistories.Count == 0 ? (DateTime?)null : TrainingHistories.Max(x => x.Date);
+                var latestDate = DateTime.MinValue;
+                foreach (var trainingHistory in TrainingHistories)
+                {
+                    if (trainingHistory.IsCorrect)
+                    {
+                        if (trainingHistory.Date > latestDate)
+                        {
+                            latestDate = trainingHistory.Date;
+                        }
+                    }
+                }
+
+                return latestDate;
+            }
+        }
+
+        public virtual DateTime? LastTraining => TrainingHistories.Count == 0 ? (DateTime?)null : TrainingHistories.Max(x => x.Date);
     }
 }
