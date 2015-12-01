@@ -45,4 +45,13 @@
         {
         }
     }
+
+    public class NoWords : TrainingTypeModel
+    {
+
+        public readonly static NoWords Type = new NoWords();
+        private NoWords() : base(TrainingType.NoWords)
+        {
+        }
+    }
 }

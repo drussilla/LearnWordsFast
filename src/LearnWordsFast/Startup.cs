@@ -95,6 +95,8 @@ namespace LearnWordsFast
 
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
+            services.AddScoped<ITrainingWordProvider, TrainingWordProvider>();
+            services.AddScoped<ITrainingSessionFactory, TrainingSessionFactory>();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)

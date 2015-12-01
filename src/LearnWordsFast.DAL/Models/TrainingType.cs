@@ -8,6 +8,8 @@
         MatchWords = 300,
         ComposeOriginal = 400,
         TypeTranslation = 500,
-        TypeOriginal = 600
+        TypeOriginal = 600,
+
+        NoWords = 999999
     }
 }

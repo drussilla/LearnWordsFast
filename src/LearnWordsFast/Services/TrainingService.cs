@@ -27,6 +27,11 @@ namespace LearnWordsFast.Services
         public TrainingViewModel CreateTraining(Guid userId)
         {
             var word = _wordProvider.Next(userId);
+            if (word == null)
+            {
+                return new NoWordsTrainingViewModel();
+            }
+
             return _trainingSessionFactory.Create(word);
         }
 
