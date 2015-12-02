@@ -51,7 +51,7 @@ namespace LearnWordsFast.ApiControllers
         [HttpGet("info")]
         public async Task<IActionResult> GetInfo()
         {
-            var user = await _userManager.FindById(Context.User.GetId());
+            var user = await _userManager.FindById(HttpContext.User.GetId());
             if (user == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace LearnWordsFast.ApiControllers
         [HttpPut("password")]
         public async Task<IActionResult> UpdatePassword([FromBody]UpdatePasswordViewModel updatePasswordViewModel)
         {
-            var user = await _userManager.FindById(Context.User.GetId());
+            var user = await _userManager.FindById(HttpContext.User.GetId());
             if (user == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace LearnWordsFast.ApiControllers
         [HttpPut("languages")]
         public async Task<IActionResult> UpdateLanguages([FromBody]UpdateLanguagesViewModel requestModel)
         {
-            var user = await _userManager.FindById(Context.User.GetId());
+            var user = await _userManager.FindById(HttpContext.User.GetId());
             if (user == null)
             {
                 return NotFound();

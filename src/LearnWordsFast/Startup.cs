@@ -1,17 +1,19 @@
-﻿using LearnWordsFast.DAL.InitialData;
+﻿using System.Threading.Tasks;
+using LearnWordsFast.DAL.InitialData;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.NHibernate;
 using LearnWordsFast.DAL.NHibernate.Repositories;
 using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Services;
+using Microsoft.AspNet.Authentication;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
-using Microsoft.Framework.Runtime;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -22,11 +24,11 @@ namespace LearnWordsFast
         private readonly IHostingEnvironment _hostingEnv;
         private readonly IConfiguration _configuration;
 
-        public Startup(IHostingEnvironment hostingEnv, IApplicationEnvironment appEnv)
+        public Startup(IHostingEnvironment hostingEnv)
         {
             _hostingEnv = hostingEnv;
 
-            var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
+            var builder = new ConfigurationBuilder()
                 .AddJsonFile("config.json")
                 .AddJsonFile($"config.{_hostingEnv.EnvironmentName}.json", optional: true)
                 .AddUserSecrets();
@@ -78,13 +80,23 @@ namespace LearnWordsFast
             services
                 .AddScoped<IUserManager, AspNetMvcUserManager>();
 
-            services.Configure<CookieAuthenticationOptions>(options =>
+            services.Configure<IdentityOptions>(options =>
             {
-                options.CookieHttpOnly = false;
-                options.LoginPath = null;
+                options.Cookies.ApplicationCookie.CookieHttpOnly = false;
+                // work around to disable redirect on unauthorized access.
+                // setting LoginPath to null does not work anymore.
+                // TODO: use bearer token instead
+                options.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = x =>
+                    {
+                        x.Response.StatusCode = 401;
+                        return Task.FromResult(0);
+                    }
+                };
             });
 
-            services.AddMvc();
+           services.AddMvc();
 
             services.AddSingleton(_ => _configuration);
 

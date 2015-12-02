@@ -6,7 +6,7 @@ using LearnWordsFast.Infrastructure;
 using LearnWordsFast.ViewModels.WordController;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace LearnWordsFast.ApiControllers
 {

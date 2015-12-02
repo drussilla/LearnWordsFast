@@ -2,7 +2,7 @@
 using System.IO;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using Microsoft.Framework.OptionsModel;
+using Microsoft.Extensions.OptionsModel;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
@@ -16,7 +16,7 @@ namespace LearnWordsFast.DAL.NHibernate
 
         public SessionFactoryProvider(IOptions<NHibernateOptions> options)
         {
-            this.options = options.Options;
+            this.options = options.Value;
         }
 
         public ISessionFactory GetSessionFactory()

@@ -3,7 +3,7 @@ using LearnWordsFast.Services;
 using LearnWordsFast.ViewModels.TrainingController;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace LearnWordsFast.ApiControllers
 {
