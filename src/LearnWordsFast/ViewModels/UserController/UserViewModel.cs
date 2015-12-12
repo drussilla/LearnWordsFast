@@ -12,7 +12,7 @@ namespace LearnWordsFast.ViewModels.UserController
             Email = user.Email;
             TrainingLanguage = user.TrainingLanguage.Id;
             MainLanguage = user.MainLanguage.Id;
-            AdditionalLanguages = user.AdditionalLanguages.Select(x => x.Id).ToList();
+            AdditionalLanguages = user.AdditionalLanguages.Select(x => x.LanguageId).ToList();
         }
 
         public string Email { get; private set; }

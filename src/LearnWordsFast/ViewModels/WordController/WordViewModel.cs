@@ -15,12 +15,12 @@ namespace LearnWordsFast.ViewModels.WordController
         {
             Id = word.Id;
             Original = word.Original;
-            Language = word.Language.Id;
+            Language = word.LanguageId;
             Translation = new TranslationViewModel(word.Translation);
             Context = word.Context;
             if (word.AdditionalTranslations != null && word.AdditionalTranslations.Count > 0)
             {
-                AdditionalTranslations = word.AdditionalTranslations.Select(x => new TranslationViewModel(x)).ToList();
+                AdditionalTranslations = word.AdditionalTranslations.Select(x => new TranslationViewModel(x.Translation)).ToList();
             }
         }
 

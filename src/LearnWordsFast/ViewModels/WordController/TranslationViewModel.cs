@@ -11,7 +11,7 @@ namespace LearnWordsFast.ViewModels.WordController
 
         public TranslationViewModel(Translation model)
         {
-            Language = model.Language.Id;
+            Language = model.LanguageId;
             Translation = model.TranslationText;
         }
 
@@ -22,7 +22,7 @@ namespace LearnWordsFast.ViewModels.WordController
         {
             return new Translation
             {
-                Language = new Language(Language),
+                LanguageId = Language,
                 TranslationText = Translation
             };
         }

@@ -20,6 +20,7 @@
 
     "LearnWordsFast.DAL": "1.0.0-*",
     "LearnWordsFast.DAL.NHibernate": "1.0.0-*",
+    "LearnWordsFast.DAL.EF": "1.0.0-*",
     "FluentNHibernate": "2.0.3"
   },
 

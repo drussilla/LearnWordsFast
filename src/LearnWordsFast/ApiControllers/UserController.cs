@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
+using LearnWordsFast.DAL.Repositories;
 using LearnWordsFast.Infrastructure;
 using LearnWordsFast.Services;
 using LearnWordsFast.ViewModels;
@@ -93,14 +94,14 @@ namespace LearnWordsFast.ApiControllers
                 return NotFound();
             }
 
-            user.MainLanguage = new Language(requestModel.MainLanguage);
-            user.TrainingLanguage = new Language(requestModel.TrainingLanguage);
+            user.MainLanguageId = requestModel.MainLanguage;
+            user.TrainingLanguageId = requestModel.TrainingLanguage;
             user.AdditionalLanguages.Clear();
             if (requestModel.AdditionalLanguages != null && requestModel.AdditionalLanguages.Count != 0)
             {
                 foreach (var additionalLanguage in requestModel.AdditionalLanguages)
                 {
-                    user.AdditionalLanguages.Add(new Language(additionalLanguage));
+                    user.AdditionalLanguages.Add(new UserAdditionalLanguage { UserId = user.Id, LanguageId = additionalLanguage });
                 }
             }
 
@@ -133,8 +134,8 @@ namespace LearnWordsFast.ApiControllers
             var user = new User
             {
                 Email = requestModel.Email,
-                MainLanguage = new Language(requestModel.MainLanguage),
-                TrainingLanguage = new Language(requestModel.TrainingLanguage)
+                MainLanguageId = requestModel.MainLanguage,
+                TrainingLanguageId = requestModel.TrainingLanguage
             };
 
             if (requestModel.AdditionalLanguages != null)
@@ -148,7 +149,7 @@ namespace LearnWordsFast.ApiControllers
 
                 foreach (var additionalLanguageId in requestModel.AdditionalLanguages)
                 {
-                    user.AdditionalLanguages.Add(new Language(additionalLanguageId));
+                    user.AdditionalLanguages.Add(new UserAdditionalLanguage {UserId = user.Id, LanguageId = additionalLanguageId });
                 }
             }
 

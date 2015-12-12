@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using LearnWordsFast.DAL.EF;
 using LearnWordsFast.DAL.InitialData;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.NHibernate;
@@ -67,12 +68,11 @@ namespace LearnWordsFast
                     });
             });
 
-            services.AddNHibernateSession<SessionFactoryProvider>();
-
+            //services.AddNHibernateSession<SessionFactoryProvider>();
+            
             services
                 .AddIdentity<User, string>()
-                .AddUserStore<UserRepository>()
-                .AddRoleStore<RoleRepository>()
+                .AddEF()
                 .AddDefaultTokenProviders();
 
             services
@@ -96,14 +96,15 @@ namespace LearnWordsFast
                 };
             });
 
-           services.AddMvc();
+            services.AddMvc();
 
             services.AddSingleton(_ => _configuration);
 
+            services.AddEF();
             // todo: move registration to DAL or HNibernateDAL
-            services.AddScoped<IWordRepository, WordRepository>();
-            services.AddScoped<ILanguageRepository, LanguageRepository>();
-            services.AddSingleton<IInitializeDataManager, InitialDataManager>();
+            //services.AddScoped<IWordRepository, WordRepository>();
+            //services.AddScoped<ILanguageRepository, LanguageRepository>();
+            //services.AddSingleton<IInitializeDataManager, InitialDataManager>();
 
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
@@ -115,7 +116,7 @@ namespace LearnWordsFast
         {
             loggerFactory.AddConsole();
 
-            app.UseNHibernateSession();
+            //app.UseNHibernateSession();
 
             app.UseStaticFiles();
             app.UseIdentity();

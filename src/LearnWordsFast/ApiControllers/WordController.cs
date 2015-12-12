@@ -15,11 +15,13 @@ namespace LearnWordsFast.ApiControllers
     public class WordController : ApiController
     {
         private readonly IWordRepository _wordRepository;
+        private readonly ILanguageRepository _languageRepository;
         private readonly ILogger<WordController> _log;
 
-        public WordController(IWordRepository wordRepository, ILogger<WordController> log)
+        public WordController(IWordRepository wordRepository, ILanguageRepository languageRepository, ILogger<WordController> log)
         {
             _wordRepository = wordRepository;
+            _languageRepository = languageRepository;
             _log = log;
         }
         
@@ -47,12 +49,13 @@ namespace LearnWordsFast.ApiControllers
         public IActionResult Create([FromBody]WordViewModel word)
         {
             _log.LogInformation($"Add word {word.Original} translated to {word.Translation}");
+            var translationModel = word.Translation.ToModel();
             var wordModel = new Word
             {
                 UserId = UserId,
                 Original = word.Original,
-                Language = new Language(word.Language),
-                Translation = word.Translation.ToModel(),
+                LanguageId = word.Language,
+                Translation = translationModel,
                 AddedDateTime = DateTime.Now,
                 Context = word.Context
             };
@@ -60,7 +63,7 @@ namespace LearnWordsFast.ApiControllers
             if (word.AdditionalTranslations != null && word.AdditionalTranslations.Count > 0)
             {
                 wordModel.AdditionalTranslations = word.AdditionalTranslations
-                    .Select(x => x.ToModel()).ToList();
+                    .Select(x => new WordAdditionalTranslation { WordId = wordModel.Id, Translation = x.ToModel() }).ToList();
             }
 
             _wordRepository.Add(wordModel);

@@ -1,0 +1,25 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "LearnWordsFast.DAL.EF Class Library",
+  "authors": [ "druss" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "LearnWordsFast.DAL": "1.0.0-*",
+
+    "EntityFramework.Sqlite": "7.0.0-rc1-final",
+    "EntityFramework.Commands": "7.0.0-rc1-final",
+    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final"
+  },
+
+  "commands": {
+    "ef": "EntityFramework.Commands"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

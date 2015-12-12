@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LearnWordsFast.DAL.Models
 {
@@ -6,15 +7,21 @@ namespace LearnWordsFast.DAL.Models
     {
         public User()
         {
-            AdditionalLanguages = new List<Language>();
+            AdditionalLanguages = new List<UserAdditionalLanguage>();
             Words = new List<Word>();
         }
         
-        public virtual string Email { get; set; }
-        public virtual string Password { get; set; }
-        public virtual Language TrainingLanguage { get; set; }
-        public virtual Language MainLanguage { get; set; }
-        public virtual IList<Language> AdditionalLanguages { get; protected set; }
-        public virtual IList<Word> Words { get; protected set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+
+        public Language TrainingLanguage { get; set; }
+        public Guid TrainingLanguageId { get; set; }
+
+        public Language MainLanguage { get; set; }
+        public Guid MainLanguageId { get; set; }
+
+        public List<UserAdditionalLanguage> AdditionalLanguages { get; protected set; }
+
+        public List<Word> Words { get; protected set; }
     }
 }
