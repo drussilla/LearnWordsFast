@@ -8,55 +8,47 @@ namespace LearnWordsFast.DAL.EF.Repositories
 {
     public class LanguageRepository :ILanguageRepository
     {
+        private readonly IDbContext _db;
+
+        public LanguageRepository(IDbContext db)
+        {
+            _db = db;
+        }
+
         public IList<Language> GetAll()
         {
-            using (var db = new Context())
-            {
-                return db.Languages.ToList();
-            }
+            return _db.Current.Languages.ToList();
         }
 
         public Language Get(Guid id)
         {
-            using (var db = new Context())
-            {
-                return db.Languages.FirstOrDefault(x => x.Id == id);
-            }
+            return _db.Current.Languages.FirstOrDefault(x => x.Id == id);
         }
 
         public void Add(Language language)
         {
-            using (var db = new Context())
-            {
-                db.Languages.Add(language);
-            }
+            _db.Current.Languages.Add(language);
         }
 
         public void Update(Language language)
         {
-            using (var db = new Context())
-            {
-                db.Languages.Update(language);
-            }
+            _db.Current.Languages.Update(language);
         }
 
         public void AddOrUpdate(Language language)
         {
-            using (var db = new Context())
+            var existing = _db.Current.Languages.FirstOrDefault(x => x.Id == language.Id);
+            if (existing == null)
             {
-                var existing = db.Languages.FirstOrDefault(x => x.Id == language.Id);
-                if (existing == null)
-                {
-                    db.Languages.Add(language);
-                }
+                _db.Current.Languages.Add(language);
+            }
                 else
                 {
                     existing.Name = language.Name;
-                    db.Languages.Update(existing);
+                _db.Current.Languages.Update(existing);
                 }
 
-                db.SaveChanges();
-            }
+            _db.Current.SaveChanges();
         }
     }
 }

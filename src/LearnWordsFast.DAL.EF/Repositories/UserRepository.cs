@@ -12,6 +12,13 @@ namespace LearnWordsFast.DAL.EF.Repositories
         {
         }
 
+        private readonly IDbContext _db;
+
+        public UserRepository(IDbContext db)
+        {
+            _db = db;
+        }
+
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
         {
             return Task.FromResult(user.Id.ToString());
@@ -40,48 +47,30 @@ namespace LearnWordsFast.DAL.EF.Repositories
 
         public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
         {
-            using (var db = new Context())
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return Task.FromResult(IdentityResult.Success);
-            }
+            _db.Current.Users.Add(user);
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
         {
-            using (var db = new Context())
-            {
-                db.Users.Update(user);
-                db.SaveChanges();
-                return Task.FromResult(IdentityResult.Success);
-            }
+            _db.Current.Users.Update(user);
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
         {
-            using (var db = new Context())
-            {
-                db.Users.Remove(user);
-                db.SaveChanges();
-                return Task.FromResult(IdentityResult.Success);
-            }
+            _db.Current.Users.Remove(user);
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            using (var db = new Context())
-            {
-                return Task.FromResult(db.Users.FirstOrDefault(x => x.Id.ToString() == userId));
-            }
+            return Task.FromResult(_db.Current.Users.FirstOrDefault(x => x.Id.ToString() == userId));
         }
 
         public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            using (var db = new Context())
-            {
-                return Task.FromResult(db.Users.FirstOrDefault(x => x.Email.ToUpper() == normalizedUserName));
-            }
+            return Task.FromResult(_db.Current.Users.FirstOrDefault(x => x.Email.ToUpper() == normalizedUserName));
         }
 
         public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)

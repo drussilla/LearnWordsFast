@@ -117,6 +117,7 @@ namespace LearnWordsFast
             loggerFactory.AddConsole();
 
             //app.UseNHibernateSession();
+            app.UseEFContext();
 
             app.UseStaticFiles();
             app.UseIdentity();
