@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using LearnWordsFast.ApiControllers;
+using LearnWordsFast.API.Controllers;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
-using LearnWordsFast.Services;
-using LearnWordsFast.ViewModels.UserController;
+using LearnWordsFast.API.Services;
+using LearnWordsFast.API.ViewModels.UserController;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Moq;

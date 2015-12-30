@@ -1,0 +1,11 @@
+﻿{
+  "Data": {
+    "DefaultConnection": {
+      "Host": "127.0.0.1",
+      "Port": 5432,
+      "Database": "LearnWordsFastDev",
+      "User": "use user secret data to set user",
+      "Password":  "use user secret data to set password"
+    }
+  }
+}

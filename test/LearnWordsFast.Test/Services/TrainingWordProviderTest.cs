@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using LearnWordsFast.DAL.Repositories;
-using LearnWordsFast.Services;
+using LearnWordsFast.API.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
