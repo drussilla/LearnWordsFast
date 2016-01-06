@@ -1,3 +1,5 @@
 version: 1.0.{build}
+before_build:
+- cmd: dnu restore
 build:
-  verbosity: minimal
+  verbosity: detailed
