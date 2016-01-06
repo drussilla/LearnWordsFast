@@ -12,7 +12,7 @@
     "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
     "Microsoft.AspNet.Identity": "3.0.0-rc1-final",
     "NHibernate": "4.0.4.4000",
-    "FluentNHibernate": "2.0.1",
+    "FluentNHibernate": "2.0.3",
     "Npgsql": "3.0.1"
   },
 

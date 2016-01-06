@@ -4,7 +4,7 @@ namespace LearnWordsFast.API.ViewModels.TrainingController
 {
     public class NoWordsTrainingViewModel : TrainingViewModel
     {
-        public NoWordsTrainingViewModel() : base(NoWords.Type)
+        public NoWordsTrainingViewModel() : base(NoWords.NoWord)
         {
         }
     }

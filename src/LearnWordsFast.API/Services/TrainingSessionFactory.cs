@@ -4,7 +4,6 @@ using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.ViewModels.TrainingController;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
-using LearnWordsFast.API.ViewModels.TrainingController;
 using LearnWordsFast.API.ViewModels.WordController;
 
 namespace LearnWordsFast.API.Services

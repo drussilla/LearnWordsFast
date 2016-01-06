@@ -10,16 +10,6 @@ namespace LearnWordsFast.API.Controllers
     {
         protected Guid UserId => User.GetId();
 
-        protected IActionResult Ok()
-        {
-            return new ContentResult();
-        }
-
-        protected IActionResult Ok(object value)
-        {
-            return new ObjectResult(value);
-        }
-
         protected IActionResult Created(string location)
         {
             return new CreatedResult(location, null);
