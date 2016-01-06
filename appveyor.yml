@@ -1,5 +1,7 @@
 version: 1.0.{build}
 before_build:
 - cmd: dnu restore
+test_script:
+- cmd: dnx -p test/LearnWordsFast.Test test
 build:
   verbosity: normal
