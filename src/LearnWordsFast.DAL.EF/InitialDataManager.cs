@@ -1,6 +1,7 @@
 ﻿using System;
 using LearnWordsFast.DAL.InitialData;
 using LearnWordsFast.DAL.Repositories;
+using Microsoft.Data.Entity;
 
 namespace LearnWordsFast.DAL.EF
 {
@@ -16,6 +17,9 @@ namespace LearnWordsFast.DAL.EF
         public override void Initialize()
         {
             var lazyContext = new Lazy<Context>(() => new Context());
+
+            lazyContext.Value.Database.Migrate();
+
             _db.SetContext(lazyContext);
             using (new RequestDbContext(lazyContext))
             {

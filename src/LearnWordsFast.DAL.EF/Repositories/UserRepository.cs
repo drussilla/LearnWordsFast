@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Query;
 
 namespace LearnWordsFast.DAL.EF.Repositories
 {
@@ -65,12 +67,12 @@ namespace LearnWordsFast.DAL.EF.Repositories
 
         public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_db.Current.Users.FirstOrDefault(x => x.Id.ToString() == userId));
+            return Task.FromResult(Users().FirstOrDefault(x => x.Id.ToString() == userId));
         }
 
         public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_db.Current.Users.FirstOrDefault(x => x.Email.ToUpper() == normalizedUserName));
+            return Task.FromResult(Users().FirstOrDefault(x => x.Email.ToUpper() == normalizedUserName));
         }
 
         public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
@@ -87,6 +89,15 @@ namespace LearnWordsFast.DAL.EF.Repositories
         public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
         {
             return Task.FromResult(user.Password != null);
+        }
+
+        private IIncludableQueryable<User, Language> Users()
+        {
+            return _db.Current.Users
+                .Include(x => x.Words)
+                .Include(x => x.AdditionalLanguages)
+                .Include(x => x.MainLanguage)
+                .Include(x => x.TrainingLanguage);
         }
     }
 }

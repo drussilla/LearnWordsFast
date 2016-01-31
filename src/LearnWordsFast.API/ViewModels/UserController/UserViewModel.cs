@@ -10,8 +10,8 @@ namespace LearnWordsFast.API.ViewModels.UserController
         public UserViewModel(User user)
         {
             Email = user.Email;
-            TrainingLanguage = user.TrainingLanguage.Id;
-            MainLanguage = user.MainLanguage.Id;
+            TrainingLanguage = user.TrainingLanguageId;
+            MainLanguage = user.MainLanguageId;
             AdditionalLanguages = user.AdditionalLanguages.Select(x => x.LanguageId).ToList();
         }
 

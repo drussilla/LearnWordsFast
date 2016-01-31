@@ -1,7 +1,5 @@
-﻿using System.IO;
-using LearnWordsFast.DAL.Models;
+﻿using LearnWordsFast.DAL.Models;
 using Microsoft.Data.Entity;
-using Microsoft.Extensions.PlatformAbstractions;
 
 namespace LearnWordsFast.DAL.EF
 {
@@ -9,8 +7,7 @@ namespace LearnWordsFast.DAL.EF
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var path = PlatformServices.Default.Application.ApplicationBasePath;
-            optionsBuilder.UseSqlite("Filename=" + Path.Combine(path, "learnwordsfast.db"));
+            optionsBuilder.UseSqlite("Filename=learnwordsfast.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

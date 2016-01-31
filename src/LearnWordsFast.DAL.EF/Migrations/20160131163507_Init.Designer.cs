@@ -8,7 +8,7 @@ using LearnWordsFast.DAL.EF;
 namespace LearnWordsFast.DAL.EF.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20151212003844_Init")]
+    [Migration("20160131163507_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
