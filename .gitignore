@@ -10,3 +10,4 @@ src/LearnWordsFast/wwwroot/
 .idea
 
 artifacts/
+src/LearnWordsFast.API/learnwordsfast.db
