@@ -9,7 +9,6 @@ using LearnWordsFast.API.ViewModels.UserController;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Moq;
-using NHibernate.Exceptions;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
@@ -50,7 +49,7 @@ namespace LearnWordsFast.Test.ApiControllers
 
             userManager
                 .Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
-                .Throws(new GenericADOException("Test", new Exception { Data = { { "Code", "23503" } }}));
+                .Throws(new Exception());
 
             var actual = await target.Create(request);
             actual.Should().BeOfType<BadRequestObjectResult>();

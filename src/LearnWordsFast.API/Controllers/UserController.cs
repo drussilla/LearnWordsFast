@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.Services;
@@ -8,7 +9,6 @@ using LearnWordsFast.API.ViewModels.UserController;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
-using NHibernate.Exceptions;
 
 namespace LearnWordsFast.API.Controllers
 {
@@ -109,7 +109,7 @@ namespace LearnWordsFast.API.Controllers
             {
                 result = await _userManager.UpdateAsync(user);
             }
-            catch (GenericADOException ex) when (ex.InnerException != null && (string)ex.InnerException.Data["Code"] == "23503")
+            catch (Exception)
             {
                 return Error("Language not found");
             }
@@ -157,8 +157,7 @@ namespace LearnWordsFast.API.Controllers
             {
                 result = await _userManager.CreateAsync(user, requestModel.Password);
             }
-            catch (GenericADOException ex)
-                when (ex.InnerException != null && (string) ex.InnerException.Data["Code"] == "23503")
+            catch (Exception)
             {
                 return Error("Language not found");
             }

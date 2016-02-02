@@ -3,10 +3,6 @@ using LearnWordsFast.API.Services;
 using LearnWordsFast.DAL.EF;
 using LearnWordsFast.DAL.InitialData;
 using LearnWordsFast.DAL.Models;
-using LearnWordsFast.DAL.NHibernate;
-using LearnWordsFast.DAL.NHibernate.Repositories;
-using LearnWordsFast.DAL.Repositories;
-using Microsoft.AspNet.Authentication;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
@@ -40,14 +36,14 @@ namespace LearnWordsFast.API
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<NHibernateOptions>(option =>
-            {
-                option.Host = _configuration["Data:DefaultConnection:Host"];
-                option.Port = int.Parse(_configuration["Data:DefaultConnection:Port"]);
-                option.Database = _configuration["Data:DefaultConnection:Database"];
-                option.User = _configuration["Data:DefaultConnection:User"];
-                option.Password = _configuration["Data:DefaultConnection:Password"];
-            });
+            //services.Configure<NHibernateOptions>(option =>
+            //{
+            //    option.Host = _configuration["Data:DefaultConnection:Host"];
+            //    option.Port = int.Parse(_configuration["Data:DefaultConnection:Port"]);
+            //    option.Database = _configuration["Data:DefaultConnection:Database"];
+            //    option.User = _configuration["Data:DefaultConnection:User"];
+            //    option.Password = _configuration["Data:DefaultConnection:Password"];
+            //});
 
             services.Configure<MvcJsonOptions>(options =>
             {
