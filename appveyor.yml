@@ -1,6 +1,8 @@
 version: 1.0.{build}
 before_build:
 - cmd: dnu restore
+after_build:
+- cmd: dnu publish src/LearnWordsFast.API
 test_script:
 - cmd: dnx -p test/LearnWordsFast.Test test
 build:

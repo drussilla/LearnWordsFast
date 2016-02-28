@@ -11,3 +11,5 @@ src/LearnWordsFast/wwwroot/
 
 artifacts/
 src/LearnWordsFast.API/learnwordsfast.db
+src/LearnWordsFast.DAL.EF/bin/
+src/LearnWordsFast.DAL/bin/
