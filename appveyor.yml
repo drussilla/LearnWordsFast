@@ -5,5 +5,8 @@ after_build:
 - cmd: dnu publish src/LearnWordsFast.API
 test_script:
 - cmd: dnx -p test/LearnWordsFast.Test test
+artifacts:
+- path: src/LearnWordsFast.API/output/approot
+  name: AppRoot
 build:
   verbosity: normal
