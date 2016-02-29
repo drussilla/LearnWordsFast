@@ -6,7 +6,7 @@ after_build:
 test_script:
 - cmd: dnx -p test/LearnWordsFast.Test test
 artifacts:
-- path: src/LearnWordsFast.API/output/approot
+- path: src\LearnWordsFast.API\bin\output\approot
   name: AppRoot
 build:
   verbosity: normal
