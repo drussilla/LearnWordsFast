@@ -6,9 +6,9 @@ using LearnWordsFast.API.Services;
 using LearnWordsFast.API.ViewModels;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.API.ViewModels.UserController;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LearnWordsFast.API.Controllers
 {

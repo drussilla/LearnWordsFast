@@ -1,13 +1,12 @@
 ﻿using LearnWordsFast.DAL.Models;
-using Microsoft.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearnWordsFast.DAL.EF
 {
     public class Context : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Context(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlite("Filename=learnwordsfast.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,16 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IdentityModel.Tokens;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.Services;
 using LearnWordsFast.DAL.EF;
 using LearnWordsFast.DAL.InitialData;
 using LearnWordsFast.DAL.Models;
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -20,6 +27,8 @@ namespace LearnWordsFast.API
     {
         private readonly IHostingEnvironment _hostingEnv;
         private readonly IConfiguration _configuration;
+        private RsaSecurityKey key;
+        private TokenAuthOptions tokenOptions;
 
         public Startup(IHostingEnvironment hostingEnv)
         {
@@ -33,9 +42,23 @@ namespace LearnWordsFast.API
             _configuration = builder.Build();
         }
 
+        
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            RSACryptoServiceProvider myRSA = new RSACryptoServiceProvider(2048);
+            RSAParameters publicKey = myRSA.ExportParameters(true);
+            key = new RsaSecurityKey(publicKey);
+
+            tokenOptions = new TokenAuthOptions
+            {
+                Audience = "",
+                Issuer = "LWF",
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature)
+            };
+
+            services.AddSingleton<TokenAuthOptions>(tokenOptions);
+
             //services.Configure<NHibernateOptions>(option =>
             //{
             //    option.Host = _configuration["Data:DefaultConnection:Host"];
@@ -44,6 +67,13 @@ namespace LearnWordsFast.API
             //    option.User = _configuration["Data:DefaultConnection:User"];
             //    option.Password = _configuration["Data:DefaultConnection:Password"];
             //});
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
 
             services.Configure<MvcJsonOptions>(options =>
             {
@@ -76,24 +106,9 @@ namespace LearnWordsFast.API
             services
                 .AddScoped<IUserManager, AspNetMvcUserManager>();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Cookies.ApplicationCookie.CookieHttpOnly = false;
-                // work around to disable redirect on unauthorized access.
-                // setting LoginPath to null does not work anymore.
-                // TODO: use bearer token instead
-                options.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
-                {
-                    OnRedirectToLogin = x =>
-                    {
-                        x.Response.StatusCode = 401;
-                        return Task.FromResult(0);
-                    }
-                };
-            });
-
+            services.AddCors();
             services.AddMvc();
-
+            
             services.AddSingleton(_ => _configuration);
 
             services.AddEF();
@@ -113,24 +128,43 @@ namespace LearnWordsFast.API
             loggerFactory.AddConsole();
 
             //app.UseNHibernateSession();
-            app.UseEFContext();
-
+            
             app.UseStaticFiles();
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                TokenValidationParameters = new TokenValidationParameters()
+                { 
+                IssuerSigningKey = key,
+                ValidAudience = tokenOptions.Audience,
+                ValidIssuer = tokenOptions.Issuer,
+                // When receiving a token, check that we've signed it.
+                ValidateIssuerSigningKey = true,
+                // When receiving a token, check that it is still valid.
+                ValidateLifetime = true,
+                // This defines the maximum allowable clock skew - i.e. provides a tolerance on the 
+                // token expiry time when validating the lifetime. As we're creating the tokens locally
+                // and validating them on the same machines which should have synchronised 
+                // time, this can be set to zero. Where external tokens are used, some leeway here 
+                // could be useful.
+                ClockSkew = TimeSpan.Zero,}
+            });
+
             app.UseIdentity();
+
+            app.UseCors(
+                builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "api",
                     template: "api/{controller}/{action=GetAll}/{id?}");
-
-                routes.MapRoute(
-                    name: "catchAll",
-                    template: "{*any}",
-                    defaults: new { controller = "Home", action = "Index" });
-
             });
-
+            
             var logger = loggerFactory.CreateLogger("Startup");
             logger.LogInformation("Application initialized");
             logger.LogInformation($"Environment: {_hostingEnv.EnvironmentName}");

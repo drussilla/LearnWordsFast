@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Query;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace LearnWordsFast.DAL.EF.Repositories
 {
@@ -14,9 +14,9 @@ namespace LearnWordsFast.DAL.EF.Repositories
         {
         }
 
-        private readonly IDbContext _db;
+        private readonly Context _db;
 
-        public UserRepository(IDbContext db)
+        public UserRepository(Context db)
         {
             _db = db;
         }
@@ -49,19 +49,19 @@ namespace LearnWordsFast.DAL.EF.Repositories
 
         public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
         {
-            _db.Current.Users.Add(user);
+            _db.Users.Add(user);
             return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
         {
-            _db.Current.Users.Update(user);
+            _db.Users.Update(user);
             return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
         {
-            _db.Current.Users.Remove(user);
+            _db.Users.Remove(user);
             return Task.FromResult(IdentityResult.Success);
         }
 
@@ -93,7 +93,7 @@ namespace LearnWordsFast.DAL.EF.Repositories
 
         private IIncludableQueryable<User, Language> Users()
         {
-            return _db.Current.Users
+            return _db.Users
                 .Include(x => x.Words)
                 .Include(x => x.AdditionalLanguages)
                 .Include(x => x.MainLanguage)

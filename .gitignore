@@ -13,3 +13,13 @@ artifacts/
 src/LearnWordsFast.API/learnwordsfast.db
 src/LearnWordsFast.DAL.EF/bin/
 src/LearnWordsFast.DAL/bin/
+src/LearnWordsFast.API/bin/
+src/LearnWordsFast.API/obj/
+src/LearnWordsFast.DAL.EF/obj/
+src/LearnWordsFast.DAL.NHibernate/obj/
+src/LearnWordsFast.DAL/obj/Debug/netcoreapp1.0/.IncrementalCache
+src/LearnWordsFast.DAL/obj/
+src/LearnWordsFast/bin/
+src/LearnWordsFast/obj/
+test/LearnWordsFast.Test/obj/
+.vscode/

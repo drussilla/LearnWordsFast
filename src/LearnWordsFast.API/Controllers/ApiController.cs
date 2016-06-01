@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.ViewModels;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LearnWordsFast.API.Controllers
 {
@@ -31,21 +31,6 @@ namespace LearnWordsFast.API.Controllers
             {
                 error
             }));
-        }
-
-        protected IActionResult Unauthorized()
-        {
-            return new HttpUnauthorizedResult();
-        }
-
-        protected IActionResult NotFound()
-        {
-            return new HttpNotFoundResult();
-        }
-
-        protected IActionResult NotFound(object value)
-        {
-            return new HttpNotFoundObjectResult(value);
         }
     }
 }

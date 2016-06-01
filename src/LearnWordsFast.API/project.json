@@ -1,51 +1,60 @@
 {
-  "webroot": "wwwroot",
   "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
   "userSecretsId": "LearnWordsFast.API-12bffe89-99d8-401b-8c8e-c4f9271098fe",
 
   "dependencies": {
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0-rc2-3002702"
+    },
 
-    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
-    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Hosting": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Identity": "3.0.0-rc1-final",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
 
-    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc1-final",
+    "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Hosting": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Identity": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0-rc2-final",
 
-    "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc2-final",
+
+    "Microsoft.Extensions.Logging": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-rc2-final",
 
     "LearnWordsFast.DAL": "1.0.0-*",
     "LearnWordsFast.DAL.EF": "1.0.0-*"
   },
 
-  "commands": {
-    "kestrel": "Microsoft.AspNet.Server.Kestrel --server.urls http://127.0.0.1:9000",
-    "web": "Microsoft.AspNet.Server.Kestrel"
+  "runtimes": {
+    "win10-x64": { },
+    "ubuntu.14.04-x64": { }
   },
 
   "frameworks": {
-    "dnx451": { },
-    "dnxcore50": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Threading": "4.0.11-beta-23516"
-      }
+    "netcoreapp1.0": {
+      "imports": [ "dnxcore50", "portable-net45+win8+wp8" ]
     }
   },
 
-  "publishExclude": [
-    "**.xproj",
-    "**.user",
-    "**.vspscc"
-  ],
-  "exclude": [
-    "wwwroot"
-  ]
+  "publishOptions": {
+    "include": [
+      "project.json",
+      "config.json"
+    ]
+  },
+  
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": [
+        "dnxcore50",
+        "portable-net45+win8+wp8",
+        "portable-net45+win8"
+      ]
+    }
+  }
 }

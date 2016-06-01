@@ -1,30 +1,43 @@
 {
-    "version": "1.0.0-*",
-    "description": "LearnWordsFast.Test Class Library",
-    "authors": [ "druss" ],
+  "version": "1.0.0-*",
+  "description": "LearnWordsFast.Test Class Library",
+  "authors": [ "druss" ],
+  "packOptions": {
     "tags": [ "" ],
     "projectUrl": "",
-    "licenseUrl": "",
+    "licenseUrl": ""
+  },
 
-    "dependencies": {
-      "xunit": "2.1.0",
-      "xunit.runner.visualstudio": "2.1.0",
-      "xunit.runner.dnx": "2.1.0-rc1-build204",
-        "LearnWordsFast.API": "1.0.0-*",
-        "moq": "4.2.1409.1722",
-        "AutoFixture": "3.37.0",
-        "AutoFixture.Xunit2": "3.37.0",
-        "AutoFixture.AutoMoq": "3.37.0",
+  "dependencies": {
+    "LearnWordsFast.DAL": "1.0.0-*",
+    "LearnWordsFast.API": "1.0.0-*",
 
-        "LearnWordsFast.DAL": "",
-        "FluentAssertions": "4.0.0"
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0-rc2-3002702"
     },
 
-    "commands": {
-        "test": "xunit.runner.dnx"
-    },
+    "xunit": "2.1.0",
+    "dotnet-test-xunit": "1.0.0-rc2-build10025",
+    
+    "moq": "4.5.8",
+    "AutoFixture": "3.47.1",
+    "AutoFixture.Xunit2": "3.47.1",
+    "AutoFixture.AutoMoq": "3.47.1",
+    
+    "FluentAssertions": "4.6.3"
+  },
 
-    "frameworks": {
-        "dnx451": { }
+  "runtimes": {
+    "win10-x64": { }
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dnxcore50",
+        "portable-net45+win8",
+        "net451"
+      ]
     }
+  }
 }

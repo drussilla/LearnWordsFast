@@ -2,33 +2,43 @@
   "version": "1.0.0-*",
   "description": "LearnWordsFast.DAL.EF Class Library",
   "authors": [ "druss" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+  "packOptions": {
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": ""
+  },
 
   "dependencies": {
     "LearnWordsFast.DAL": "1.0.0-*",
 
-    "EntityFramework.Sqlite": "7.0.0-rc1-final",
-    "EntityFramework.Commands": "7.0.0-rc1-final",
-    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
-    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final"
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0-rc2-3002702"
+    },
+
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-rc2-final",
+    "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview1-final",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0-rc2-final",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc2-final"
   },
 
-  "commands": {
-    "ef": "EntityFramework.Commands"
+  "runtimes": {
+    "win10-x64": { },
+    "ubuntu.14.04-x64": { }
   },
 
   "frameworks": {
-    "dnx451": { },
-    "dnxcore50": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Threading": "4.0.11-beta-23516"
-      }
+    "netcoreapp1.0": {
+      "imports": [ "dnxcore50", "portable-net45+win8+wp8" ]
+    }
+  },
+
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": [
+        "portable-net45+win8+dnxcore50",
+        "portable-net45+win8"
+      ]
     }
   }
 }

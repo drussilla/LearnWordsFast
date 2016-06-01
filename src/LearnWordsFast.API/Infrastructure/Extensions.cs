@@ -10,7 +10,8 @@ namespace LearnWordsFast.API.Infrastructure
 
         public static Guid GetId(this ClaimsPrincipal user)
         {
-            return Guid.Parse(user.GetUserId());
+            // TODO: update to support RC2
+            return Guid.NewGuid();
         }
 
         public static IList<T> Shuffle<T>(this IList<T> list)

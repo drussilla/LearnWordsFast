@@ -4,14 +4,14 @@ using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.ViewModels.WordController;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace LearnWordsFast.API.Controllers
 {
     [Route("api/word")]
-    [Authorize]
+    [Authorize("Bearer")]
     public class WordController : ApiController
     {
         private readonly IWordRepository _wordRepository;
@@ -65,7 +65,7 @@ namespace LearnWordsFast.API.Controllers
                 wordModel.AdditionalTranslations = word.AdditionalTranslations
                     .Select(x => new WordAdditionalTranslation { WordId = wordModel.Id, Translation = x.ToModel() }).ToList();
             }
-
+            
             _wordRepository.Add(wordModel);
             return Created("/api/word/" + wordModel.Id);
         }

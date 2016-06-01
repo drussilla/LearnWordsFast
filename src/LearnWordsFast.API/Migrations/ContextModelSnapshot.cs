@@ -1,20 +1,19 @@
-using System;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Infrastructure;
-using Microsoft.Data.Entity.Metadata;
-using Microsoft.Data.Entity.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using LearnWordsFast.DAL.EF;
 
-namespace LearnWordsFast.DAL.EF.Migrations
+namespace LearnWordsFast.API.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20160131163507_Init")]
-    partial class Init
+    partial class ContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
+                .HasAnnotation("ProductVersion", "1.0.0-rc2-20896");
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.Language", b =>
                 {
@@ -24,6 +23,8 @@ namespace LearnWordsFast.DAL.EF.Migrations
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
+
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.TrainingHistory", b =>
@@ -42,6 +43,10 @@ namespace LearnWordsFast.DAL.EF.Migrations
                     b.Property<Guid?>("WordId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("WordId");
+
+                    b.ToTable("TrainingHistory");
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.Translation", b =>
@@ -54,6 +59,10 @@ namespace LearnWordsFast.DAL.EF.Migrations
                     b.Property<string>("TranslationText");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("Translations");
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.User", b =>
@@ -70,6 +79,12 @@ namespace LearnWordsFast.DAL.EF.Migrations
                     b.Property<Guid>("TrainingLanguageId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MainLanguageId");
+
+                    b.HasIndex("TrainingLanguageId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.UserAdditionalLanguage", b =>
@@ -79,6 +94,12 @@ namespace LearnWordsFast.DAL.EF.Migrations
                     b.Property<Guid>("LanguageId");
 
                     b.HasKey("UserId", "LanguageId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAdditionalLanguage");
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.Word", b =>
@@ -99,6 +120,14 @@ namespace LearnWordsFast.DAL.EF.Migrations
                     b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("TranslationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Words");
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.WordAdditionalTranslation", b =>
@@ -108,6 +137,12 @@ namespace LearnWordsFast.DAL.EF.Migrations
                     b.Property<Guid>("TranslationId");
 
                     b.HasKey("WordId", "TranslationId");
+
+                    b.HasIndex("TranslationId");
+
+                    b.HasIndex("WordId");
+
+                    b.ToTable("WordAdditionalTranslation");
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.TrainingHistory", b =>
@@ -121,55 +156,65 @@ namespace LearnWordsFast.DAL.EF.Migrations
                 {
                     b.HasOne("LearnWordsFast.DAL.Models.Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.User", b =>
                 {
                     b.HasOne("LearnWordsFast.DAL.Models.Language")
                         .WithMany()
-                        .HasForeignKey("MainLanguageId");
+                        .HasForeignKey("MainLanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LearnWordsFast.DAL.Models.Language")
                         .WithMany()
-                        .HasForeignKey("TrainingLanguageId");
+                        .HasForeignKey("TrainingLanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.UserAdditionalLanguage", b =>
                 {
                     b.HasOne("LearnWordsFast.DAL.Models.Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LearnWordsFast.DAL.Models.User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.Word", b =>
                 {
                     b.HasOne("LearnWordsFast.DAL.Models.Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LearnWordsFast.DAL.Models.Translation")
                         .WithMany()
-                        .HasForeignKey("TranslationId");
+                        .HasForeignKey("TranslationId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LearnWordsFast.DAL.Models.User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LearnWordsFast.DAL.Models.WordAdditionalTranslation", b =>
                 {
                     b.HasOne("LearnWordsFast.DAL.Models.Translation")
                         .WithMany()
-                        .HasForeignKey("TranslationId");
+                        .HasForeignKey("TranslationId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LearnWordsFast.DAL.Models.Word")
                         .WithMany()
-                        .HasForeignKey("WordId");
+                        .HasForeignKey("WordId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

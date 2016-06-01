@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace LearnWordsFast.API.Services
 {

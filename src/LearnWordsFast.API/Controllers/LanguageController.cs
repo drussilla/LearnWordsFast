@@ -1,5 +1,5 @@
 ﻿using LearnWordsFast.DAL.Repositories;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LearnWordsFast.API.Controllers
 {
