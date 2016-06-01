@@ -16,12 +16,10 @@ namespace LearnWordsFast.API.Controllers
     public class UserController : ApiController
     {
         private readonly ISignInManager _signInManager;
-        private readonly IUserManager _userManager;
         
-        public UserController(ISignInManager signInManager, IUserManager userManager)
+        public UserController(ISignInManager signInManager)
         {
             _signInManager = signInManager;
-            _userManager = userManager;
         }
 
         [HttpPost("login")]
@@ -51,7 +49,7 @@ namespace LearnWordsFast.API.Controllers
         [HttpGet("info")]
         public async Task<IActionResult> GetInfo()
         {
-            var user = await _userManager.FindById(HttpContext.User.GetId());
+            var user = await UserManager.FindById(UserId);
             if (user == null)
             {
                 return NotFound();
@@ -64,7 +62,7 @@ namespace LearnWordsFast.API.Controllers
         [HttpPut("password")]
         public async Task<IActionResult> UpdatePassword([FromBody]UpdatePasswordViewModel updatePasswordViewModel)
         {
-            var user = await _userManager.FindById(HttpContext.User.GetId());
+            var user = await UserManager.FindById(UserId);
             if (user == null)
             {
                 return NotFound();
@@ -72,7 +70,7 @@ namespace LearnWordsFast.API.Controllers
 
             IdentityResult result =
                 await
-                    _userManager.ChangePasswordAsync(user, updatePasswordViewModel.OldPassword,
+                    UserManager.ChangePasswordAsync(user, updatePasswordViewModel.OldPassword,
                         updatePasswordViewModel.NewPassword);
 
             if (!result.Succeeded)
@@ -87,7 +85,7 @@ namespace LearnWordsFast.API.Controllers
         [HttpPut("languages")]
         public async Task<IActionResult> UpdateLanguages([FromBody]UpdateLanguagesViewModel requestModel)
         {
-            var user = await _userManager.FindById(HttpContext.User.GetId());
+            var user = await UserManager.FindById(UserId);
             if (user == null)
             {
                 return NotFound();
@@ -107,7 +105,7 @@ namespace LearnWordsFast.API.Controllers
             IdentityResult result;
             try
             {
-                result = await _userManager.UpdateAsync(user);
+                result = await UserManager.UpdateAsync(user);
             }
             catch (Exception)
             {
@@ -155,7 +153,7 @@ namespace LearnWordsFast.API.Controllers
             IdentityResult result;
             try
             {
-                result = await _userManager.CreateAsync(user, requestModel.Password);
+                result = await UserManager.CreateAsync(user, requestModel.Password);
             }
             catch (Exception)
             {

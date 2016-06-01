@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LearnWordsFast.DAL.Models;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +33,11 @@ namespace LearnWordsFast.API.Services
         public Task<IdentityResult> UpdateAsync(User user)
         {
             return _userManager.UpdateAsync(user);
+        }
+
+        public string GetUserId(ClaimsPrincipal claims)
+        {
+            return _userManager.GetUserId(claims);
         }
     }
 }

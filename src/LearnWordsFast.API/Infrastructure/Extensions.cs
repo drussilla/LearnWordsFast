@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace LearnWordsFast.API.Infrastructure
 {
     public static class Extensions
     {
         private static readonly Random Random = new Random();
-
-        public static Guid GetId(this ClaimsPrincipal user)
-        {
-            // TODO: update to support RC2
-            return Guid.NewGuid();
-        }
 
         public static IList<T> Shuffle<T>(this IList<T> list)
         {

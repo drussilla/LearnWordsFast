@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.ViewModels.WordController;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.DAL.Repositories;
@@ -28,7 +27,7 @@ namespace LearnWordsFast.API.Controllers
         public IActionResult GetAll()
         {
             _log.LogInformation("Get all words");
-            return Ok(_wordRepository.GetAll(User.GetId()).Select(x => new WordViewModel(x)));
+            return Ok(_wordRepository.GetAll(UserId).Select(x => new WordViewModel(x)));
         }
 
         [HttpGet("{id}")]

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using LearnWordsFast.API.Infrastructure;
+using LearnWordsFast.API.Services;
 using LearnWordsFast.API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,9 @@ namespace LearnWordsFast.API.Controllers
 {
     public class ApiController : Controller
     {
-        protected Guid UserId => User.GetId();
+        protected IUserManager UserManager => HttpContext.RequestServices.GetService(typeof(IUserManager)) as IUserManager;
+
+        protected Guid UserId => Guid.Parse(UserManager.GetUserId(HttpContext.User));
 
         protected IActionResult Created(string location)
         {
