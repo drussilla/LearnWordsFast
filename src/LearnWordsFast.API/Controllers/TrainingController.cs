@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace LearnWordsFast.API.Controllers
 {
     [Route("api/Training")]
-    [Authorize]
+    [Authorize("Bearer")]
     public class TrainingController : ApiController
     {
         private readonly ITrainingService _trainingService;
