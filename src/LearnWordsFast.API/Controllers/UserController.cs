@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using LearnWordsFast.API.Infrastructure;
-using LearnWordsFast.API.Services;
-using LearnWordsFast.API.ViewModels;
 using LearnWordsFast.DAL.Models;
 using LearnWordsFast.API.ViewModels.UserController;
 using Microsoft.AspNetCore.Authorization;
@@ -15,41 +12,11 @@ namespace LearnWordsFast.API.Controllers
     [Route("api/user")]
     public class UserController : ApiController
     {
-        private readonly ISignInManager _signInManager;
-        
-        public UserController(ISignInManager signInManager)
-        {
-            _signInManager = signInManager;
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
-        {
-            if (loginViewModel.Email == null || loginViewModel.Password == null)
-            {
-                return Error("Email and password should be filled");
-            }
-            var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password);
-            if (!result.Succeeded)
-            {
-                return Error("Wrong password or email");
-            }
-
-            return Ok();
-        }
-
-        [Authorize]
-        [HttpPost("logout")]
-        public async void Logout()
-        {
-            await _signInManager.SignOutAsync();
-        }
-
-        [Authorize]
+        [Authorize("Bearer")]
         [HttpGet("info")]
         public async Task<IActionResult> GetInfo()
         {
-            var user = await UserManager.FindById(UserId);
+            var user = await UserManager.GetUserAsync(HttpContext.User);
             if (user == null)
             {
                 return NotFound();
@@ -58,11 +25,11 @@ namespace LearnWordsFast.API.Controllers
             return Ok(new UserViewModel(user));
         }
 
-        [Authorize]
+        [Authorize("Bearer")]
         [HttpPut("password")]
         public async Task<IActionResult> UpdatePassword([FromBody]UpdatePasswordViewModel updatePasswordViewModel)
         {
-            var user = await UserManager.FindById(UserId);
+            var user = await UserManager.GetUserAsync(HttpContext.User);
             if (user == null)
             {
                 return NotFound();
@@ -81,11 +48,11 @@ namespace LearnWordsFast.API.Controllers
             return Ok();
         }
 
-        [Authorize]
+        [Authorize("Bearer")]
         [HttpPut("languages")]
         public async Task<IActionResult> UpdateLanguages([FromBody]UpdateLanguagesViewModel requestModel)
         {
-            var user = await UserManager.FindById(UserId);
+            var user = await UserManager.FindByIdAsync(UserId.ToString());
             if (user == null)
             {
                 return NotFound();
@@ -164,8 +131,7 @@ namespace LearnWordsFast.API.Controllers
             {
                 return Error(result.Errors.Select(x => x.Description));
             }
-
-            await _signInManager.SignInAsync(user);
+            
             return Created("/api/user/" + user.Id);
         }
     }

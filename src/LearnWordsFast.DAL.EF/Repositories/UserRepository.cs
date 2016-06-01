@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace LearnWordsFast.DAL.EF.Repositories
 {
-    public class UserRepository : IUserPasswordStore<User>
+    public class UserRepository : IUserPasswordStore<User>, IUserEmailStore<User>
     {
         public void Dispose()
         {
@@ -33,8 +33,7 @@ namespace LearnWordsFast.DAL.EF.Repositories
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
         {
-            user.Email = userName;
-            return Task.FromResult(0);
+            return Task.FromResult(user.Email = userName);
         }
 
         public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
@@ -98,6 +97,41 @@ namespace LearnWordsFast.DAL.EF.Repositories
                 .Include(x => x.AdditionalLanguages)
                 .Include(x => x.MainLanguage)
                 .Include(x => x.TrainingLanguage);
+        }
+
+        public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Email = email);
+        }
+
+        public Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Email);
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Email.ToUpper());
+        }
+
+        public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(0);
+        }
+
+        public Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(Users().FirstOrDefault(x => x.Email.ToUpper() == normalizedEmail));
+        }
+
+        public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(0);
         }
     }
 }

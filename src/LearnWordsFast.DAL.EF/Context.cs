@@ -9,6 +9,12 @@ namespace LearnWordsFast.DAL.EF
         {
         }
 
+        public override void Dispose()
+        {
+            SaveChanges();
+            base.Dispose();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder

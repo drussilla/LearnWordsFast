@@ -1,18 +1,14 @@
 ﻿using System;
-using System.IdentityModel.Tokens;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.Services;
 using LearnWordsFast.DAL.EF;
 using LearnWordsFast.DAL.InitialData;
 using LearnWordsFast.DAL.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,21 +48,12 @@ namespace LearnWordsFast.API
 
             tokenOptions = new TokenAuthOptions
             {
-                Audience = "",
-                Issuer = "LWF",
+                Audience = "http://localhost:5000/",
+                Issuer = "http://localhost:5000/",
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature)
             };
 
             services.AddSingleton<TokenAuthOptions>(tokenOptions);
-
-            //services.Configure<NHibernateOptions>(option =>
-            //{
-            //    option.Host = _configuration["Data:DefaultConnection:Host"];
-            //    option.Port = int.Parse(_configuration["Data:DefaultConnection:Port"]);
-            //    option.Database = _configuration["Data:DefaultConnection:Database"];
-            //    option.User = _configuration["Data:DefaultConnection:User"];
-            //    option.Password = _configuration["Data:DefaultConnection:Password"];
-            //});
 
             services.AddAuthorization(auth =>
             {
@@ -94,17 +81,10 @@ namespace LearnWordsFast.API
                     });
             });
 
-            //services.AddNHibernateSession<SessionFactoryProvider>();
-
             services
                 .AddIdentity<User, string>()
                 .AddEF()
                 .AddDefaultTokenProviders();
-
-            services
-                .AddScoped<ISignInManager, AspNetMvcSignInManager>();
-            services
-                .AddScoped<IUserManager, AspNetMvcUserManager>();
 
             services.AddCors();
             services.AddMvc();
@@ -112,11 +92,7 @@ namespace LearnWordsFast.API
             services.AddSingleton(_ => _configuration);
 
             services.AddEF();
-            // todo: move registration to DAL or HNibernateDAL
-            //services.AddScoped<IWordRepository, WordRepository>();
-            //services.AddScoped<ILanguageRepository, LanguageRepository>();
-            //services.AddSingleton<IInitializeDataManager, InitialDataManager>();
-
+            
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
             services.AddScoped<ITrainingWordProvider, TrainingWordProvider>();
@@ -127,27 +103,28 @@ namespace LearnWordsFast.API
         {
             loggerFactory.AddConsole();
 
-            //app.UseNHibernateSession();
-            
             app.UseStaticFiles();
 
-            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 TokenValidationParameters = new TokenValidationParameters()
                 { 
-                IssuerSigningKey = key,
-                ValidAudience = tokenOptions.Audience,
-                ValidIssuer = tokenOptions.Issuer,
-                // When receiving a token, check that we've signed it.
-                ValidateIssuerSigningKey = true,
-                // When receiving a token, check that it is still valid.
-                ValidateLifetime = true,
-                // This defines the maximum allowable clock skew - i.e. provides a tolerance on the 
-                // token expiry time when validating the lifetime. As we're creating the tokens locally
-                // and validating them on the same machines which should have synchronised 
-                // time, this can be set to zero. Where external tokens are used, some leeway here 
-                // could be useful.
-                ClockSkew = TimeSpan.Zero,}
+                    IssuerSigningKey = key,
+
+                    ValidAudience = tokenOptions.Audience,
+                    ValidIssuer = tokenOptions.Issuer,
+                    // When receiving a token, check that we've signed it.
+                    ValidateIssuerSigningKey = true,
+                    // When receiving a token, check that it is still valid.
+                    ValidateLifetime = true,
+                    
+                    // This defines the maximum allowable clock skew - i.e. provides a tolerance on the 
+                    // token expiry time when validating the lifetime. As we're creating the tokens locally
+                    // and validating them on the same machines which should have synchronised 
+                    // time, this can be set to zero. Where external tokens are used, some leeway here 
+                    // could be useful.
+                    ClockSkew = TimeSpan.Zero
+                }
             });
 
             app.UseIdentity();

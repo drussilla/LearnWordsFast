@@ -2,8 +2,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using LearnWordsFast.API.Infrastructure;
 using LearnWordsFast.API.ViewModels;
+using LearnWordsFast.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -20,31 +22,35 @@ namespace LearnWordsFast.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] LoginViewModel req)
+        public async Task<IActionResult> Post([FromBody] LoginViewModel req)
         {
-            // Obviously, at this point you need to validate the username and password against whatever system you wish.
-            if (req.Email == "TEST" && req.Password == "TEST")
+            var user = await UserManager.FindByEmailAsync(req.Email);
+            if (user == null)
             {
-                DateTime? expires = DateTime.UtcNow.AddMinutes(2);
-                var token = GetToken(req.Email, expires);
-                return Ok(token);// new { authenticated = true, entityId = 1, token, tokenExpires = expires };
+                Error("User not found");
+            }
+            
+            if (await UserManager.CheckPasswordAsync(user, req.Password))
+            {
+                DateTime? expires = DateTime.UtcNow.AddDays(10);
+                var token = GetToken(user, expires);
+                return Ok(token);
             }
 
             return Error("");
         }
 
 
-        private string GetToken(string user, DateTime? expires)
+        private string GetToken(User user, DateTime? expires)
         {
             var handler = new JwtSecurityTokenHandler();
 
-            ClaimsIdentity identity = new ClaimsIdentity(new GenericIdentity(user, "TokenAuth"), new[]
+            ClaimsIdentity identity = new ClaimsIdentity(new GenericIdentity(user.Email, "TokenAuth"), new[]
             {
-                new Claim("EntityID", "1", ClaimValueTypes.Integer),
-                new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", "12")
+                new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", user.Id.ToString())
             });
 
-            var securityToken = handler.CreateToken(new SecurityTokenDescriptor()
+            var securityToken = handler.CreateToken(new SecurityTokenDescriptor
             {
                 Issuer = _tokenOptions.Issuer,
                 Audience = _tokenOptions.Audience,
