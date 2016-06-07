@@ -1,7 +1,11 @@
 {
   "version": "1.0.0-*",
   "buildOptions": {
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "copyToOutput": [
+      "project.json",
+      "config.json"
+    ]
   },
 
   "userSecretsId": "LearnWordsFast.API-12bffe89-99d8-401b-8c8e-c4f9271098fe",
@@ -29,6 +33,11 @@
     "LearnWordsFast.DAL.EF": "1.0.0-*"
   },
 
+  "commands": {
+    "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5001",
+    "kestrel": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.Kestrel --server.urls http://localhost:5004"
+  },
+
   "runtimes": {
     "win10-x64": { },
     "ubuntu.14.04-x64": { }
@@ -46,7 +55,7 @@
       "config.json"
     ]
   },
-  
+
   "tools": {
     "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.0.0-preview1-final",

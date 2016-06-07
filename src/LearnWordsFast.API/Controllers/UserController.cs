@@ -87,7 +87,7 @@ namespace LearnWordsFast.API.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody]CreateUserViewModel requestModel)
         {
             if (requestModel.MainLanguage == requestModel.TrainingLanguage)
